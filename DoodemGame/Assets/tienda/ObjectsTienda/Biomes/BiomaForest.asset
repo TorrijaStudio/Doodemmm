@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ec6c18489b56204fb800ece69d138a8, type: 3}
+  m_Name: BiomaForest
+  m_EditorClassIdentifier: 
+  price: 0
+  objectsToSell: []
+  indexBioma: 5
+  animalParts: []
+  image: {fileID: 21300000, guid: 70212dfe191d26d4a8ca6cc1e2e8d22b, type: 3}
+  num: 2
+  isBiome: 1
+  biomeObject: {fileID: 4907933673860711935, guid: d637c8f1037e5ba48bc05a9f24448bdd, type: 3}
