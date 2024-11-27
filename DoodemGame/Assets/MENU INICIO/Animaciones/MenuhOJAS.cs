@@ -79,7 +79,7 @@ public class MenuhOJAS : MonoBehaviour
     private bool iniciado = false;
 
     // Start is called before the first frame update
-    void Start()
+   /* void Start()
     {
         anim1 = hojas1.GetComponent<Animator>();
         anim2 = hojas2.GetComponent<Animator>();
@@ -356,5 +356,5 @@ public class MenuhOJAS : MonoBehaviour
 
     public void coinShop(){
         Debug.Log("esta es la tienda de monedas a soltar la pasta q hace falta");
-    }
+    }*/
 }

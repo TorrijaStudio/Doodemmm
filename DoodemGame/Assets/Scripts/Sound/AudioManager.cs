@@ -1,14 +1,20 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
 using FMOD.Studio;
 
+*/
+
+using System.Collections.Generic;
+//using Mono.Cecil;
+using UnityEngine;
+
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager instance { get; private set; }
 
-    public List<EventInstance> eventInstances;
+   /* public List<EventInstance> eventInstances;
 
     private EventInstance ambienceEventInstance;
 
@@ -71,5 +77,5 @@ public class AudioManager : MonoBehaviour
     private void OnDestroy()
     {
         CleanUp();
-    }
+    }*/
 }

@@ -1,4 +1,4 @@
-using FMOD.Studio;
+/*using FMOD.Studio;
 using FMODUnity;
 using System.Collections;
 using System.Collections.Generic;
@@ -42,4 +42,4 @@ public class FMODEvents : MonoBehaviour
         RuntimeManager.PlayOneShot(sound, worldPos);
     }
 
-}
+}*/
