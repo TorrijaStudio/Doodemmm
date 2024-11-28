@@ -277,6 +277,8 @@ public class Entity : NetworkBehaviour ,IAtackable
         // Debug.Log(gameObject.name + " -- "+health);
         if (isFlying) enemyDamage *= 0.95f;
         health -= enemyDamage;
+        if(IsHost)
+            GameManager.Instance.UpdateHealthEntityServerRpc();
         if (health <= 0)
         {
             Destroy(gameObject);
@@ -286,6 +288,8 @@ public class Entity : NetworkBehaviour ,IAtackable
                 GameManager.Instance.checkIfRoundEnded(layer);
             }
         }
+        
+            
 
         return health;
     }
