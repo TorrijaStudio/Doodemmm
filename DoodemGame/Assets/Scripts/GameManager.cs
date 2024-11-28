@@ -585,5 +585,24 @@ public class GameManager : NetworkBehaviour
         _networkManager.OnClientConnectedCallback -= OnClientConnected;
         base.OnDestroy();
     }
+
+    [ServerRpc]
+    public void UpdateHealthEntityServerRpc()
+    {
+        var entities = playerObjects.Where(entity => entity).Select(entity => entity.GetComponent<Entity>());
+        foreach (var e in entities)
+        {
+            UpdateHealthEntityClientRpc(e.GetComponent<NetworkObject>(), e.health);
+        }
+    }
+
+    [ClientRpc]
+    private void UpdateHealthEntityClientRpc(NetworkObjectReference target,double h)
+    {
+        if (target.TryGet(out NetworkObject targetObject))
+        {
+            targetObject.GetComponent<HealthEntity>().UpdateText(h);
+        }
+    }
     
 }
