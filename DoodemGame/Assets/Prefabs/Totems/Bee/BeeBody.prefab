@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2857e1abe7114b62bba2b7e8d7d9209b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: df2efef2c11b1a84c8eb24492f85e66b, type: 2}
+  stats: {fileID: 11400000, guid: 722cd8ad010a86642b8ee5581e309bde, type: 2}
   scriptableObjectTienda: {fileID: 11400000, guid: 4c72df2c802ee234e8ab1a95f69774bc, type: 2}
   totem: {fileID: 0}
   type: 1

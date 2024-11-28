@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 918cec4593fc449e9ff7490c309cae7c, type: 3}
-  m_Name: Head
+  m_Script: {fileID: 11500000, guid: a5cfff8953be47a5bb29b3656e11e469, type: 3}
+  m_Name: EagleHead
   m_EditorClassIdentifier: 
-  animal: "Aguila imperial ib\xE9rica"
-  bodyPart: Cabeza
-  description: test - Pico majestuoso
-  specialTraits: (ataca?)
+  health: 18
+  damage: 0
+  speed: 4.5

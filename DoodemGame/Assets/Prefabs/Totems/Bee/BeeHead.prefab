@@ -329,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2857e1abe7114b62bba2b7e8d7d9209b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 11400000, guid: 1fd2f08ff7c2deb4ab7851125f34dca2, type: 2}
+  stats: {fileID: 11400000, guid: 838a92b6aafc92147a59e1cb0e7b83f4, type: 2}
   scriptableObjectTienda: {fileID: 11400000, guid: 6d9019123f401c04994ef2481b7264fb, type: 2}
   totem: {fileID: 0}
   type: 0
