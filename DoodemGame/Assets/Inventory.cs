@@ -92,6 +92,7 @@ public class Inventory : MonoBehaviour
     {
         GetTotemsFromShop();
         GetBiomesFromShop();
+        boton.DestroyBoughtObjects();
     }
 
     public void GetTotemsFromShop()
@@ -182,7 +183,7 @@ public class Inventory : MonoBehaviour
             pos += Vector3.right * separationDistance;
         }
         SetDrag(true);
-        boton.DeleteShopItems();
+        // boton.DeleteShopItems();
     }
 
     public void SpawnTotemsAsSeleccionables()

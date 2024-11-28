@@ -188,7 +188,7 @@ public class GameManager : NetworkBehaviour
             storeCanvas.gameObject.SetActive(true);
             startMatchAfterTimer = false;
             _store.InitialSelection();
-            Debug.LogWarning("Empezando timer en StartRound (if)");
+            // Debug.LogWarning("Empezando timer en StartRound (if)");
             StartTime(20);
             return;
         }

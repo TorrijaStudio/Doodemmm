@@ -19,6 +19,22 @@ public class readyBoton : MonoBehaviour
         
     }
 
+    public void BuySelected()
+    {
+        if(tienda.canOnlyChooseOne && !tienda.SelectedObject) return;
+        
+        foreach (Transform obTr in storeItems)
+        {
+            var ob = obTr.GetComponent<objetoTienda>();
+            if (ob.selected)
+            {
+                tienda.boughtObjects.Add(ob.gameObject);
+            }
+        }
+        FindObjectOfType<Inventory>().GetItemsFromShop();
+        // FindObjectOfType<Inventory>().SpawnTotems();
+    }
+    
    public void OnClickPlayButton()
     {
         if(tienda.canOnlyChooseOne && !tienda.SelectedObject) return;
@@ -31,10 +47,10 @@ public class readyBoton : MonoBehaviour
                 tienda.boughtObjects.Add(ob.gameObject);
             }
         }
-        tienda.botones.SetActive(false); 
-        // tienda.DeleteShopItems();
-        FindObjectOfType<Inventory>().GetItemsFromShop();
-        FindObjectOfType<Inventory>().SpawnTotems();
+        tienda.ToggleShopOrMixing(false);
+        // FindObjectOfType<Inventory>().SpawnTotems();
+        // tienda.botones.SetActive(false); 
+        tienda.DeleteShopItems();
         // FindObjectOfType<Canvas>().gameObject.SetActive(false);
     }
 }

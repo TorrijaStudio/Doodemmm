@@ -1,4 +1,5 @@
 using System;
+using tienda;
 using TMPro;
 using Totems;
 using UnityEngine;
@@ -29,23 +30,26 @@ namespace ItemInformation
             statsParentObject.SetActive(false);
         }
 
-        public void DisplayTotemPiece(ItemInfoSo itemInfoSo, TotemStats totemStats)
+        private void DisplayTotemPieceStats(TotemStats totemStats)
         {
             //Set stats information
             statsParentObject.SetActive(true);
             damageText.SetText(totemStats.damage.ToString());
             healthText.SetText(totemStats.health.ToString());
             speedText.SetText(totemStats.speed.ToString());
-            
-            //Display common information
-            DisplayItem(itemInfoSo);
         }
 
-        public void DisplayItem(ItemInfoSo itemInfoSo)
+        public void DisplayItem(ScriptableObjectTienda item)
         {
+            var itemInfoSo = item.itemInfoSoM;
+            
             itemName.SetText(itemInfoSo.itemName);
             itemDescription.SetText(itemInfoSo.itemDescription);
             flavourText.SetText(itemInfoSo.flavourText);
+            if (!item.isBiome)
+            {
+                DisplayTotemPieceStats(item.stats);
+            }
         }
     }
 }

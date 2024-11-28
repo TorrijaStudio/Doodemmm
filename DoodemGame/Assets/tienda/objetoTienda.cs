@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using formulas;
+using ItemInformation;
 using tienda;
 using TMPro;
 using Totems;
@@ -16,6 +17,7 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
     [SerializeField] public ScriptableObjectTienda info;
     private int price;
     public bool selected;
+    [SerializeField] private ItemInfoDisplay itemInfoDisplay;
 
     private playerInfoStore _store;
 
@@ -107,6 +109,11 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
             if (_store.canOnlyChooseOne)
                 _store.SelectedObject = null;
         }
+    }
+
+    public void DisplayInfo()
+    {
+        ItemInfoManager.instance.Display(info);
     }
 }
 
