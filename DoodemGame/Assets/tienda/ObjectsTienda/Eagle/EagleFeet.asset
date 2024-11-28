@@ -23,5 +23,5 @@ MonoBehaviour:
   isBiome: 0
   biomeObject: {fileID: 0}
   biomeType: 0
-  itemInfoSoM: {fileID: 0}
+  itemInfoSoM: {fileID: 11400000, guid: 995f23d616056134ba72030c23c9be3d, type: 2}
   stats: {fileID: 11400000, guid: 7fca11e91d8e51d41ad431692d02c1b5, type: 2}

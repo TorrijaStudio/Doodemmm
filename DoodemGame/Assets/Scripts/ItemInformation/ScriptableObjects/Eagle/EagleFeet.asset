@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8d63c231ab5f4b29bcf3e86906cbea4c, type: 3}
-  m_Name: BearFeetInfo 2
+  m_Name: EagleFeet
   m_EditorClassIdentifier: 
-  itemName: European brown bear head
+  itemName: Imperial iberian eagle base
   itemDescription: 
-  flavourText: It's diet consist mainly of plants, but they also consume social insects,
-    like ants, and meat.
-  icon: {fileID: 0}
+  flavourText: The imperial iberian eagle is an endangered species. It's main dangers
+    are illegal poisons, rabbit scarcity and electrocutation due to power lines.
+  icon: {fileID: 21300000, guid: 2f616dae45258a4498ee760f8704e90f, type: 3}
   isTotemPiece: 1
