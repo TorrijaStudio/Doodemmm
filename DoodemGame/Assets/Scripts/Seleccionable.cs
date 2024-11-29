@@ -63,9 +63,9 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
         if (info.Length >= 3)
         {
             a.GetComponent<Totem>().CreateTotem(info[0], info[1], info[2]);
-            a.transform.rotation = Quaternion.Euler(ClientID == 0 ? Vector3.forward : Vector3.back);
+            a.transform.rotation = Quaternion.Euler(ClientID == 0 ? Vector3.back : Vector3.forward);
+            a.name = "Dummy Totem";
         }
-        a.name = "Dummy Totem";
         SetChildrenActive(false);
         return a;
 

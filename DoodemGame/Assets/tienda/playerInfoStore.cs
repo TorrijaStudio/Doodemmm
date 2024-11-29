@@ -263,6 +263,7 @@ public class playerInfoStore : MonoBehaviour
             SetVisible(totemMixingGameObjects, false);
             SetVisible(shopGameObjects, true);
             inventory.DespawnItems();
+            inventory.SetDrag(false);
         }
 
         if (isFirstTime)
