@@ -177,7 +177,8 @@ public class TotemManager : MonoBehaviour, IPointerDownHandler, IPointerMoveHand
         var z = _grabPosition.z;
         var y = _grabPosition.y;
         var t = (z - ray.origin.z) / ray.direction.z;
-        var pos = new Vector3(t*ray.direction.x + ray.origin.x, y,z);
+        // var pos = new Vector3(t*ray.direction.x + ray.origin.x, y,z);
+        var pos = ray.origin + t * ray.direction;
         return pos;
     }
     

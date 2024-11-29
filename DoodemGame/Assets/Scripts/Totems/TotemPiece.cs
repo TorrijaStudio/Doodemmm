@@ -136,7 +136,9 @@ namespace Totems
             var z = _draggingPlane.z;
             var y = _draggingPlane.y;
             var t = (z - ray.origin.z) / ray.direction.z;
-            var pos = new Vector3(t*ray.direction.x + ray.origin.x, y,z);
+            var pos = ray.origin + t * ray.direction;
+            Debug.Log("Dragging to: " + pos);
+            // var pos = new Vector3(t*ray.direction.x + ray.origin.x, _draggingPlane.y, z);
             return pos;
         }
         

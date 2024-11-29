@@ -20,3 +20,6 @@ MonoBehaviour:
   num: 2
   isBiome: 1
   biomeObject: {fileID: 4907933673860711935, guid: d637c8f1037e5ba48bc05a9f24448bdd, type: 3}
+  biomeType: 0
+  itemInfoSoM: {fileID: 11400000, guid: a019145ffd1afb548aa6eee4876a6e3d, type: 2}
+  stats: {fileID: 0}

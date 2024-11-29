@@ -7,33 +7,46 @@ using Totems;
 using Unity.Mathematics;
 using Unity.Services.Authentication;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Image = UnityEngine.UI.Image;
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private List<List<TotemPiece>> _totemPieces;
-    [SerializeField] private Dictionary<ScriptableObjectTienda, int> _biomes;
+    private List<List<TotemPiece>> _totemPieces;
+    private Dictionary<ScriptableObjectTienda, int> _biomes;
 
-    [SerializeField] private playerInfoStore boton;
+    [FormerlySerializedAs("boton")] [SerializeField] private playerInfoStore playerStore;
 
-    [SerializeField] private Transform posToSpawn;
+
+
+    [Space(8)][Header("Totem drag variables")]
+    [SerializeField] private GameObject pointer;
+    [SerializeField] private GameObject wall;
+    [SerializeField] private float distance;
+    [FormerlySerializedAs("posToSpawn")] [SerializeField] private Transform totemsPosToSpawn;
+    [SerializeField] private Totem totemToInstantiate;
+
+    [Space(5)] [Header("Totem pieces variables")] 
+    [SerializeField] private Transform topCornerToSpawnPieces;
+
+    [SerializeField] private Vector2Int totemPiecesDrawerSize;
+    [SerializeField] private Vector2 totemPiecesDrawerSeparation;
+    private int _totemPiecePage;
+
+        [Space(8)][Header("Biome seleccionable variables")]
+    [SerializeField] private Seleccionable seleccionableToSpawn;
 
     [SerializeField] private Transform seleccionableParent;
     [SerializeField] private Transform selecPosToSpawn;
     [SerializeField] private float selecDistance;
-
-    [SerializeField] private GameObject pointer;
-    [SerializeField] private GameObject wall;
-    [SerializeField] private float distance;
-
-    [SerializeField] private Totem totemToInstantiate;
-    [SerializeField] private Seleccionable seleccionableToSpawn;
-
+        
+    [Space(8)][Header("Totem as seleccionables variables")]
     [SerializeField]
     private Transform totemParent;
 
     [SerializeField] private Transform seleccionableTotemParent;
     private Transform _seleccionableTotemPositions;
+    [Space(8)]
     private int _clientID;
     public int clientID
     {
@@ -92,12 +105,12 @@ public class Inventory : MonoBehaviour
     {
         GetTotemsFromShop();
         GetBiomesFromShop();
-        boton.DestroyBoughtObjects();
+        playerStore.DestroyBoughtObjects();
     }
 
     public void GetTotemsFromShop()
     {
-        foreach (var obj in boton.boughtObjects.Select(objetoTienda => objetoTienda.GetComponent<objetoTienda>()).Where(objT => !objT.info.isBiome))
+        foreach (var obj in playerStore.boughtObjects.Select(objetoTienda => objetoTienda.GetComponent<objetoTienda>()).Where(objT => !objT.info.isBiome))
         {
             Debug.Log(obj.name);
             _totemPieces.Add(obj.info.objectsToSell);
@@ -106,7 +119,7 @@ public class Inventory : MonoBehaviour
 
     private void GetBiomesFromShop()
     {
-        foreach (var obj in boton.boughtObjects.Select(objetoTienda => objetoTienda.GetComponent<objetoTienda>()).Where(objT => objT.info.isBiome))
+        foreach (var obj in playerStore.boughtObjects.Select(objetoTienda => objetoTienda.GetComponent<objetoTienda>()).Where(objT => objT.info.isBiome))
         {
             Debug.Log(obj.name);
             if (!_biomes.TryAdd(obj.info, 1))
@@ -158,7 +171,7 @@ public class Inventory : MonoBehaviour
     {
         var objectsToSpawn = _totemPieces.Count;
         var separationDistance = distance / objectsToSpawn;
-        var pos = posToSpawn.position;
+        var pos = totemsPosToSpawn.position;
         foreach (var totemPiece in _totemPieces)
         { 
             var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
@@ -213,7 +226,7 @@ public class Inventory : MonoBehaviour
             // pos += Vector3.down * separationDistance;
         }
 
-        Seleccionable.MaxTotems = boton.currentLevel;
+        Seleccionable.MaxTotems = playerStore.currentLevel;
         SetDrag(false);
     }
     public void DeleteSeleccionableTotems()
@@ -235,7 +248,7 @@ public class Inventory : MonoBehaviour
         }
         var objectsToSpawn = totemPiecesList.Count();
         var separationDistance = distance / objectsToSpawn;
-        var pos = posToSpawn.position;
+        var pos = totemsPosToSpawn.position;
         foreach (var totemPiece in totemPiecesList)
         { 
             var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);

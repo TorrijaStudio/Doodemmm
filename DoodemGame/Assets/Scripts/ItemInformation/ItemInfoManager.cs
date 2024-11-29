@@ -16,6 +16,7 @@ namespace ItemInformation
         private GameObject _closeButtonMultiple;
         public static ItemInfoManager instance;
         private List<GameObject> _openDisplays;
+        public Dictionary<string, string> keyWords;
 
         private void Start()
         {
@@ -34,7 +35,7 @@ namespace ItemInformation
 
         public void Display(ScriptableObjectTienda items)
         {
-            if (items.objectsToSell.Count == 1)
+            if (items.objectsToSell.Count <= 1)
             {
                 var display = Instantiate(displayToInstantiate,center.position, quaternion.identity, transform);
                 display.DisplayItem(items);

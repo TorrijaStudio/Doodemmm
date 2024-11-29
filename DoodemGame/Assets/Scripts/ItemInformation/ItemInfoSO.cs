@@ -8,7 +8,9 @@ namespace ItemInformation
     public class ItemInfoSo : ScriptableObject
     {
         public string itemName;
+        [TextArea]
         public string itemDescription;
+        [TextArea]
         public string flavourText;
 
         public Sprite icon;

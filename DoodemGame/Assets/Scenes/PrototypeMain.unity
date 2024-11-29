@@ -39764,6 +39764,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1115739264}
+  - component: {fileID: 1115739265}
   m_Layer: 0
   m_Name: CameraShopPosition
   m_TagString: Untagged
@@ -39787,6 +39788,57 @@ Transform:
   - {fileID: 1965049865}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1115739265
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1115739263}
+  m_Enabled: 0
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &1116721855
 GameObject:
   m_ObjectHideFlags: 0
@@ -48180,16 +48232,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af90312b16c33c45962a15e8bd32a1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boton: {fileID: 1467104576}
-  posToSpawn: {fileID: 1127698248}
-  seleccionableParent: {fileID: 176143107}
-  selecPosToSpawn: {fileID: 534164031}
-  selecDistance: 380
+  playerStore: {fileID: 1467104576}
   pointer: {fileID: 1968319156}
   wall: {fileID: 1584418616}
   distance: 16
+  totemsPosToSpawn: {fileID: 1127698248}
   totemToInstantiate: {fileID: 5275010074968078160, guid: 06ae647b221c886439a6f47cf5293358, type: 3}
+  topCornerToSpawnPieces: {fileID: 0}
+  totemPiecesDrawerSize: {x: 0, y: 0}
+  totemPiecesDrawerSeparation: {x: 0, y: 0}
   seleccionableToSpawn: {fileID: 1842492386}
+  seleccionableParent: {fileID: 176143107}
+  selecPosToSpawn: {fileID: 534164031}
+  selecDistance: 380
   totemParent: {fileID: 786936740}
   seleccionableTotemParent: {fileID: 121162967}
 --- !u!1 &1357799166

@@ -231,14 +231,14 @@ public class playerInfoStore : MonoBehaviour
     {
         foreach (var o in gameObjects)
         {
-            Debug.Log("Setting " + o.name + " to " + setActive);
+            // Debug.Log("Setting " + o.name + " to " + setActive);
             o.SetActive(setActive);
         }
     }
 
     private void SetVisibleAll(bool setVisible)
     {
-        Debug.Log(setVisible ? "Showing shop" : "Hiding shop");
+        // Debug.Log(setVisible ? "Showing shop" : "Hiding shop");
         SetVisible(initialSelectionGameObjects, setVisible);
         SetVisible(shopGameObjects, setVisible);
         SetVisible(totemMixingGameObjects, setVisible);
@@ -246,7 +246,7 @@ public class playerInfoStore : MonoBehaviour
 
     public void ToggleShopOrMixing(bool visibleShop)
     {
-        Debug.Log("Toggling shop");
+        // Debug.Log("Toggling shop");
         if (isFirstTime)
         {
             inventory.GetItemsFromShop();
