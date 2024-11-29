@@ -15,7 +15,13 @@ MonoBehaviour:
   price: 10
   objectsToSell:
   - {fileID: 7436423778428541124, guid: 568f55b205522134bb5b026d92e8b7d6, type: 3}
+  indexBioma: 0
   animalParts:
   - {fileID: 7197332935426439036, guid: 568f55b205522134bb5b026d92e8b7d6, type: 3}
   image: {fileID: 21300000, guid: 3a7d1fe1e8e3d324ba5c007fc837baef, type: 3}
   num: 0
+  isBiome: 0
+  biomeObject: {fileID: 0}
+  biomeType: 0
+  itemInfoSoM: {fileID: 11400000, guid: 07bd1d1ee52b9af4f9f7581ff1e5aa94, type: 2}
+  stats: {fileID: 11400000, guid: 84798b25382461b4caf18ba91e77d75d, type: 2}

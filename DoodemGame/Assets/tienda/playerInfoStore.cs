@@ -8,6 +8,7 @@ using TMPro;
 using Totems;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class playerInfoStore : MonoBehaviour
@@ -15,6 +16,11 @@ public class playerInfoStore : MonoBehaviour
 
     public List<GameObject> boughtObjects = new();
 
+    public GameObject[] shopGameObjects;
+    public GameObject[] initialSelectionGameObjects;
+    public GameObject[] totemMixingGameObjects;
+    
+    [Space(20)]
     [SerializeField]
     private objetoTienda objTiendaPrefab;
     public List<ScriptableObjectTienda> objectsTiendas;
@@ -23,7 +29,7 @@ public class playerInfoStore : MonoBehaviour
     [SerializeField] private Transform[] positionsToSpawn;
     [SerializeField] private Transform totemItems;
     [SerializeField] public GameObject botones;
-    [SerializeField] public GameObject Ready;
+    [FormerlySerializedAs("Ready")] [SerializeField] public GameObject ready;
     [Space(20)]
     [InspectorLabel("TEXTS", "Interface texts :)")]
     [SerializeField] private TextMeshProUGUI playerMoneyText;
@@ -140,6 +146,7 @@ public class playerInfoStore : MonoBehaviour
     {
         // InitialSelection();
         OnItemSelected += SetButtonsTextColour;
+        // SetVisibleAll(false);
     }
 
     public void CloseShopAfterTimer()
@@ -151,14 +158,13 @@ public class playerInfoStore : MonoBehaviour
             boughtObjects.Add(totemItems.GetChild(0).gameObject);
             inventory.GetTotemsFromShop();
         }
-        botones.SetActive(false);
-        Ready.SetActive(false);
         DeleteShopItems();
         if(inventory.IsDragActive())
             inventory.DespawnItems();
         
+        SetVisibleAll(false);
         // playerMoneyText.gameObject.SetActive(false);
-        fondoJunglaTienda.SetActive(false);
+        // fondoJunglaTienda.SetActive(false);
     }
 
     private int _reRollsThisRound;
@@ -195,8 +201,9 @@ public class playerInfoStore : MonoBehaviour
             Destroy(totemItems.GetChild(i).gameObject);
         }
         boughtObjects.Clear();
-        Ready.SetActive(false);
-        botones.SetActive(false);
+        // SetVisible(shopGameObjects, false);
+        // ready.SetActive(false);
+        // botones.SetActive(false);
     }
     
     // Start is called before the first frame update
@@ -216,10 +223,55 @@ public class playerInfoStore : MonoBehaviour
             prevTotems.RemoveAt(totemI);
             index++;
         }
-        botones.SetActive(false);
-        Ready.SetActive(true);
+        SetVisible(shopGameObjects, false);
+        SetVisible(initialSelectionGameObjects, true);
     }
 
+    private static void SetVisible(GameObject[] gameObjects, bool setActive)
+    {
+        foreach (var o in gameObjects)
+        {
+            // Debug.Log("Setting " + o.name + " to " + setActive);
+            o.SetActive(setActive);
+        }
+    }
+
+    private void SetVisibleAll(bool setVisible)
+    {
+        // Debug.Log(setVisible ? "Showing shop" : "Hiding shop");
+        SetVisible(initialSelectionGameObjects, setVisible);
+        SetVisible(shopGameObjects, setVisible);
+        SetVisible(totemMixingGameObjects, setVisible);
+    }
+
+    public void ToggleShopOrMixing(bool visibleShop)
+    {
+        // Debug.Log("Toggling shop");
+        if (isFirstTime)
+        {
+            inventory.GetItemsFromShop();
+        }
+        if (!visibleShop)
+        {
+            inventory.SpawnTotems();
+            SetVisible(shopGameObjects, false);
+            SetVisible(initialSelectionGameObjects, false);
+            SetVisible(totemMixingGameObjects, true);
+        }
+        else
+        {
+            SetVisible(totemMixingGameObjects, false);
+            SetVisible(shopGameObjects, true);
+            inventory.DespawnItems();
+            inventory.SetDrag(false);
+        }
+
+        if (isFirstTime)
+        {
+            transform.Find("ShopToggleButtons/SeeShop").gameObject.SetActive(false);
+        }
+    }
+    
     public void GenerateShop()
     {
         SetButtonsTextColour();
@@ -271,8 +323,7 @@ public class playerInfoStore : MonoBehaviour
             index++;
             
         }
-        Ready.SetActive(!GameManager.Instance.startMatchAfterTimer);
-        botones.SetActive(!GameManager.Instance.startMatchAfterTimer);
+        SetVisible(shopGameObjects, !GameManager.Instance.startMatchAfterTimer);
     }
     
     public void SetUpShop(int moneyGained)
@@ -284,5 +335,14 @@ public class playerInfoStore : MonoBehaviour
         MoveCameraToShop();
         canOnlyChooseOne = false;
         GenerateShop();
+    }
+
+    public void DestroyBoughtObjects()
+    {
+        for (var i = boughtObjects.Count - 1; i >= 0; i--)
+        {
+            Destroy(boughtObjects[i]);
+        }
+        boughtObjects.Clear();
     }
 }

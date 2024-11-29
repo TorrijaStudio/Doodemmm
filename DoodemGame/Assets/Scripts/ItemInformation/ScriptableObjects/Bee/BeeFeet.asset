@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d63c231ab5f4b29bcf3e86906cbea4c, type: 3}
+  m_Name: BeeFeet
+  m_EditorClassIdentifier: 
+  itemName: Spanish bee base
+  itemDescription: 'With 3 trees: poison 1 enemy.'
+  flavourText: The Spanish bee is not endangered, but the over-exportation of other
+    honey bees could pose a danger for it.
+  icon: {fileID: 21300000, guid: 2f616dae45258a4498ee760f8704e90f, type: 3}
+  isTotemPiece: 1

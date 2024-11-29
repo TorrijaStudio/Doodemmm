@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class ButtonScript : MonoBehaviour
 {
-    public GameObject totemPrefab;
+    public item totem;
+
+    private CanvasManager canvas;
     // Start is called before the first frame update
     void Start()
     {
-        
+        canvas = transform.root.GetComponent<CanvasManager>();
     }
 
     // Update is called once per frame
@@ -19,6 +21,6 @@ public class ButtonScript : MonoBehaviour
 
     public void OnClickButton()
     {
-        totemPrefab.SetActive(true);
+        canvas.OcClickButton(totem);
     }
 }

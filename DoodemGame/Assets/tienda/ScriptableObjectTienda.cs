@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Animals.Interfaces;
+using ItemInformation;
 using Totems;
 using UnityEngine;
 
@@ -17,5 +18,8 @@ namespace tienda
         public bool isBiome;
         public GameObject biomeObject;
         public ABiome.BiomeType biomeType;
+
+        public ItemInfoSo itemInfoSoM;
+        public TotemStats stats;
     }
 }

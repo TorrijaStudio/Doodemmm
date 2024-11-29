@@ -27,7 +27,8 @@ public class terreno : NetworkBehaviour
     {
        
     }
-
+    
+    [ContextMenu("Generate tilemap")]
     private void GenerateTileMap()
     {
         var parent = transform.Find("Tiles");
