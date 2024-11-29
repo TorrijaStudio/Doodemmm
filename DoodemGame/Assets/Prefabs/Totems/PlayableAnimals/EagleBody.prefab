@@ -385,9 +385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headPoint: {fileID: 8089608110334112670}
   feetPoint: {fileID: 1127461276784088364}
-  <Speed>k__BackingField: 5
-  <Health>k__BackingField: 35
-  <Damage>k__BackingField: 0
+  <TotemStats>k__BackingField: {fileID: 11400000, guid: df2efef2c11b1a84c8eb24492f85e66b, type: 2}
 --- !u!1001 &3768619687466085614
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,9 +12,7 @@ namespace Animals.ClasesDeAnimales
         private Entity _entity;
         [SerializeField] private int resourceQuantity;
         private bool _isSubscribed;
-        private const float AttackDistance = 2.5f;
         private const float AttackAngle = 60f;
-        private const float AttackDamage = 10f;
 
         private void Start()
         {
@@ -32,7 +30,7 @@ namespace Animals.ClasesDeAnimales
             {
                 if(!_isSubscribed){
                     Debug.Log("Ataque abeja suscrito");
-                    _entity.SubscribeAttack(TotemPiece.Type.Feet, new Entity.AttackStruct(AttackDistance, _entity.PoisonAttack));
+                    _entity.SubscribeAttack(TotemPiece.Type.Feet, new Entity.AttackStruct(TotemStats.attackDistance, _entity.PoisonAttack));
                     _isSubscribed = true;
                 }
             }
@@ -76,8 +74,7 @@ namespace Animals.ClasesDeAnimales
 
         }
 
-        [field: SerializeField] public float Speed { get; set; }
-        [field: SerializeField] public float Health { get; set; }
-        [field: SerializeField] public float Damage { get; set; }
+        [field: SerializeField]public TotemStats TotemStats { get; set; }
+
     }
 }

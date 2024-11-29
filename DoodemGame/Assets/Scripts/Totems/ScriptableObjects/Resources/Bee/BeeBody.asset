@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: BeeBody
   m_EditorClassIdentifier: 
   health: 15
-  damage: 7
-  speed: 0.5
+  damage: 0
+  speed: 2
+  attackDistance: 0

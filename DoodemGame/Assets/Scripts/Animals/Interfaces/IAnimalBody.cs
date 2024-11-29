@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Totems;
 using UnityEngine;
 
 namespace Animals.Interfaces
@@ -20,10 +21,8 @@ namespace Animals.Interfaces
 
         public abstract List<float> AssignValuesToResources(List<recurso> resources);
         public abstract List<float> AssignValuesToEnemies(IList<Transform> enemies);
+        [field: SerializeField] public TotemStats TotemStats { get; set; }
 
         
-        [field: SerializeField] public float Speed { get; set; }
-        [field: SerializeField] public float Health { get; set; }
-        [field: SerializeField] public float Damage { get; set; }
     }
 }

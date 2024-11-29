@@ -8,5 +8,6 @@ namespace Totems
         public int health;
         public int damage;
         public int speed;
+        public float attackDistance;
     }
 }

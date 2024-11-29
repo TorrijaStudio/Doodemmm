@@ -44,7 +44,8 @@ namespace ItemInformation
             if (!item.isBiome)
             {
                 Debug.Log("Not a biome");
-                DisplayTotemPieceStats(item.stats);
+                var stats = item.objectsToSell[0].GetStats();
+                DisplayTotemPieceStats(stats);
             }
             else
             {

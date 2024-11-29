@@ -214,6 +214,7 @@ MonoBehaviour:
   attackDistance: 0
   resource: 2
   resourceQuantity: 2
+  <TotemStats>k__BackingField: {fileID: 11400000, guid: 7fca11e91d8e51d41ad431692d02c1b5, type: 2}
   <Speed>k__BackingField: 2
   <Health>k__BackingField: 20
   <Damage>k__BackingField: 40

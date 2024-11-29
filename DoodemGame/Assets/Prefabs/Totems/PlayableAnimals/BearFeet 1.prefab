@@ -151,10 +151,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 0
-  bonus: 0
-  <Speed>k__BackingField: 2
-  <Health>k__BackingField: 125
-  <Damage>k__BackingField: 0
+  bonus: 0.1
+  <TotemStats>k__BackingField: {fileID: 11400000, guid: 596ab11cc4ff68940a23ef42a9565ca1, type: 2}
 --- !u!1 &3777964404581530398
 GameObject:
   m_ObjectHideFlags: 0

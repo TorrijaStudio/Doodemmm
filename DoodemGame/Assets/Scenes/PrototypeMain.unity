@@ -8216,6 +8216,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 253145099}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &259480519
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 259480520}
+  m_Layer: 0
+  m_Name: topPiecesCorner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &259480520
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 259480519}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4, y: 5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1356764714}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &262271962
 GameObject:
   m_ObjectHideFlags: 0
@@ -48218,6 +48249,7 @@ Transform:
   - {fileID: 1584418617}
   - {fileID: 1968319157}
   - {fileID: 786936740}
+  - {fileID: 259480520}
   m_Father: {fileID: 936727009}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1356764715
@@ -48233,19 +48265,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStore: {fileID: 1467104576}
+  totemParent: {fileID: 786936740}
   pointer: {fileID: 1968319156}
   wall: {fileID: 1584418616}
   distance: 16
   totemsPosToSpawn: {fileID: 1127698248}
   totemToInstantiate: {fileID: 5275010074968078160, guid: 06ae647b221c886439a6f47cf5293358, type: 3}
-  topCornerToSpawnPieces: {fileID: 0}
-  totemPiecesDrawerSize: {x: 0, y: 0}
-  totemPiecesDrawerSeparation: {x: 0, y: 0}
+  piecesParent: {fileID: 259480520}
+  topCornerToSpawnPieces: {fileID: 259480520}
+  totemPiecesDrawerSize: {x: 2, y: 4}
+  totemPiecesDrawerSeparation: {x: 3, y: 2.5}
   seleccionableToSpawn: {fileID: 1842492386}
   seleccionableParent: {fileID: 176143107}
   selecPosToSpawn: {fileID: 534164031}
   selecDistance: 380
-  totemParent: {fileID: 786936740}
   seleccionableTotemParent: {fileID: 121162967}
 --- !u!1 &1357799166
 GameObject:

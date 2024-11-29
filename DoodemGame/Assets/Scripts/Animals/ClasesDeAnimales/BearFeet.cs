@@ -10,7 +10,6 @@ namespace Animals.ClasesDeAnimales
 {
     public class BearFeet :MonoBehaviour,  IAnimalFeet
     {
-        [SerializeField] private float range;
         [SerializeField] private float bonus;
         private bool _isBonusActive;
         private Entity _entity;
@@ -32,13 +31,13 @@ namespace Animals.ClasesDeAnimales
                     if (_isBonusActive)
                     {
                         //... y el bonus esta activado... desactivalo!
-                        _entity.DamageModifier += 0.10F;
+                        _entity.DamageModifier += bonus;
                         _isBonusActive = false;
                     }
                 }else if (!_isBonusActive)
                 {
                     //Si NO hay aliados en el rango y el bonus NO esta activado... activalo!
-                    _entity.DamageModifier -= 0.10F;
+                    _entity.DamageModifier -= bonus;
                     _isBonusActive = true;
                 }
             }
@@ -47,7 +46,7 @@ namespace Animals.ClasesDeAnimales
         private bool AreAlliesInRange()
         {
             return FindObjectsOfType<Entity>().Where(entity => entity.layerEnemy == _entity.layerEnemy && _entity!= entity)
-                .Any(entity => Distance(entity) <= range);
+                .Any(entity => Distance(entity) <= TotemStats.attackDistance);
             
         }
 
@@ -73,8 +72,6 @@ namespace Animals.ClasesDeAnimales
             return a.ToList();
         }
 
-        [field: SerializeField] public float Speed { get; set; }
-        [field: SerializeField] public float Health { get; set; }
-        [field: SerializeField] public float Damage { get; set; }
+        [field: SerializeField] public TotemStats TotemStats { get; set; }
     }
 }

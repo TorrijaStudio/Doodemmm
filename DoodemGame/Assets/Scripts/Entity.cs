@@ -90,16 +90,16 @@ public class Entity : NetworkBehaviour ,IAtackable
     public void SetAnimalParts(GameObject head, GameObject body, GameObject feet)
     {
         _body = Instantiate(body, transform).GetComponent<AnimalBody>();
-        SetHealthAndSpeed(_body.Health,_body.Speed);
+        SetHealthAndSpeed(_body.TotemStats.health,_body.TotemStats.speed);
         
         _head = Instantiate(head, _body.GetHeadAttachmentPoint().position, _body.GetHeadAttachmentPoint().rotation,
             transform).GetComponent<IAnimalHead>();
-        SetHealthAndSpeed(_head.Health,_head.Speed);
-        damage = _head.Damage;
+        SetHealthAndSpeed(_head.TotemStats.health,_head.TotemStats.speed);
+        damage = _head.TotemStats.damage;
         
         _feet = Instantiate(feet, _body.GetFeetAttachmentPoint().position, _body.GetFeetAttachmentPoint().rotation,
             transform).GetComponent<IAnimalFeet>();
-        SetHealthAndSpeed(_feet.Health,_feet.Speed);
+        SetHealthAndSpeed(_feet.TotemStats.health,_feet.TotemStats.speed);
         var a = transform.GetChild(0).GetComponentsInChildren<MeshRenderer>();
         
         name = $"{body.name}_{head.name}_{feet.name}";

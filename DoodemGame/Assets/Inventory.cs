@@ -12,7 +12,8 @@ using Image = UnityEngine.UI.Image;
 
 public class Inventory : MonoBehaviour
 {
-    private List<List<TotemPiece>> _totemPieces;
+    private List<List<TotemPiece>> _fullTotemPieces;
+    private List<TotemPiece> _totemPieces;
     private Dictionary<ScriptableObjectTienda, int> _biomes;
 
     [FormerlySerializedAs("boton")] [SerializeField] private playerInfoStore playerStore;
@@ -20,18 +21,21 @@ public class Inventory : MonoBehaviour
 
 
     [Space(8)][Header("Totem drag variables")]
+    [SerializeField] private Transform totemParent;
     [SerializeField] private GameObject pointer;
     [SerializeField] private GameObject wall;
     [SerializeField] private float distance;
     [FormerlySerializedAs("posToSpawn")] [SerializeField] private Transform totemsPosToSpawn;
     [SerializeField] private Totem totemToInstantiate;
 
-    [Space(5)] [Header("Totem pieces variables")] 
+    [Space(5)] [Header("Totem pieces variables")]
+    [SerializeField] private Transform piecesParent;
     [SerializeField] private Transform topCornerToSpawnPieces;
 
     [SerializeField] private Vector2Int totemPiecesDrawerSize;
     [SerializeField] private Vector2 totemPiecesDrawerSeparation;
     private int _totemPiecePage;
+    private int _maxPages;
 
         [Space(8)][Header("Biome seleccionable variables")]
     [SerializeField] private Seleccionable seleccionableToSpawn;
@@ -41,8 +45,6 @@ public class Inventory : MonoBehaviour
     [SerializeField] private float selecDistance;
         
     [Space(8)][Header("Totem as seleccionables variables")]
-    [SerializeField]
-    private Transform totemParent;
 
     [SerializeField] private Transform seleccionableTotemParent;
     private Transform _seleccionableTotemPositions;
@@ -59,7 +61,7 @@ public class Inventory : MonoBehaviour
 
     public int GetFullTotems()
     {
-        return _totemPieces.Count(a => a.Count == 3);
+        return _fullTotemPieces.Count(a => a.Count == 3);
     }
     
     public static Inventory Instance;
@@ -70,7 +72,8 @@ public class Inventory : MonoBehaviour
         if (Instance) Destroy(gameObject);
         else Instance = this;
         
-        _totemPieces = new List<List<TotemPiece>>();
+        _fullTotemPieces = new List<List<TotemPiece>>();
+        _totemPieces = new List<TotemPiece>();
     }
 
     // Update is called once per frame
@@ -81,7 +84,7 @@ public class Inventory : MonoBehaviour
 
     public bool Contains(TotemPiece piece)
     {
-        foreach (var totem in _totemPieces)
+        foreach (var totem in _fullTotemPieces)
         {
             foreach (var totemPiece in totem)
             {
@@ -113,8 +116,16 @@ public class Inventory : MonoBehaviour
         foreach (var obj in playerStore.boughtObjects.Select(objetoTienda => objetoTienda.GetComponent<objetoTienda>()).Where(objT => !objT.info.isBiome))
         {
             Debug.Log(obj.name);
-            _totemPieces.Add(obj.info.objectsToSell);
+            if (obj.info.objectsToSell.Count == 1)
+            {
+                _totemPieces.Add(obj.info.objectsToSell[0]);
+            }
+            else
+            {
+                _fullTotemPieces.Add(obj.info.objectsToSell);
+            }
         }
+        // Debug.Log("Now we have "+ _fullTotemPieces.Count + " totems");
     }
 
     private void GetBiomesFromShop()
@@ -133,6 +144,12 @@ public class Inventory : MonoBehaviour
     
     public void DespawnItems()
     {
+        DespawnTotems();
+        DespawnPieces();
+    }
+
+    public void DespawnTotems()
+    {
         var tempTotemPieces = new List<List<TotemPiece>>();
         for(int i = totemParent.childCount - 1; i >= 0; i--)
         {
@@ -140,23 +157,12 @@ public class Inventory : MonoBehaviour
             var tempInfo = child.GetComponent<Totem>().GetTotem();
             if(tempInfo.Count > 0)
                 tempTotemPieces.Add(tempInfo.Select(piece => piece.objectsToSell[0]).ToList());
-            // if (tempInfo.Count == 3)
-            // {
-            //     tempTotemPieces.Add(tempInfo.Select(piece => piece.objectsToSell[0]).ToList());
-            // }
-            // else  if(tempInfo.Count > 0)
-            // {
-            //     foreach (var totemPiece in tempInfo)
-            //     {
-            //         tempTotemPieces.Add(new List<TotemPiece>(){totemPiece.objectsToSell[0]});
-            //     }
-            // }
             Destroy(child.gameObject);
         }
-        _totemPieces.Clear();
+        _fullTotemPieces.Clear();
         
-        _totemPieces = tempTotemPieces;
-        foreach (var totemPiece in _totemPieces)
+        _fullTotemPieces = tempTotemPieces;
+        foreach (var totemPiece in _fullTotemPieces)
         {
             var txt = "";
             foreach (var piece in totemPiece)
@@ -166,13 +172,36 @@ public class Inventory : MonoBehaviour
             Debug.Log(txt);
         }
     }
-    
+    public void DespawnPieces()
+    {
+        var tempTotemPieces = new List<TotemPiece>();
+        if(piecesParent.childCount > 0)
+        {
+            for (int i = piecesParent.childCount - 1; i >= 0; i--)
+            {
+                var child = piecesParent.GetChild(i);
+                var tempInfo = child.GetComponent<Totem>().GetTotem();
+                if (tempInfo.Count == 1)
+                    tempTotemPieces.Add(tempInfo[0].objectsToSell[0]);
+                Destroy(child.gameObject);
+            }
+        }
+        _totemPieces.Clear();
+        
+        _totemPieces = tempTotemPieces;
+        foreach (var totemPiece in _totemPieces)
+        {
+            var txt = totemPiece.name;
+            Debug.Log(txt);
+        }
+    }
     public void SpawnTotems()
     {
-        var objectsToSpawn = _totemPieces.Count;
+        SpawnTotemPieces();
+        var objectsToSpawn = _fullTotemPieces.Count;
         var separationDistance = distance / objectsToSpawn;
         var pos = totemsPosToSpawn.position;
-        foreach (var totemPiece in _totemPieces)
+        foreach (var totemPiece in _fullTotemPieces)
         { 
             var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
             // totem.transform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -202,7 +231,7 @@ public class Inventory : MonoBehaviour
     public void SpawnTotemsAsSeleccionables()
     {
         DeleteSeleccionableTotems();
-        var infoForSeleccionables = _totemPieces.Where((list => list.Count == 3)).ToList();
+        var infoForSeleccionables = _fullTotemPieces.Where((list => list.Count == 3)).ToList();
         Debug.Log(infoForSeleccionables.Count);
         var objectsToSpawn = infoForSeleccionables.Count;
         
@@ -237,25 +266,36 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void SpawnTotemPieces()
+    public void SpawnTotemPieces(int page = 0)
     {
-        SetDrag(false);
-        var totemPiecesList = _totemPieces.Where(a => a.Count == 1).ToList();
-        var doublePiecesList = _totemPieces.Where(a => a.Count == 2);
-        foreach (var totemList in doublePiecesList)
+        if(_totemPieces.Count == 0) return;
+        
+        // SetDrag(false);
+        var drawerSize = totemPiecesDrawerSize.x * totemPiecesDrawerSize.y;
+        var objectsToSpawn = _totemPieces.Count / drawerSize;
+        // var totemPiecesList = _fullTotemPieces.Where(a => a.Count == 1).ToList();
+        // var doublePiecesList = _fullTotemPieces.Where(a => a.Count == 2);
+        if(page > (objectsToSpawn))
         {
-            throw new NotImplementedException();
+            Debug.LogError("WRONG PAGE");
+            page = 0;
         }
-        var objectsToSpawn = totemPiecesList.Count();
-        var separationDistance = distance / objectsToSpawn;
-        var pos = totemsPosToSpawn.position;
-        foreach (var totemPiece in totemPiecesList)
-        { 
-            var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
-            // totem.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            var aux = new GameObject[] { null, null, null };
-            foreach (var piece in totemPiece)
+        
+        // var separationDistance = distance / objectsToSpawn;
+        // var pos = topCornerToSpawnPieces.position;
+        for (int y = 0; y < totemPiecesDrawerSize.y; y++)
+        {
+            for (int x = 0; x < totemPiecesDrawerSize.x; x++)
             {
+                var index = y * totemPiecesDrawerSize.x + x + drawerSize * page;
+                if(_totemPieces.Count >= index) return;
+                var pos = topCornerToSpawnPieces.position;
+                pos.x += x * totemPiecesDrawerSeparation.x;
+                pos.y -= y * totemPiecesDrawerSeparation.y;
+                var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
+                // totem.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                var aux = new GameObject[] { null, null, null };
+                var piece = _totemPieces[index];
                 switch (piece.tag)
                 {
                     case "Head":
@@ -268,11 +308,10 @@ public class Inventory : MonoBehaviour
                         aux[2] = piece.gameObject;
                         break;
                 }
+                totem.TotemOffset = 0;
+                totem.TotemPieceHover = 0f;
+                totem.CreateTotem(aux[0], aux[1], aux[2]);
             }
-            totem.TotemOffset = 0;
-            totem.TotemPieceHover = 0f;
-            totem.CreateTotem(aux[0], aux[1], aux[2]);
-            pos += Vector3.right * separationDistance;
         }
     }
     public void SpawnSeleccionables()

@@ -855,9 +855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headPoint: {fileID: 3468334370734535187}
   feetPoint: {fileID: 1501972120155390999}
-  <Speed>k__BackingField: 0
-  <Health>k__BackingField: 0
-  <Damage>k__BackingField: 0
+  <TotemStats>k__BackingField: {fileID: 0}
   resource: 0
   resourceQuantity: 0
 --- !u!1 &7197332935426439036
@@ -907,9 +905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   headPoint: {fileID: 3468334370734535187}
   feetPoint: {fileID: 1501972120155390999}
-  <Speed>k__BackingField: 1
-  <Health>k__BackingField: 50
-  <Damage>k__BackingField: 60
+  <TotemStats>k__BackingField: {fileID: 11400000, guid: 84798b25382461b4caf18ba91e77d75d, type: 2}
   resource: 3
   resourceQuantity: 4
 --- !u!1 &7911807719859854917

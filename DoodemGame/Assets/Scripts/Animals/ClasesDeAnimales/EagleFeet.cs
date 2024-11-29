@@ -9,7 +9,6 @@ namespace Animals.ClasesDeAnimales
     public class EagleFeet :MonoBehaviour,  IAnimalFeet
     {
         private Entity _entity;
-        [SerializeField] private float attackDistance;
         [SerializeField] private Recursos resource;
         [SerializeField] private int resourceQuantity;
         private bool _isSubscribed;
@@ -28,7 +27,7 @@ namespace Animals.ClasesDeAnimales
             {
                 if(!_isSubscribed){
                     Debug.Log("Ataque aguila suscrito");
-                    _entity.SubscribeAttack(TotemPiece.Type.Feet, new Entity.AttackStruct(attackDistance, AttackEagleFeet));
+                    _entity.SubscribeAttack(TotemPiece.Type.Feet, new Entity.AttackStruct(TotemStats.attackDistance, AttackEagleFeet));
                     _isSubscribed = true;
                 }
             }
@@ -52,13 +51,13 @@ namespace Animals.ClasesDeAnimales
                     return;
                 case 1:
                     var enemy = colliders[0].GetComponent<Entity>();
-                    enemy.Attacked(Damage * _entity.DamageModifier);
-                    enemy.Attacked(Damage);
+                    enemy.Attacked(TotemStats.damage * _entity.DamageModifier);
+                    enemy.Attacked(TotemStats.damage);
                     break;
                 case 2:
                     foreach (var colliderEnemy in colliders)
                     {
-                        colliderEnemy.GetComponent<Entity>().Attacked(Damage * _entity.DamageModifier);
+                        colliderEnemy.GetComponent<Entity>().Attacked(TotemStats.damage * _entity.DamageModifier);
                     }
                     break;
             }
@@ -100,9 +99,7 @@ namespace Animals.ClasesDeAnimales
 
         }
 
-        [field: SerializeField] public float Speed { get; set; }
-        [field: SerializeField] public float Health { get; set; }
-        [field: SerializeField] public float Damage { get; set; }
-        [field: SerializeField] public float AttackDistance { get; set; }
+        [field: SerializeField] public TotemStats TotemStats { get; set; }
+
     }
 }

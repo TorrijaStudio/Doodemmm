@@ -608,10 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14ba67e389944a199a6a4684b7fbdd68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 2
-  <Health>k__BackingField: 15
-  <Damage>k__BackingField: 11
-  <AttackDistance>k__BackingField: 1.8
+  <TotemStats>k__BackingField: {fileID: 11400000, guid: 1fd2f08ff7c2deb4ab7851125f34dca2, type: 2}
 --- !u!1 &7726283805625284087
 GameObject:
   m_ObjectHideFlags: 0

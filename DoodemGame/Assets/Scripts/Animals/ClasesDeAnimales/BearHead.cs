@@ -12,7 +12,7 @@ namespace Animals.ClasesDeAnimales
         private void Start()
         {
             _entity = transform.GetComponentInParent<Entity>();
-            _entity.SubscribeAttack(TotemPiece.Type.Head, new Entity.AttackStruct(AttackDistance, _entity.Attack));
+            _entity.SubscribeAttack(TotemPiece.Type.Head, new Entity.AttackStruct(TotemStats.attackDistance, _entity.Attack));
             // _entity.att
         }
         public List<float> AssignValuesToResources(List<recurso> resources)
@@ -33,10 +33,7 @@ namespace Animals.ClasesDeAnimales
 
         }
 
-
-        [field: SerializeField] public float Speed { get; set; }
-        [field: SerializeField] public float Health { get; set; }
-        [field: SerializeField] public float Damage { get; set; }
-        [field: SerializeField] public float AttackDistance { get; set; }
+        [field: SerializeField]public TotemStats TotemStats { get; set; }
+        
     }
 }

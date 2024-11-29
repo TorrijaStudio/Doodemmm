@@ -74,6 +74,11 @@ namespace Totems
         //     }
         // }
 
+        public TotemStats GetStats()
+        {
+            return stats;
+        }
+        
         public void MoveTo(Vector3 pos, float speed, bool deactivateOnEnd = false)
         {
             if(_state == State.Dragging)

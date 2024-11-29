@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using tienda;
+using Totems;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -69,5 +70,6 @@ namespace ItemInformation
             _closeButtonSingle.SetActive(false);
             _closeButtonMultiple.SetActive(false);
         }
+        
     }
 }
