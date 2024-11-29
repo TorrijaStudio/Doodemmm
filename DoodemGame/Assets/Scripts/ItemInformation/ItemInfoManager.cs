@@ -26,7 +26,7 @@ namespace ItemInformation
             }
 
             _closeButtonSingle = transform.Find("CloseButton1").gameObject;
-            _closeButtonSingle = transform.Find("CloseButton2").gameObject;
+            _closeButtonMultiple = transform.Find("CloseButton2").gameObject;
             _closeButtonSingle.SetActive(false);
             _closeButtonMultiple.SetActive(false);
             _openDisplays = new List<GameObject>();
@@ -40,6 +40,7 @@ namespace ItemInformation
                 display.DisplayItem(items);
                 _openDisplays.Add(display.gameObject);
                 _closeButtonSingle.SetActive(true);
+                _closeButtonSingle.transform.SetAsLastSibling();
             }
             else {
                 var i = 1;
@@ -52,6 +53,7 @@ namespace ItemInformation
                     i--;
                 }
                 _closeButtonMultiple.SetActive(true);
+                _closeButtonMultiple.transform.SetAsLastSibling();
             }
         }
 

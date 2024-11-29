@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EagleBody
   m_EditorClassIdentifier: 
   itemName: Imperial iberian eagler body
-  itemDescription: 
+  itemDescription: 'During match: makes the animal fly.'
   flavourText: Their wingspan can span 2.2 metres and the eagles can reach 3kg of
     weight.
   icon: {fileID: 0}

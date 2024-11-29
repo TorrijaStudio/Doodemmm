@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BearFeetInfo 2
   m_EditorClassIdentifier: 
   itemName: European brown bear base
-  itemDescription: 
+  itemDescription: 'When alone: gets a 10% attack bonus'
   flavourText: Male bears move between 2-5 times more than females. walking in areas
     that reach 1.300 square kilometres.
   icon: {fileID: 21300000, guid: 2f616dae45258a4498ee760f8704e90f, type: 3}

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d63c231ab5f4b29bcf3e86906cbea4c, type: 3}
   m_Name: BeeBody
   m_EditorClassIdentifier: 
-  itemName: Imperial iberian eagler body
-  itemDescription: 
-  flavourText: Their wingspan can span 2.2 metres and the eagles can reach 3kg of
-    weight.
+  itemName: Spanish bee body
+  itemDescription: 'During match: makes the animal fly.'
+  flavourText: The Spanish bee is the most well adapted bee to the Spanish environment
+    and relatively high summer temperatures.
   icon: {fileID: 0}
   isTotemPiece: 1

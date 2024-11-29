@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d63c231ab5f4b29bcf3e86906cbea4c, type: 3}
   m_Name: BeeHead
   m_EditorClassIdentifier: 
-  itemName: Imperial iberian eagle head
+  itemName: Spanish bee head
   itemDescription: 
-  flavourText: This eagle's calls, specially when flying, are sometimes confused
-    with crow calls.
+  flavourText: They are a vigorous species, but they have an overtendency to be defensive
+    and towards swarming.
   icon: {fileID: 0}
   isTotemPiece: 1

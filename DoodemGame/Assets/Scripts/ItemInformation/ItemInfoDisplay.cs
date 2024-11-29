@@ -24,12 +24,7 @@ namespace ItemInformation
         [SerializeField] private TextMeshProUGUI itemName;
         [SerializeField] private TextMeshProUGUI itemDescription;
         [SerializeField] private TextMeshProUGUI flavourText;
-
-        private void Start()
-        {
-            statsParentObject.SetActive(false);
-        }
-
+        
         private void DisplayTotemPieceStats(TotemStats totemStats)
         {
             //Set stats information
@@ -48,7 +43,12 @@ namespace ItemInformation
             flavourText.SetText(itemInfoSo.flavourText);
             if (!item.isBiome)
             {
+                Debug.Log("Not a biome");
                 DisplayTotemPieceStats(item.stats);
+            }
+            else
+            {
+                Debug.Log("biome");
             }
         }
     }

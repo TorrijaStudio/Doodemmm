@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: EagleFeet
   m_EditorClassIdentifier: 
   itemName: Imperial iberian eagle base
-  itemDescription: 
+  itemDescription: 'With 2 rocks: deal 40 damage to 2 enemies, or 80 damage to 1
+    enemy.'
   flavourText: The imperial iberian eagle is an endangered species. It's main dangers
     are illegal poisons, rabbit scarcity and electrocutation due to power lines.
   icon: {fileID: 21300000, guid: 2f616dae45258a4498ee760f8704e90f, type: 3}
