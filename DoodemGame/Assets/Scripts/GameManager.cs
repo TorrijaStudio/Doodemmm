@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using formulas;
+using TMPro;
 using Unity.AI.Navigation;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -17,6 +18,7 @@ using Random = UnityEngine.Random;
 
 public class GameManager : NetworkBehaviour
 {
+    private Transform _cameraTransform;
     private NetworkManager _networkManager;
     private GameObject _playerPrefab;
     public static GameManager Instance;
@@ -77,6 +79,7 @@ public class GameManager : NetworkBehaviour
         private set => MaxDistance = value;
     }
 
+    public GameObject damagePrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -541,6 +544,9 @@ public class GameManager : NetworkBehaviour
                 clientId = _id.Value;
                 // Camera.main.enabled = false;
                 GameObject.Find(clientId == 0 ? "Main Camera" : "Main Camera1").GetComponent<Camera>().gameObject.SetActive(false);
+                _cameraTransform = clientId == 0
+                    ? GameObject.Find("Main Camera1").transform
+                    : GameObject.Find("Main Camera").transform;
             }   
         }
         if (IsServer)
@@ -602,6 +608,25 @@ public class GameManager : NetworkBehaviour
         if (target.TryGet(out NetworkObject targetObject))
         {
             targetObject.GetComponent<HealthEntity>().UpdateText(h);
+        }
+    }
+
+    [ClientRpc]
+    public void InstantiateTextDamageClientRpc(NetworkObjectReference target,float damage)
+    {//targetObject es el networkObject que ha sido atacado
+        if (target.TryGet(out NetworkObject targetObject))
+        {
+            var g = targetObject.gameObject;
+           
+             if (targetObject.OwnerClientId != _networkManager.LocalClientId)
+             {
+                 var texto = Instantiate(damagePrefab, g.transform.position, Quaternion.identity);
+                 texto.GetComponent<TextMeshPro>().text = "-"+ ((int)(damage));
+                 texto.transform.forward = _cameraTransform.forward;
+                 Debug.LogError("posicion"+ g.transform.position);
+             }
+            
+           
         }
     }
     
