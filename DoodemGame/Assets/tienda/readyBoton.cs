@@ -28,6 +28,7 @@ public class readyBoton : MonoBehaviour
             var ob = obTr.GetComponent<objetoTienda>();
             if (ob.selected)
             {
+                tienda.PlayerMoney -= ob.price;
                 tienda.boughtObjects.Add(ob.gameObject);
             }
         }
@@ -44,6 +45,7 @@ public class readyBoton : MonoBehaviour
             var ob = obTr.GetComponent<objetoTienda>();
             if (ob.selected)
             {
+                tienda.PlayerMoney -= ob.price;
                 tienda.boughtObjects.Add(ob.gameObject);
             }
         }

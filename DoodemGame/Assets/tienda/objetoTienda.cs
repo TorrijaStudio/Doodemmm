@@ -15,7 +15,7 @@ using UnityEngine.UI;
 public class objetoTienda : MonoBehaviour,IPointerClickHandler
 {
     [SerializeField] public ScriptableObjectTienda info;
-    private int price;
+    public int price;
     public bool selected;
     [SerializeField] private ItemInfoDisplay itemInfoDisplay;
 
@@ -115,5 +115,7 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
     {
         ItemInfoManager.instance.Display(info);
     }
+
+
 }
 

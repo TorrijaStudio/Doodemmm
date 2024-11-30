@@ -66,6 +66,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     }
 
     public float health;
+    public float maxHealth;
     public float damage;
     public float attackDistance;
     public float attackSpeed;
@@ -113,7 +114,9 @@ public class Entity : NetworkBehaviour ,IAtackable
     private void SetHealthAndSpeed(float h, float s)
     {
         health += h;
+        maxHealth = health;
         speed += s;
+        attackSpeed = speed/6f;
         if (agente)
             agente.speed = Mathf.Max(speed + _speedModifier, 1) / 5f;
     }
@@ -165,7 +168,8 @@ public class Entity : NetworkBehaviour ,IAtackable
          gameObject.SetActive(GameManager.Instance.startedGame);
     }
 
-
+    // OnDestroyNe
+    
     private void Awake()
     {
         //GameManager.Instance.playerObjects.Add(gameObject);
@@ -280,7 +284,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         health -= enemyDamage;
         if(IsHost)
             GameManager.Instance.UpdateHealthEntityServerRpc();
-        if (health <= 0)
+        if (health <= 0.01)
         {
             Destroy(gameObject);
             if (IsHost)
@@ -311,6 +315,10 @@ public class Entity : NetworkBehaviour ,IAtackable
         {
             yield return new WaitForSeconds(1.0f);
             health += healthChange;
+            if (health > maxHealth) health = maxHealth;
+            
+            if(IsHost)
+                GameManager.Instance.UpdateHealthEntityServerRpc();
         }
     }
     
@@ -450,8 +458,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         values.AddRange(resources.Select(transform1 => new KeyValuePair<Transform, float>(transform1.transform, 0f)));
 
         
-        // var aaaaaaa = values.Aggregate("", (current, pair) => current + (pair.Key + " " + pair.Value + "\n"));
-        // Debug.Log(aaaaaaa);
+        
         var partRange = _head.AssignValuesToEnemies(enemies);
         partRange.AddRange(_head.AssignValuesToResources(resources));
         MergeInformation(ref values, partRange);
@@ -463,20 +470,42 @@ public class Entity : NetworkBehaviour ,IAtackable
         partRange = _feet.AssignValuesToEnemies(enemies);
         partRange.AddRange(_feet.AssignValuesToResources(resources));
         MergeInformation(ref values, partRange);
-        values = values.Where(pair => pair.Value > 0).ToList();
         // var a = from entry in values orderby entry.Value descending select entry;
-        if (values.Count == 0)
-        {
-            objetive = null;
-            return;
-        }
-        values.Sort((kp, kp1) => (int)Mathf.CeilToInt((kp.Value - kp1.Value)*1000));
-        // Debug.Log(resources.Count());
+
         if (objetive && objetive.TryGetComponent<recurso>(out var a))
         {
             a.SetSelected(false);
         }
-        objetive = values.First().Key;
+        if (values.Count > enemies.Count)
+        {
+            Debug.Log("Hay recursos");
+            var resourcesValues = values.GetRange(enemies.Count, resources.Count);
+            resourcesValues = resourcesValues.Where(pair => pair.Value > 0).ToList();
+            if (resourcesValues.Count == 0)
+            {
+                resourcesValues = values.Where(pair => pair.Value > 0).ToList();
+                if(resourcesValues.Count == 0)
+                {
+                    objetive = null;
+                    return;
+                }
+            }
+            resourcesValues.Sort((kp, kp1) => (int)Mathf.CeilToInt((kp.Value - kp1.Value) * 1000));
+            objetive = values.First().Key;
+        }
+        else
+        {
+            values = values.Where(pair => pair.Value > 0).ToList();
+            if (values.Count == 0)
+            {
+                objetive = null;
+                return;
+            }
+            values.Sort((kp, kp1) => (int)Mathf.CeilToInt((kp.Value - kp1.Value) * 1000));
+            // Debug.Log(resources.Count());
+
+            objetive = values.First().Key;
+        }
         isEnemy = (bool)objetive.GetComponent<Entity>();
         // Debug.LogWarning($"Next objective is {objetive.name} and is {isEnemy} an enemy??");
         // agente.SetDestination(objetive.position);
@@ -504,6 +533,8 @@ public class Entity : NetworkBehaviour ,IAtackable
     public override void OnDestroy()
     {
         _idPlayer.OnValueChanged -= SetLayer;
+        
+        GameManager.Instance.playerObjects.Remove(gameObject);
         base.OnDestroy();
     }
     public delegate void EmptyEvent();
@@ -545,7 +576,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     private bool TryAttack(float distance)
     {
         string blah = string.Join(", ", _attacksMap.Select(v => v.Value.AttackDistance.ToString(CultureInfo.InvariantCulture)).ToArray());
-        // Debug.Log(blah);
+        Debug.LogWarning(blah);
         var possibleAttacks = _attacksMap.ToArray().Where(a => a.Value.AttackDistance >= distance).ToArray();
         if (!possibleAttacks.Any()) return false;
         // Debug.Log("Evaluating attacks");

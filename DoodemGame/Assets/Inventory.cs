@@ -288,11 +288,12 @@ public class Inventory : MonoBehaviour
             for (int x = 0; x < totemPiecesDrawerSize.x; x++)
             {
                 var index = y * totemPiecesDrawerSize.x + x + drawerSize * page;
-                if(_totemPieces.Count >= index) return;
+                // Debug.Log("Piece index: " + index + ", totem pieces " + _totemPieces.Count);
+                if(_totemPieces.Count <= index) return;
                 var pos = topCornerToSpawnPieces.position;
                 pos.x += x * totemPiecesDrawerSeparation.x;
                 pos.y -= y * totemPiecesDrawerSeparation.y;
-                var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
+                var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, piecesParent);
                 // totem.transform.localRotation = Quaternion.Euler(0, 0, 0);
                 var aux = new GameObject[] { null, null, null };
                 var piece = _totemPieces[index];

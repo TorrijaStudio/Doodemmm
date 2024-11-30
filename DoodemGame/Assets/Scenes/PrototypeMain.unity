@@ -9801,6 +9801,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 0}
+  price: 0
   selected: 0
   itemInfoDisplay: {fileID: 0}
 --- !u!61 &288883016
@@ -10220,6 +10221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 0}
+  price: 0
   selected: 0
   itemInfoDisplay: {fileID: 0}
 --- !u!61 &299673107
@@ -10409,8 +10411,8 @@ MonoBehaviour:
   playerObjects: []
   startedGame: 0
   numRondas: 3
-  secondsBiome: 3
-  secondsResources: 7
+  secondsBiome: 0
+  secondsResources: 100
   entidatesPrueba: []
   enemies: []
   allies: []
@@ -26880,7 +26882,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &786096960
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35569,7 +35571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1008779995
 RectTransform:
   m_ObjectHideFlags: 0
@@ -48528,6 +48530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 0}
+  price: 0
   selected: 0
   itemInfoDisplay: {fileID: 0}
 --- !u!1 &1364804490
@@ -64573,6 +64576,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info: {fileID: 0}
+  price: 0
   selected: 0
   itemInfoDisplay: {fileID: 0}
 --- !u!61 &1751683374
