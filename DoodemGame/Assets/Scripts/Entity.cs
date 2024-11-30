@@ -281,6 +281,8 @@ public class Entity : NetworkBehaviour ,IAtackable
     {
         // Debug.Log(gameObject.name + " -- "+health);
         if (isFlying) enemyDamage *= 0.95f;
+        if(IsHost)
+            GameManager.Instance.InstantiateTextDamageClientRpc(GetComponent<NetworkObject>(),enemyDamage);
         health -= enemyDamage;
         if(IsHost)
             GameManager.Instance.UpdateHealthEntityServerRpc();
