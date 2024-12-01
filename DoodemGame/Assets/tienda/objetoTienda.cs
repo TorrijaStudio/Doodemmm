@@ -94,8 +94,8 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
     {
         if(!selected && eventData.button == PointerEventData.InputButton.Left)
         {
-            selected = true;
             if (!_store.CanBuyItem(price)) return;
+            selected = true;
             
             if (_store.canOnlyChooseOne)
                 _store.SelectedObject = this;

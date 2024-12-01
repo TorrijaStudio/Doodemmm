@@ -89,9 +89,8 @@ public class playerInfoStore : MonoBehaviour
             OnItemSelected.Invoke();
         }
     }
-    public delegate void ItemSelected();
 
-    public ItemSelected OnItemSelected;
+    public Action OnItemSelected;
     
     public bool CanBuyItem(int cost)
     {

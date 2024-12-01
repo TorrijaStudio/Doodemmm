@@ -23,6 +23,9 @@ public class readyBoton : MonoBehaviour
     {
         if(tienda.canOnlyChooseOne && !tienda.SelectedObject) return;
         
+        tienda.SelectedObject = null;
+        tienda.SelectedItemsCost = 0;
+        
         foreach (Transform obTr in storeItems)
         {
             var ob = obTr.GetComponent<objetoTienda>();
@@ -32,6 +35,7 @@ public class readyBoton : MonoBehaviour
                 tienda.boughtObjects.Add(ob.gameObject);
             }
         }
+
         FindObjectOfType<Inventory>().GetItemsFromShop();
         // FindObjectOfType<Inventory>().SpawnTotems();
     }
