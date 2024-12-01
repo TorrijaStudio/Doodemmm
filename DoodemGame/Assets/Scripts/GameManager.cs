@@ -193,7 +193,7 @@ public class GameManager : NetworkBehaviour
             startMatchAfterTimer = false;
             _store.InitialSelection();
             // Debug.LogWarning("Empezando timer en StartRound (if)");
-            StartTime(20);
+            StartTime(10);
             return;
         }
 
