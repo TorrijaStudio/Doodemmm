@@ -41,7 +41,6 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
     {
         totemParent = GameObject.Find("SeleccionableTotemsParent").transform;
         biomaParent = GameObject.Find("Canvas/cartas/totems").transform;
-        if(biomaParent) Debug.LogError("hplaaaa");
         _objectsToDelete = new List<GameObject>();
         cartas = new List<Transform>();
         foreach (Transform t in transform.parent)
@@ -231,7 +230,6 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
 
     private void SetColorGridHolding()
     {
-        Debug.LogError("28");
         Transform casillas = terreno.transform.GetChild(0);
         foreach (Transform c in casillas)
         {

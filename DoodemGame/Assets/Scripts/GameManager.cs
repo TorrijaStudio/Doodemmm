@@ -175,9 +175,10 @@ public class GameManager : NetworkBehaviour
     private IEnumerator StartBiome(ABiome ab,GameObject p)
     {
         yield return new WaitForSeconds(secondsBiome);
+        Debug.LogError("HOLA TIO");
         ab.EnableMeshesRecursively(p);
         ab.SetColorsGridBiome();
-        StartCoroutine(ab.SetResourcesDespawn(secondsBiome));
+        StartCoroutine(ab.SetResourcesDespawn(secondsResources));
         _terreno.GetComponent<NavMeshSurface>().BuildNavMesh();
     }
    
@@ -210,12 +211,10 @@ public class GameManager : NetworkBehaviour
             int gains = reward.GetReward(currentRound);
             if (winner == "Rojo")
             {
-                Debug.LogError("gana rojo");
                 _victoryRojoPoints++;
                 _roundDisplay.UpdateRoundDisplay(IsHost ? RoundDisplay.RoundDisplayInfo.Win : RoundDisplay.RoundDisplayInfo.Loss);
             }else if (winner == "Azul")
             {
-                Debug.LogError("gana azul");
                 _roundDisplay.UpdateRoundDisplay(IsHost ? RoundDisplay.RoundDisplayInfo.Loss : RoundDisplay.RoundDisplayInfo.Win);
                 _victoryAzulPoints++;
             }
@@ -228,7 +227,6 @@ public class GameManager : NetworkBehaviour
 
             if (Math.Abs(_victoryAzulPoints - _victoryRojoPoints) == 2 || currentRound == numRondas)
             {
-                Debug.LogError("victoria: "+_victoryRojoPoints+" : "+_victoryAzulPoints);
                 if (_victoryAzulPoints == _victoryRojoPoints)
                 {
                     StartCoroutine(ChangeScene("empate"));
@@ -603,7 +601,8 @@ public class GameManager : NetworkBehaviour
         var entities = playerObjects.Where(entity => entity).Select(entity => entity.GetComponent<Entity>());
         foreach (var e in entities)
         {
-            UpdateHealthEntityClientRpc(e.GetComponent<NetworkObject>(), e.health);
+            if(e)
+                UpdateHealthEntityClientRpc(e.GetComponent<NetworkObject>(), e.health);
         }
     }
 
@@ -628,7 +627,6 @@ public class GameManager : NetworkBehaviour
                  var texto = Instantiate(damagePrefab, g.transform.position, Quaternion.identity);
                  texto.GetComponent<TextMeshPro>().text = "-"+ ((int)(damage));
                  texto.transform.forward = _cameraTransform.forward;
-                 Debug.LogError("posicion"+ g.transform.position);
              }
             
            

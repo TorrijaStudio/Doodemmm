@@ -45,7 +45,7 @@ public class HealthEntity : NetworkBehaviour
         var t = (int)h;
         textMeshPro.text = t.ToString();
         float healthPercent = currentHealth / maxHealth;
-        
+        Debug.LogError("ME UPDATE");
         green.parent.localScale = new Vector3(initialScale.x * healthPercent, initialScale.y, initialScale.z);
         //var offset = originalBounds.extents.x - green.GetComponent<SpriteRenderer>().bounds.extents.x;
         var offset = initialScale.x - green.transform.localScale.x;

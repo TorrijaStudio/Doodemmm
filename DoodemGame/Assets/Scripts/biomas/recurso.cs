@@ -59,7 +59,7 @@ public class recurso : MonoBehaviour
     public void CheckIfItsInMyBiome()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, Vector3.down,out hit, 1f, LayerMask.GetMask("casilla")))
+        if (Physics.Raycast(transform.position, Vector3.down,out hit, 5f, LayerMask.GetMask("casilla")))
         {
             if (indexLayerArea != hit.transform.GetComponent<NavMeshModifier>().area || hit.transform.GetComponent<casilla>().GetBiome().
                     GetComponent<NetworkObject>().OwnerClientId != transform.root.GetComponent<NetworkObject>().OwnerClientId || 

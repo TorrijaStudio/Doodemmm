@@ -27,7 +27,7 @@ public abstract class ABiome : NetworkBehaviour
     public Material mat;
     public int indexLayerArea;
     public Recursos[] typeResource;
-    
+    public MeshFilter[] meshFilters;
 
     private static Random random;
     public BiomeType type;
@@ -125,7 +125,7 @@ public abstract class ABiome : NetworkBehaviour
         }
         
         pos = positions.ToList();
-        transform.localScale = new Vector3(2*xSize*cellSize.x+cellSize.x,transform.localScale.y,2*zSize*cellSize.y+cellSize.y);
+        transform.localScale = new Vector3(2*xSize*cellSize.x+cellSize.x,transform.localScale.y*4,2*zSize*cellSize.y+cellSize.y);
         
         SetHijos();
         //if (IsOwner)
@@ -231,7 +231,7 @@ public abstract class ABiome : NetworkBehaviour
                 {
                     t.GetComponent<obstaculo>().isSet = true;   
                     pos.Remove(v);
-                    Vector3 newPos = new Vector3(v.x * cellSize.x + transform.position.x, transform.position.y,
+                    Vector3 newPos = new Vector3(v.x * cellSize.x + transform.position.x, obstaculos.GetChild(aux1).position.y,
                     v.y * cellSize.y + transform.position.z);
                     if (terreno.IsInside(newPos))
                     {
@@ -259,7 +259,7 @@ public abstract class ABiome : NetworkBehaviour
             int index = UnityEngine.Random.Range(0, pos.Count);
             Vector2 v =pos[index];
             pos.Remove(v);
-            Vector3 newPos = new Vector3(v.x*cellSize.x+transform.position.x,transform.position.y,v.y*cellSize.y+transform.position.z);
+            Vector3 newPos = new Vector3(v.x*cellSize.x+transform.position.x,recursos.GetChild(aux).position.y,v.y*cellSize.y+transform.position.z);
             if(terreno.IsInside(newPos))
             {
                 r.position = newPos;
@@ -280,7 +280,6 @@ public abstract class ABiome : NetworkBehaviour
         yield return new WaitForSeconds(time);
         foreach (Transform r in recursos)
         {
-            Debug.LogError("SOY RECURSO");
             if(r!=null)
             {
                 r.GetComponent<MeshRenderer>().enabled = false;
@@ -436,7 +435,7 @@ public abstract class ABiome : NetworkBehaviour
     private void SetPositionObstacle(Vector2 v,Transform t,Vector2 dir)
     {
         var newV = v + dir;
-        var newPos = new Vector3(newV.x*cellSize.x+transform.position.x,transform.position.y,newV.y*cellSize.y+transform.position.z);
+        var newPos = new Vector3(newV.x*cellSize.x+transform.position.x,t.transform.position.y,newV.y*cellSize.y+transform.position.z);
         t.position = newPos;
         t.GetComponent<obstaculo>().isSet = true;
         pos.Remove(newV);

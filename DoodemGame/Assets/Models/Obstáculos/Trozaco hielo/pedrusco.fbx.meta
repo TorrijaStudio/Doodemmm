@@ -3,7 +3,12 @@ guid: ab474482c4250504ebef4dfefe6070db
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cracked ice
+    second: {fileID: 2100000, guid: 5e549da0df21fe04b8fbbda4318a616d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
