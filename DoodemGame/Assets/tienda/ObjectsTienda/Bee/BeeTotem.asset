@@ -17,9 +17,15 @@ MonoBehaviour:
   - {fileID: 6689507862957876372, guid: 026fa932d8507c14295c2fc5674cc301, type: 3}
   - {fileID: 696707142782113798, guid: e47e4cd05c08f5c4b9f40bb87cf0a7b3, type: 3}
   - {fileID: 5863373089862150009, guid: 0255d1c8d95a01b4abf70262013c1437, type: 3}
+  indexBioma: 0
   animalParts:
   - {fileID: 6596802920627415814, guid: 026fa932d8507c14295c2fc5674cc301, type: 3}
   - {fileID: 6963791943007721694, guid: e47e4cd05c08f5c4b9f40bb87cf0a7b3, type: 3}
   - {fileID: 1062466098516003971, guid: 0255d1c8d95a01b4abf70262013c1437, type: 3}
-  image: {fileID: 21300000, guid: 9c370bb11be501b40bbcc3683324cb9b, type: 3}
+  image: {fileID: 21300000, guid: f3e80eb544484fa4bbc16e1209373cc9, type: 3}
   num: 1
+  isBiome: 0
+  biomeObject: {fileID: 0}
+  biomeType: 0
+  itemInfoSoM: {fileID: 0}
+  stats: {fileID: 0}

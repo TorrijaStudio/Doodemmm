@@ -51,7 +51,14 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
     public void CreateObject(ScriptableObjectTienda scriptableObjectTienda, bool isFullTotem = false)
     {
         info = scriptableObjectTienda;
-        GetComponent<Image>().sprite = info.image;
+        var img = transform.Find("Image").GetComponent<Image>();
+        img.sprite = info.image;
+        if (!info.isBiome)
+        {
+            img.transform.localScale = Vector3.one*3.5f;
+            img.raycastPadding = Vector4.one * 35f;
+            img.GetComponent<BoxCollider2D>().size = Vector2.one * 100 / 3.5f;
+        }
         _store = FindObjectOfType<playerInfoStore>();
         _proUGUI = GetComponentInChildren<TextMeshProUGUI>();
         if(isFullTotem)
