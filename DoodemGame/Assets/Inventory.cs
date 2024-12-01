@@ -247,6 +247,7 @@ public class Inventory : MonoBehaviour
             totem.gameObject.SetActive(true);
             totem.CreateTotem(totemPiece[0].scriptableObjectTienda, totemPiece[1].scriptableObjectTienda, totemPiece[2].scriptableObjectTienda, true);
             var a = totem.gameObject.AddComponent<Seleccionable>();
+            a.transform.localScale *= 2f;
             a.indexPrefab = 0;
             a.numCartas = 1;
             a.isTotem = true;

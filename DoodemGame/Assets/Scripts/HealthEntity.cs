@@ -26,9 +26,15 @@ public class HealthEntity : NetworkBehaviour
         currentHealth = maxHealth;
         originalBounds = green.GetComponent<SpriteRenderer>().bounds;
         if (IsOwner)
-            green.GetComponent<SpriteRenderer>().color = Color.green;
+        {
+            textMeshPro.color = new Color(0.07f, 0.59f, 0.02f);
+            green.GetComponent<SpriteRenderer>().color = new Color(0.22f, 0.53f, 0f);
+        }
         else
-            green.GetComponent<SpriteRenderer>().color = Color.red;
+        {
+            textMeshPro.color = new Color(0.68f, 0.08f, 0.16f);
+            green.GetComponent<SpriteRenderer>().color = new Color(0.56f, 0.12f, 0.15f);;
+        }
     }
 
     // Update is called once per frame

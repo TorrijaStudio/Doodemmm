@@ -83,7 +83,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             materials.ForEach(mat => mat.color = id == 0 ? new Color(0.91f, 0f, 0.02f, 0.22f) : new Color(0.24f, 0.32f, 0.66f, 0.22f));
             mesh.SetMaterials(materials);
         });
-        transform.rotation = Quaternion.Euler(id == 0 ? Vector3.forward : Vector3.back);
+        // transform.rotation = Quaternion.Euler(id == 0 ? Vector3.forward : Vector3.back);
         Debug.Log(id);
         objetive = GameManager.Instance.Bases[id];
     }
@@ -109,6 +109,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         {
             meshRenderer.enabled = false;
         }
+        transform.rotation = Quaternion.Euler(Seleccionable.ClientID == 1 ? Vector3.forward : Vector3.back);
     }
 
     private void SetHealthAndSpeed(float h, float s)
