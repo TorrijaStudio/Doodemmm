@@ -79,7 +79,7 @@ public class MenuhOJAS : MonoBehaviour
     private bool iniciado = false;
 
     // Start is called before the first frame update
-   /* void Start()
+   void Start()
     {
         anim1 = hojas1.GetComponent<Animator>();
         anim2 = hojas2.GetComponent<Animator>();
@@ -106,7 +106,7 @@ public class MenuhOJAS : MonoBehaviour
         DesactivarBotonesTienda();
         DesactivarBotonesOpciones();
 
-        AudioManager.instance.SetMusicParameter(parameterName0, parameterValue0);
+        //AudioManager.instance.SetMusicParameter(parameterName0, parameterValue0);
     }
 
     // Update is called once per frame
@@ -121,8 +121,8 @@ public class MenuhOJAS : MonoBehaviour
             anim2.SetTrigger("Start");
             anim3.SetTrigger("Start");
             anim4.SetTrigger("Start");
-            AudioManager.instance.PlayOneShot(FMODEvents.instance.MoverHojas, camara.transform.position);
-            AudioManager.instance.SetMusicParameter(parameterName1, parameterValue1);
+            //AudioManager.instance.PlayOneShot(FMODEvents.instance.MoverHojas, camara.transform.position);
+            //AudioManager.instance.SetMusicParameter(parameterName1, parameterValue1);
 
 
             animTexto.SetTrigger("Start");
@@ -152,13 +152,13 @@ public class MenuhOJAS : MonoBehaviour
     IEnumerator ReproducirCaidas()
     {
         yield return new WaitForSeconds(0.3f);
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
         yield return new WaitForSeconds(0.4f);
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
         yield return new WaitForSeconds(0.4f);
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
         yield return new WaitForSeconds(0.3f);
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
     }
 
     void aparecerLogo()
@@ -172,7 +172,7 @@ public class MenuhOJAS : MonoBehaviour
 
     public void PulsadoSenalAbajo(){
         Debug.Log("se ha pulsado la senal de abajo vale??");
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
         StartCoroutine(ReproducirSenales());
         animCartelDoodem.SetTrigger("pulsar");
         animSenalAbajo.SetTrigger("Pulsado");
@@ -190,16 +190,16 @@ public class MenuhOJAS : MonoBehaviour
     }
     IEnumerator ReproducirSenales()
     {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
         yield return new WaitForSeconds(0.3f);
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
+        ///AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
         yield return new WaitForSeconds(0.4f);
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
     }
 
     public void PulsadoSenalMedio(){
         Debug.Log("se ha pulsado la senal de abajo vale??");
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
         StartCoroutine(ReproducirSenales());
         animCartelDoodem.SetTrigger("pulsar");
         animSenalAbajo.SetTrigger("Pulsado");
@@ -222,7 +222,7 @@ public class MenuhOJAS : MonoBehaviour
 
 		SceneManager.LoadScene("PrototypeMain");
         Debug.Log("se ha pulsado la senal de abajo vale??");
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
         StartCoroutine(ReproducirSenales());
         animCartelDoodem.SetTrigger("pulsar");
         animSenalAbajo.SetTrigger("Pulsado");
@@ -303,14 +303,14 @@ public class MenuhOJAS : MonoBehaviour
 
     public void caerDoodem(){
         animCartelDoodem.SetTrigger("Start");
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
 
     }
 
     public void BotonAtras()
     {
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
-        AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
+       // AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
+        //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
 
         DesactivarBotonesOpciones();
         animCartelMenus.SetTrigger("Back");
@@ -356,5 +356,5 @@ public class MenuhOJAS : MonoBehaviour
 
     public void coinShop(){
         Debug.Log("esta es la tienda de monedas a soltar la pasta q hace falta");
-    }*/
+    }
 }
