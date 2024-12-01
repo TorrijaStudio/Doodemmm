@@ -181,7 +181,7 @@ public abstract class ABiome : NetworkBehaviour
             else
             {
                 var positionCasilla = terreno.PositionToGrid(other.transform.position);
-                if ((positionCasilla.y < 15 && _idPlayer.Value == 1) || (positionCasilla.y > 14 && _idPlayer.Value == 0) )//terreno cliente / host
+                if ((positionCasilla.y < 8 && _idPlayer.Value == 1) || (positionCasilla.y >= 8 && _idPlayer.Value == 0) )//terreno cliente / host
                 {
                     var casilla = other.GetComponent<casilla>();
                     var index = casilla.GetAreaNav();

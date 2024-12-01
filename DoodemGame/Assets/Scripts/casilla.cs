@@ -13,7 +13,7 @@ public class casilla : NetworkBehaviour
     private int previousIndexArea;
     private Material originalMaterial;
     private Material material;
-    private Color _localMaterialSeleccionable;
+    private Color _localMaterialSeleccionable; 
     private MeshRenderer _meshRenderer;
     public string side;
     

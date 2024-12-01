@@ -58,14 +58,17 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
     
     GameObject InstanciarObjeto(Vector3 position)
     {
-        
         var a = Instantiate(objetoACrear, position, objetoACrear.transform.rotation);
         if (info.Length >= 3)
         {
             a.GetComponent<Totem>().CreateTotem(info[0], info[1], info[2]);
-            a.transform.rotation = Quaternion.Euler(ClientID == 0 ? Vector3.back : Vector3.forward);
+            // a.transform.rotation = Quaternion.Euler(ClientID == 0 ? Vector3.back : Vector3.forward);
+            if(ClientID == 1)
+                a.transform.Rotate(Vector3.up, 180f);
             a.name = "Dummy Totem";
         }
+
+        a.transform.localScale *= 2;
         SetChildrenActive(false);
         return a;
 
@@ -96,7 +99,7 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
                     if(pos.x == _grid.x || pos.y == _grid.y)    return;
                     if (objeto == null) {objeto = InstanciarObjeto(Input.mousePosition);}
                     objeto.transform.position = new Vector3(corner.x + pos.x * cellSize.x + cellSize.x /2f, 
-                        1.1f, corner.z + pos.y * cellSize.y + cellSize.y/2f);
+                        4f, corner.z + pos.y * cellSize.y + cellSize.y/2f);
                 }
             }
         }

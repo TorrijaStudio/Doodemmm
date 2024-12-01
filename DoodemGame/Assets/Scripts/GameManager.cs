@@ -296,6 +296,11 @@ public class GameManager : NetworkBehaviour
         if(entity)
         {
             entity.SpawnClientRpc(head, body, feet);
+            if (playerId == 0)
+            {
+                entity.transform.Rotate(Vector3.up, 180f);
+            }
+            entity.transform.localScale *= 2;
         }
         if (player.TryGetComponent(out NavMeshAgent nav))
         {
