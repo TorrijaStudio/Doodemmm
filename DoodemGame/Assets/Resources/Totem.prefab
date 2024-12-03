@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TotemOffset: 1
   TotemPieceHover: 0.3
+  emptyTotemSprite: {fileID: 21300000, guid: 8b8314ea0444cc141a1f91d7c9c7db26, type: 3}
   head: {fileID: 0}
   body: {fileID: 0}
   feet: {fileID: 0}

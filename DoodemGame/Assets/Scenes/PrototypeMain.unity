@@ -9740,7 +9740,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 600233002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -13218,7 +13218,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 824905849}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -16454,7 +16454,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1017074284}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -21152,7 +21152,7 @@ MonoBehaviour:
   totemParent: {fileID: 786936740}
   pointer: {fileID: 1968319156}
   wall: {fileID: 1584418616}
-  distance: 16
+  distance: 10
   totemsPosToSpawn: {fileID: 1127698248}
   totemToInstantiate: {fileID: 5275010074968078160, guid: 06ae647b221c886439a6f47cf5293358, type: 3}
   piecesParent: {fileID: 259480520}
@@ -31766,7 +31766,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021224168}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -33503,8 +33503,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5323126781628313546, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5828674dc9062f349a956f07954e9999, type: 3}
+    - target: {fileID: 5323126781628313546, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
       propertyPath: m_UseSpriteMesh
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5323126781628313546, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
       propertyPath: m_PreserveAspect
@@ -33548,7 +33552,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7321203720607363203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 302
+      value: 111
+      objectReference: {fileID: 0}
+    - target: {fileID: 7321203720607363203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7321203720607363203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7321203720607363203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.35
       objectReference: {fileID: 0}
     - target: {fileID: 7321203720607363203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -33584,7 +33600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7321203720607363203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -10
+      value: -105.5
       objectReference: {fileID: 0}
     - target: {fileID: 7321203720607363203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -33597,6 +33613,10 @@ PrefabInstance:
     - target: {fileID: 7321203720607363203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7321203720607363203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7666886780302631203, guid: f9995dbee08a58b49b3f2dfade792ad7, type: 3}
       propertyPath: GlobalObjectIdHash

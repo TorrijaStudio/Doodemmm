@@ -46,9 +46,10 @@ namespace ItemInformation
             }
             else {
                 var i = 1;
+                var realOffset = Screen.height / 1080f * offset;
                 foreach (var it in items.objectsToSell)
                 {
-                    var display = Instantiate(displayToInstantiate, center.position + Vector3.up * offset * i,
+                    var display = Instantiate(displayToInstantiate, center.position + Vector3.up * realOffset * i,
                         quaternion.identity, transform);
                     display.DisplayItem(it.scriptableObjectTienda);
                     _openDisplays.Add(display.gameObject);

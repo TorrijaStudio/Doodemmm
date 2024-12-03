@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using tienda;
 using Totems;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Totem : MonoBehaviour
 {
     private Transform _transform;
     [SerializeField] public float TotemOffset = 1.0f;
     [SerializeField] public float TotemPieceHover = 0.30f;
+    [SerializeField] private Sprite emptyTotemSprite;
+    private SpriteRenderer _emptyTotemImage;
     
     [SerializeField] private Transform head;
     [SerializeField] private Transform body;
@@ -49,6 +52,13 @@ public class Totem : MonoBehaviour
         if(ValidatePartDebug(f, "Feet"))
             feet = Instantiate(f, position - up, rotation, _transform).transform;
         // feet.transform.SetParent(_transform);
+    }
+
+    public void CreateEmptyTotem()
+    {
+        _transform = transform;
+        _emptyTotemImage = gameObject.AddComponent<SpriteRenderer>();
+        _emptyTotemImage.sprite = emptyTotemSprite;
     }
     public void CreateTotem(ScriptableObjectTienda soh, ScriptableObjectTienda sob, ScriptableObjectTienda sof, bool keepRotation = false)
     {
@@ -116,7 +126,10 @@ public class Totem : MonoBehaviour
             "Feet" => TryAddPiece(pieceToSet, ref feet, out outPiece),
             _ => false
         };
-
+        if (result && _emptyTotemImage)
+        {
+            _emptyTotemImage.enabled = false;
+        } 
         return result;
     }
     public void ForceAddPart(TotemPiece pieceToSet, out TotemPiece outPiece, string tagg)
@@ -137,6 +150,10 @@ public class Totem : MonoBehaviour
             default:
                 break;
         }
+
+        if(_emptyTotemImage)
+            _emptyTotemImage.enabled = false;
+
     }
     public Transform GetPiece(string pieceTag)
     {

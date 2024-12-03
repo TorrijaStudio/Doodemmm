@@ -201,8 +201,10 @@ public class Inventory : MonoBehaviour
         var objectsToSpawn = _fullTotemPieces.Count;
         var separationDistance = distance / objectsToSpawn;
         var pos = totemsPosToSpawn.position;
+        var totemIndex = 0;
         foreach (var totemPiece in _fullTotemPieces)
-        { 
+        {
+            totemIndex++;
             var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
             // totem.transform.localRotation = Quaternion.Euler(0, 0, 0);
             var aux = new GameObject[] { null, null, null };
@@ -222,6 +224,15 @@ public class Inventory : MonoBehaviour
                 }
             }
             totem.CreateTotem(aux[0], aux[1], aux[2]);
+            pos += Vector3.right * separationDistance;
+        }
+        Debug.Log($"Totems spawned: {totemIndex}, totems to spawn: {playerStore.currentLevel}");
+        for (;totemIndex < playerStore.currentLevel; totemIndex++)
+        {
+            var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
+            // totem.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            totem.CreateEmptyTotem();
+            Debug.Log("Spawned new empty totem");
             pos += Vector3.right * separationDistance;
         }
         SetDrag(true);
