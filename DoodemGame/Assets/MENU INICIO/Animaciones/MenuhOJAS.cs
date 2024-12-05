@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+
 public class MenuhOJAS : MonoBehaviour
 {
 
@@ -78,6 +79,39 @@ public class MenuhOJAS : MonoBehaviour
     private Animator animCartelMenus;
     private bool iniciado = false;
 
+
+
+    /// COSAS ANUNCIO
+    public GameObject anuncioUI;
+    
+    // COSAS EXPANSIONES
+    public GameObject expansionesUI;
+    
+    // COSAS SKINS
+    public GameObject skins_UI;
+    
+    // COSAS COMPRA MONEDAS
+    public GameObject compraMonedasUI;
+    
+    
+    // UI BASE DE LA TIENDA
+    public GameObject shopBaseUI;
+    
+    // Flecha para volver al menu de la tienda
+    public Button backShop;
+
+
+
+    public GameObject coinManager;
+    
+    
+    // Botones de compra de monedas
+    public Button compra1;
+    public Button compra2;
+    public Button compra3;
+
+    public GameObject paypalImage;
+    
     // Start is called before the first frame update
    void Start()
     {
@@ -107,6 +141,7 @@ public class MenuhOJAS : MonoBehaviour
         DesactivarBotonesOpciones();
 
         //AudioManager.instance.SetMusicParameter(parameterName0, parameterValue0);
+
     }
 
     // Update is called once per frame
@@ -343,18 +378,63 @@ public class MenuhOJAS : MonoBehaviour
     }
 
     public void ExpansionShop(){
+        shopBaseUI.SetActive(false);
+        expansionesUI.SetActive(true);
+        back.gameObject.SetActive(false);
+        backShop.gameObject.SetActive(true);
+        DesactivarBotonesTienda();
         Debug.Log("esta es la tienda de expansiones mira q guapaaa");
     }
 
     public void SkinShop(){
+        shopBaseUI.SetActive(false);
+        skins_UI.SetActive(true);
+        back.gameObject.SetActive(false);
+        backShop.gameObject.SetActive(true);
+        DesactivarBotonesTienda();
         Debug.Log("esta es la tienda de cosmeticos mira q guapaaa");
     }
 
     public void ViewAd(){
-        Debug.Log("viendo anuncio");
+        anuncioUI.SetActive(true);
+        coinManager.GetComponent<Coins>().sumarCoins(25);
+        Invoke("QuitAd", 5.0f);
+    }
+
+    public void QuitAd()
+    {
+        anuncioUI.SetActive(false);
+    }
+
+    public void volverTienda()
+    {
+        backShop.gameObject.SetActive(false);
+        back.gameObject.SetActive(true);
+        expansionesUI.SetActive(false);
+        skins_UI.SetActive(false);
+        compraMonedasUI.SetActive(false);
+        shopBaseUI.SetActive(true);
+        ActivarBotonesTienda();
     }
 
     public void coinShop(){
-        Debug.Log("esta es la tienda de monedas a soltar la pasta q hace falta");
+        shopBaseUI.SetActive(false);
+        compraMonedasUI.SetActive(true);
+        back.gameObject.SetActive(false);
+        backShop.gameObject.SetActive(true);
+        DesactivarBotonesTienda();
+        Debug.Log("esta es la tienda de monedicas");
     }
+
+    public void appearPayPal()
+    {
+        paypalImage.SetActive(true);
+    }
+    
+    public void disappearPayPal()
+    {
+        paypalImage.SetActive(false);
+    }
+
 }
+

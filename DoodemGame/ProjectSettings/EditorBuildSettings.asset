@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/newMainMenu.unity
     guid: 57e788d4a82583f42b5fc5abacc91d9c
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PrototypeMain.unity
     guid: 52e3fce7dc56f504c836310d28ba17ff
   - enabled: 0
@@ -20,16 +20,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/mainDiego.unity
     guid: 6e1b7b972de50004dbb5439610945573
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/victory.unity
     guid: 20fecd71b220640478489dd916e44b50
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/defeat.unity
     guid: 583b0ded1392d7f47b7bef49ab5bc730
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/empate.unity
     guid: 04adcc47813ec9340ba442e24b96f303
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MenuCreditos.unity
     guid: 7ab3fc0cbe4c7694ba1e8c33f09e48d6
+  - enabled: 1
+    path: Assets/Scenes/DECORACION PROTOTYPE MARIO.unity
+    guid: af22668a402893f4aa94ef2d68687e16
   m_configObjects: {}

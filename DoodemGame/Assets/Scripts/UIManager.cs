@@ -28,8 +28,13 @@ namespace HelloWorld
         public GameObject botonClient;
         
         public GameObject botonMenu;
+        
+        //
+        public GameObject objetosEscena;
 
-        public GameObject sueloObjeto;
+        public GameObject coinsManager;
+        //
+        
         
         
         async void Start()
@@ -47,10 +52,11 @@ namespace HelloWorld
             botonMenu = GameObject.Find("menu");
             botonMenu.SetActive(false);
             
-            sueloObjeto = GameObject.Find("suelo");
-            sueloObjeto.SetActive(false);
-         
+            //
+
+            //
             
+
             await UnityServices.InitializeAsync();
 
             AuthenticationService.Instance.SignedIn +=
@@ -150,7 +156,10 @@ namespace HelloWorld
                 botonClient.SetActive(false);
                 
                 botonMenu.SetActive(true);
-                sueloObjeto.SetActive(true);
+                
+                //
+                objetosEscena.SetActive(true);
+                //
         
                 GUIUtility.systemCopyBuffer = _joinCode;
                 NetworkManager.Singleton.StartHost();
@@ -186,7 +195,10 @@ namespace HelloWorld
                 botonClient.SetActive(false);
                 
                 botonMenu.SetActive(true);
-                sueloObjeto.SetActive(true);
+                
+                //
+                objetosEscena.SetActive(true);
+                //
        
 
             }

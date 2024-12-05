@@ -8,6 +8,8 @@ public class MenuController : MonoBehaviour
     public GameObject shopUI;
     public GameObject optionsUI;
 
+    public GameObject objectsScene;
+
 
 public void ShowPlayUI(){
     playUI.SetActive(true);

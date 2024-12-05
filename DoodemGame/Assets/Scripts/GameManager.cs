@@ -61,6 +61,7 @@ public class GameManager : NetworkBehaviour
     private int _victoryRojoPoints;
     private int _victoryAzulPoints;
 
+
     public int currentRound
     {
         get;
