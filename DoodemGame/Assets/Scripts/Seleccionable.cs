@@ -98,7 +98,7 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
                     if(pos.x == _grid.x || pos.y == _grid.y)    return;
                     if (objeto == null) {objeto = InstanciarObjeto(Input.mousePosition);}
                     objeto.transform.position = new Vector3(corner.x + pos.x * cellSize.x + cellSize.x /2f, 
-                        4f, corner.z + pos.y * cellSize.y + cellSize.y/2f);
+                        info.Length == 1 ? 1.1f : 4f, corner.z + pos.y * cellSize.y + cellSize.y/2f);
                 }
             }
         }

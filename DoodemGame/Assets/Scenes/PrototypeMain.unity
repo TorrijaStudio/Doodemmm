@@ -4718,7 +4718,7 @@ MonoBehaviour:
   startedGame: 0
   numRondas: 3
   secondsBiome: 1
-  secondsResources: 10
+  secondsResources: 1
   entidatesPrueba: []
   enemies: []
   allies: []
@@ -15015,7 +15015,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5417e199d4d02242a9e1b69c292441e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  contadorInicial: 30
+  contadorInicial: 10
   cuentaRegresiva: 1
   intervalo: 1
   startTimer: 1
