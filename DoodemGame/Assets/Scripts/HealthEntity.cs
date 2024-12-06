@@ -25,6 +25,7 @@ public class HealthEntity : NetworkBehaviour
         initialPosition = green.transform.localPosition;
         currentHealth = maxHealth;
         originalBounds = green.GetComponent<SpriteRenderer>().bounds;
+        textMeshPro.text = ((int)(maxHealth)).ToString();
         if (IsOwner)
         {
             textMeshPro.color = new Color(0.07f, 0.59f, 0.02f);
