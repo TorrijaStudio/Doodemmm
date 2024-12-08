@@ -41,6 +41,8 @@ namespace HelloWorld
 
         public GameObject cuadroCode;
         
+        public GameObject tutorialbutton;
+        
         
         
         async void Start()
@@ -149,6 +151,8 @@ namespace HelloWorld
                 pantallaEspera.SetActive(true);
                 cuadroCode.SetActive(true);
                 textocode.text = _joinCode;
+                
+                tutorialbutton.SetActive(false);
                 //
         
                 GUIUtility.systemCopyBuffer = _joinCode;
@@ -189,6 +193,8 @@ namespace HelloWorld
                 //
                 objetosEscena.SetActive(true);
                 pantallaEspera.SetActive(true);
+                
+                tutorialbutton.SetActive(false);
                 //
        
 
