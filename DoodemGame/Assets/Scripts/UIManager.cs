@@ -34,6 +34,12 @@ namespace HelloWorld
 
         public GameObject coinsManager;
         //
+
+        public GameObject pantallaEspera;
+
+        public TMP_Text textocode;
+
+        public GameObject cuadroCode;
         
         
         
@@ -70,41 +76,12 @@ namespace HelloWorld
 
         void OnGUI()
         {
-            //GUILayout.BeginArea(new Rect(10, 10, 300, 300));
-            if (!NetworkManager.Singleton.IsClient && !NetworkManager.Singleton.IsServer)
-            {
-                StartButtons();
-            }
-            else
-            {
                 StatusLabels();
-            }
-
-            //GUILayout.EndArea();
         }
 
-        void StartButtons()
-        {
-            //if (GUILayout.Button("Host")) StartHost();
-            //if (GUILayout.Button("Client")) StartClient(_joinCode);
-            //_joinCode = GUILayout.TextField(_joinCode);
-            //if (GUILayout.Button("Paste code and join"))
-            //{
-                //StartClient(GUIUtility.systemCopyBuffer);
-            //}
-        }
 
         void StatusLabels()
         {
-            var mode = NetworkManager.Singleton.IsHost ? "Host" :
-                NetworkManager.Singleton.IsServer ? "Server" : "Client";
-
-            GUILayout.Label("Transport: " +
-                            NetworkManager.Singleton.NetworkConfig.NetworkTransport.GetType().Name);
-            GUILayout.Label("Mode: " + mode);
-            GUILayout.Label(isHost ? "Host" : "Client");
-
-            GUILayout.Label("Room: " + _joinCode);
             if(GUILayout.Button("Copy code")) GUIUtility.systemCopyBuffer = _joinCode;
         }
         
@@ -159,6 +136,9 @@ namespace HelloWorld
                 
                 //
                 objetosEscena.SetActive(true);
+                pantallaEspera.SetActive(true);
+                cuadroCode.SetActive(true);
+                textocode.text = _joinCode;
                 //
         
                 GUIUtility.systemCopyBuffer = _joinCode;
@@ -198,6 +178,7 @@ namespace HelloWorld
                 
                 //
                 objetosEscena.SetActive(true);
+                pantallaEspera.SetActive(true);
                 //
        
 

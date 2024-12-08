@@ -1350,7 +1350,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 2.09
+    value: 1.26
   color:
     overrideState: 1
     value: {r: 0.68654317, g: 0.8315351, b: 0.836478, a: 1}
@@ -1368,7 +1368,7 @@ MonoBehaviour:
     value: -12
   thicknessModifier:
     overrideState: 1
-    value: 4.52
+    value: 4.68
   zBias:
     overrideState: 0
     value: 0.0001
@@ -1443,7 +1443,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 3.8
+    value: 4.24
   threshold:
     overrideState: 0
     value: 1
