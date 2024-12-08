@@ -61,6 +61,10 @@ public class GameManager : NetworkBehaviour
     private int _victoryRojoPoints;
     private int _victoryAzulPoints;
 
+    public GameObject cartelTimer;
+    public GameObject pantallaEspera;
+    public GameObject cuadroCode;
+    public TMP_Text textoCode; 
 
     public int currentRound
     {
@@ -193,6 +197,7 @@ public class GameManager : NetworkBehaviour
             storeCanvas.gameObject.SetActive(true);
             startMatchAfterTimer = false;
             _store.InitialSelection();
+            //cartelTimer.SetActive(true);
             // Debug.LogWarning("Empezando timer en StartRound (if)");
             StartTime(10);
             return;
@@ -250,9 +255,9 @@ public class GameManager : NetworkBehaviour
         gameCanvas.gameObject.SetActive(false);
         storeCanvas.gameObject.SetActive(true);
         Debug.Log("Ganas: "+moneyGained);
-        
         StartTime(30);
         _store.SetUpShop(moneyGained);
+        
     }
     private IEnumerator ChangeScene(string s)
     {
@@ -396,8 +401,11 @@ public class GameManager : NetworkBehaviour
     {
         var w = GameObject.Find("Canvas").transform.GetChild(3).GetComponent<wall>();
         w.enabled = true;
+        pantallaEspera.SetActive(false);
+        cartelTimer.SetActive(true);
+        textoCode.text = "";
+        cuadroCode.SetActive(false);
         w.StartTimer(time);
-
     }
 
     public void StopTime()
@@ -542,6 +550,7 @@ public class GameManager : NetworkBehaviour
         {
             if(Seleccionable.ClientID == -1)
             {
+                
                 Debug.Log("Scooby dooby do, who are you? ");
                 Seleccionable.ClientID = _id.Value;
                 Inventory.Instance.clientID = _id.Value;
@@ -555,6 +564,7 @@ public class GameManager : NetworkBehaviour
         }
         if (IsServer)
         {
+            
             var player = Instantiate(NetworkManager.Singleton.NetworkConfig.Prefabs.Prefabs[1].Prefab);
             player.GetComponent<NetworkObject>().SpawnWithOwnership(obj);
             var playerInfo = player.GetComponent<playerInfo>();
