@@ -16,7 +16,7 @@ MonoBehaviour:
   objectsToSell: []
   indexBioma: 4
   animalParts: []
-  image: {fileID: 21300000, guid: 5828674dc9062f349a956f07954e9999, type: 3}
+  image: {fileID: 21300000, guid: d7fa0a6128bbfac41beeb4f10f5c7235, type: 3}
   num: 2
   isBiome: 1
   biomeObject: {fileID: 4907933673860711935, guid: b138565b0dd9cf14f8c7bc37d5440017, type: 3}
