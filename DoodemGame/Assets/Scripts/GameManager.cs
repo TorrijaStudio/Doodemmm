@@ -399,7 +399,7 @@ public class GameManager : NetworkBehaviour
 
     public void StartTime(int time)
     {
-        var w = GameObject.Find("Canvas").transform.GetChild(3).GetComponent<wall>();
+        var w = GameObject.Find("Canvas").transform.GetChild(4).GetComponent<wall>();
         w.enabled = true;
         pantallaEspera.SetActive(false);
         cartelTimer.SetActive(true);
@@ -410,7 +410,7 @@ public class GameManager : NetworkBehaviour
 
     public void StopTime()
     {
-        var w = GameObject.Find("Canvas").transform.GetChild(3).GetComponent<wall>();
+        var w = GameObject.Find("Canvas").transform.GetChild(4).GetComponent<wall>();
         w.enabled = true;
         w.StopTimer();
     }

@@ -46,6 +46,7 @@ namespace HelloWorld
         async void Start()
         {
             campoTexto = GameObject.Find("CODE");
+            campoTexto.SetActive(false);
             joinCodeField = campoTexto.GetComponent<TMP_InputField>();
             
             
@@ -57,6 +58,8 @@ namespace HelloWorld
             
             botonMenu = GameObject.Find("menu");
             botonMenu.SetActive(false);
+            
+            Invoke("activarCodeCampo", 0.5f);
             
             //
 
@@ -70,6 +73,11 @@ namespace HelloWorld
 
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
+        
+        public void activarCodeCampo()
+        {
+            campoTexto.SetActive(true);
+        }
 
         //-----------------------## ESTO SOBRA ##-------------------------------
         #region ESTO SOBRA
@@ -78,7 +86,9 @@ namespace HelloWorld
         {
                 StatusLabels();
         }
+//*************************************************************
 
+        
 
         void StatusLabels()
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 
@@ -111,6 +112,10 @@ public class MenuhOJAS : MonoBehaviour
     public Button compra3;
 
     public GameObject paypalImage;
+
+    public GameObject monedaTienda;
+    
+    public GameObject loadingScreen;
     
     // Start is called before the first frame update
    void Start()
@@ -135,7 +140,9 @@ public class MenuhOJAS : MonoBehaviour
         animCartelDoodem = cartelDoodem.GetComponent<Animator>();
         animCartelMenus = cartelMenus.GetComponent<Animator>();
 
-
+        backShop.gameObject.SetActive(false);
+        coinPurchase.gameObject.SetActive(false);
+        
         DesactivarBotonesSenales();
         DesactivarBotonesMenuJugar();
         DesactivarBotonesTienda();
@@ -212,6 +219,8 @@ public class MenuhOJAS : MonoBehaviour
         //AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
         AudioManager.PlaySound(SoundType.CLICK);
 
+        monedaTienda.SetActive(false);
+        
         StartCoroutine(ReproducirSenales());
         animCartelDoodem.SetTrigger("pulsar");
         animSenalAbajo.SetTrigger("Pulsado");
@@ -245,6 +254,7 @@ public class MenuhOJAS : MonoBehaviour
         AudioManager.PlaySound(SoundType.CLICK);
 
         StartCoroutine(ReproducirSenales());
+        monedaTienda.SetActive(true);
         animCartelDoodem.SetTrigger("pulsar");
         animSenalAbajo.SetTrigger("Pulsado");
         animSenalMedio.SetTrigger("Pulsado");
@@ -264,8 +274,13 @@ public class MenuhOJAS : MonoBehaviour
 
     public void PulsadoSenalArriba(){
 
-		SceneManager.LoadScene("PrototypeMain");
-        Debug.Log("se ha pulsado la senal de abajo vale??");
+        pantallaCarga();
+        Invoke("comenzarJuego", 9f);
+        
+        
+        
+		//SceneManager.LoadScene("PrototypeMain");
+       /* Debug.Log("se ha pulsado la senal de abajo vale??");
         //AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
         AudioManager.PlaySound(SoundType.CLICK);
 
@@ -284,7 +299,17 @@ public class MenuhOJAS : MonoBehaviour
 
         Invoke("ActivarBotonesMenuJugar", 2.0f);
         //ActivarBotonesMenuJugar();
+*/
+    }
 
+    public void comenzarJuego()
+    {
+        SceneManager.LoadScene("DECORACION PROTOTYPE MARIO");
+    }
+    
+    public void pantallaCarga()
+    {
+        loadingScreen.SetActive(true);
     }
 
     public void ActivarBotonesSenales()
@@ -329,7 +354,7 @@ public class MenuhOJAS : MonoBehaviour
         expansions.gameObject.SetActive(false);
         skins.gameObject.SetActive(false);
         ad.gameObject.SetActive(false);
-        coinPurchase.gameObject.SetActive(false);
+        
     }
 
     private void ActivarBotonesOpciones(){
@@ -361,11 +386,13 @@ public class MenuhOJAS : MonoBehaviour
         //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
         AudioManager.PlaySound(SoundType.CADENAS);
 
+       
         DesactivarBotonesOpciones();
         animCartelMenus.SetTrigger("Back");
         
         DesactivarBotonesMenuJugar();
         DesactivarBotonesTienda();
+        coinPurchase.gameObject.SetActive(false);
         
         
         Invoke("ActivarBotonesSenales", 3.5f);
@@ -377,6 +404,7 @@ public class MenuhOJAS : MonoBehaviour
 
     public void reproducirAnimacionesMenu()
     {
+        monedaTienda.SetActive(false);
         caerTotem();
         aparecerLogo();
         Invoke("caerDoodem", 2f);
@@ -436,6 +464,8 @@ public class MenuhOJAS : MonoBehaviour
         compraMonedasUI.SetActive(true);
         back.gameObject.SetActive(false);
         backShop.gameObject.SetActive(true);
+        skins_UI.SetActive(false);
+        expansionesUI.SetActive(false);
         DesactivarBotonesTienda();
         Debug.Log("esta es la tienda de monedicas");
     }

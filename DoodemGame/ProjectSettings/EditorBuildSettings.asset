@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/newMainMenu.unity
     guid: 57e788d4a82583f42b5fc5abacc91d9c
+  - enabled: 1
+    path: Assets/Scenes/DECORACION PROTOTYPE MARIO.unity
+    guid: af22668a402893f4aa94ef2d68687e16
   - enabled: 0
     path: Assets/Scenes/PrototypeMain.unity
     guid: 52e3fce7dc56f504c836310d28ba17ff
@@ -32,7 +35,4 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MenuCreditos.unity
     guid: 7ab3fc0cbe4c7694ba1e8c33f09e48d6
-  - enabled: 1
-    path: Assets/Scenes/DECORACION PROTOTYPE MARIO.unity
-    guid: af22668a402893f4aa94ef2d68687e16
   m_configObjects: {}
