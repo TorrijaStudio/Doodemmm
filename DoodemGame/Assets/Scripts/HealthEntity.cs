@@ -46,10 +46,10 @@ public class HealthEntity : NetworkBehaviour
         
     }
 
-    public void UpdateText(double h)
+    public void UpdateText(float h)
     {
-        currentHealth = (float)(h);
-        var t = (int)h;
+        currentHealth = h;
+        var t = Mathf.CeilToInt(Mathf.Clamp(h, 0.0f, maxHealth));
         textMeshPro.text = t.ToString();
         float healthPercent = currentHealth / maxHealth;
         green.parent.localScale = new Vector3(initialScale.x * healthPercent, initialScale.y, initialScale.z);

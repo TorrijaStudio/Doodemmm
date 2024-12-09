@@ -291,6 +291,8 @@ public class Entity : NetworkBehaviour ,IAtackable
         if (health <= 0.01)
         {
             AnimationDeathClientRpc(GetComponent<NetworkObject>());
+            StopAllCoroutines();
+            
             Destroy(gameObject,2.1f);
             if (IsHost)
             {
@@ -309,10 +311,15 @@ public class Entity : NetworkBehaviour ,IAtackable
     {
         if (targetObject.TryGet(out NetworkObject target))
         {
-            for (int i = 2; i < transform.childCount; i++)
+            for (int i = 0; i < transform.childCount; i++)
             {
                 var t = transform.GetChild(i);
+                if(!t.TryGetComponent<IAnimalPart>(out var p))
+                    continue;
+                
+                Debug.LogError(t.name);
                 t.parent = null;
+                i--;
                 if (t.TryGetComponent(out BoxCollider b))
                 {
                     b.isTrigger = false;
@@ -603,6 +610,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     }
     private bool TryAttack(float distance)
     {
+        if (health < 0.01f) return false;
         string blah = string.Join(", ", _attacksMap.Select(v => v.Value.AttackDistance.ToString(CultureInfo.InvariantCulture)).ToArray());
         Debug.LogWarning(blah);
         var possibleAttacks = _attacksMap.ToArray().Where(a => a.Value.AttackDistance >= distance).ToArray();

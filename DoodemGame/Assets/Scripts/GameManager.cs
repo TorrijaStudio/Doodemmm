@@ -618,7 +618,7 @@ public class GameManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void UpdateHealthEntityClientRpc(NetworkObjectReference target,double h)
+    private void UpdateHealthEntityClientRpc(NetworkObjectReference target,float h)
     {
         if (target.TryGet(out NetworkObject targetObject))
         {
