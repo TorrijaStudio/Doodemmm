@@ -25,7 +25,7 @@ public class item : MonoBehaviour
         transform.Rotate(Vector3.up,30*Time.deltaTime,Space.Self);
         if (disappear)
         {
-            transform.localScale *= 0.9f;
+            transform.localScale *= 0.98f;
             if (transform.localScale.x<0.1f)
             {
                 disappear = false;
@@ -37,7 +37,7 @@ public class item : MonoBehaviour
 
         if (appear)
         {
-            transform.localScale *= 1.1f;
+            transform.localScale *= 1.01f;
             if (transform.localScale.x > 1f)
             {
                 transform.localScale = Vector3.one;

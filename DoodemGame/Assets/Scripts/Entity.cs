@@ -280,6 +280,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     
     public float Attacked(float enemyDamage)
     {
+        if (health <= 0) return 0;
         // Debug.Log(gameObject.name + " -- "+health);
         if (isFlying) enemyDamage *= 0.95f;
         if(IsHost)
@@ -289,7 +290,8 @@ public class Entity : NetworkBehaviour ,IAtackable
             GameManager.Instance.UpdateHealthEntityServerRpc();
         if (health <= 0.01)
         {
-            Destroy(gameObject);
+            AnimationDeathClientRpc(GetComponent<NetworkObject>());
+            Destroy(gameObject,2.1f);
             if (IsHost)
             {
                 Debug.Log("uwulandia");
@@ -302,6 +304,29 @@ public class Entity : NetworkBehaviour ,IAtackable
         return health;
     }
 
+    [ClientRpc]
+    private void AnimationDeathClientRpc(NetworkObjectReference targetObject)
+    {
+        if (targetObject.TryGet(out NetworkObject target))
+        {
+            for (int i = 2; i < transform.childCount; i++)
+            {
+                var t = transform.GetChild(i);
+                t.parent = null;
+                if (t.TryGetComponent(out BoxCollider b))
+                {
+                    b.isTrigger = false;
+                }
+                else
+                {
+                    t.AddComponent<BoxCollider>().isTrigger = false;
+                }
+                t.AddComponent<Rigidbody>();
+                Destroy(t.gameObject,1.9f);
+            }
+        }
+    }
+    
     public void ApplyBleeding()
     {
         StartCoroutine(ChangeHealthOverTime(-10, 3));

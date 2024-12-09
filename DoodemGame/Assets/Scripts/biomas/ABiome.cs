@@ -8,9 +8,11 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Quaternion = UnityEngine.Quaternion;
 using Random = Unity.Mathematics.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
+
 
 
 public abstract class ABiome : NetworkBehaviour
@@ -48,22 +50,22 @@ public abstract class ABiome : NetworkBehaviour
         //gameObject.SetActive(false);
         GameManager.Instance.playerObjects.Add(gameObject);
         DisableMeshesRecursively(gameObject);
-
+        
     }
+    
     void DisableMeshesRecursively(GameObject obj)
     {
-        // Desactiva el MeshRenderer si el objeto lo tiene
-        MeshRenderer meshRenderer = obj.GetComponent<MeshRenderer>();
-        if (meshRenderer != null)
-        {
-            meshRenderer.enabled = false;
-        }
+       MeshRenderer meshRenderer = obj.GetComponent<MeshRenderer>();
+       if (meshRenderer != null)
+       {
+           meshRenderer.enabled = false;
+       }
 
-        // Recorre todos los hijos del objeto y llama recursivamente a esta función
-        foreach (Transform child in obj.transform)
-        {
-            DisableMeshesRecursively(child.gameObject);
-        }
+      
+       foreach (Transform child in obj.transform)
+       {
+           DisableMeshesRecursively(child.gameObject);
+       }
     }
     public void EnableMeshesRecursively(GameObject obj)
     {
@@ -233,12 +235,15 @@ public abstract class ABiome : NetworkBehaviour
                     pos.Remove(v);
                     Vector3 newPos = new Vector3(v.x * cellSize.x + transform.position.x, obstaculos.GetChild(aux1).position.y,
                     v.y * cellSize.y + transform.position.z);
+                   //if(IsHost)
+                   //{
                     if (terreno.IsInside(newPos))
                     {
                         t.position = newPos;
                     }
                     else
                         t.position = newPos;
+                    //}
                 }
                 
                 //if (terreno.IsInside(newPos))
@@ -260,16 +265,20 @@ public abstract class ABiome : NetworkBehaviour
             Vector2 v =pos[index];
             pos.Remove(v);
             Vector3 newPos = new Vector3(v.x*cellSize.x+transform.position.x,recursos.GetChild(aux).position.y,v.y*cellSize.y+transform.position.z);
-            if(terreno.IsInside(newPos))
+            //if(IsHost)
+            //{
+            if (terreno.IsInside(newPos))
             {
                 r.position = newPos;
-            }else
-                r.position = newPos;
-            
-            if (IsHost)
-            {
-                GameManager.Instance.GenerateRandomNumberServerRpc(typeResource.Length-1,GetComponent<NetworkObject>(),aux);
             }
+            else
+                r.position = newPos;
+            //}
+            
+            //if (IsHost)
+            //{
+            //    GameManager.Instance.GenerateRandomNumberServerRpc(typeResource.Length-1,GetComponent<NetworkObject>(),aux);
+            //}
             aux++;
         }
         //terreno.transform.GetComponent<NavMeshSurface>().BuildNavMesh();
@@ -282,11 +291,12 @@ public abstract class ABiome : NetworkBehaviour
         {
             if(r!=null)
             {
-                r.GetComponent<MeshRenderer>().enabled = false;
+                //r.GetComponent<MeshRenderer>().enabled = false;
                 if (IsHost)
                     r.GetComponent<recurso>().ResetResource();
             }
         }
+        DisableMeshesRecursively(recursos.gameObject);
     }
 
     private bool SetT(Vector2 v,Transform obs,int numHijo)
@@ -436,6 +446,7 @@ public abstract class ABiome : NetworkBehaviour
     {
         var newV = v + dir;
         var newPos = new Vector3(newV.x*cellSize.x+transform.position.x,t.transform.position.y,newV.y*cellSize.y+transform.position.z);
+        //if(IsHost)
         t.position = newPos;
         t.GetComponent<obstaculo>().isSet = true;
         pos.Remove(newV);
