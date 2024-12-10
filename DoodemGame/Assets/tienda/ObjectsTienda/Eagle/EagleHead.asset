@@ -18,7 +18,7 @@ MonoBehaviour:
   indexBioma: 0
   animalParts:
   - {fileID: 6596802920627415814, guid: fa0cf0e7e48d1be48b47fdeb5c93c7b7, type: 3}
-  image: {fileID: 21300000, guid: 60bcda2646bd9e54191735c151e68730, type: 3}
+  image: {fileID: 21300000, guid: dcd7ab79be676154da77079d2c0f8088, type: 3}
   num: 2
   isBiome: 0
   biomeObject: {fileID: 0}

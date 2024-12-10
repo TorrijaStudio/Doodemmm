@@ -27963,7 +27963,7 @@ MonoBehaviour:
   pantallaEspera: {fileID: 1398379501}
   textocode: {fileID: 2089689497}
   cuadroCode: {fileID: 762840609}
-  tutorialbutton: {fileID: 0}
+  tutorialbutton: {fileID: 1703558032}
 --- !u!1 &1356764713
 GameObject:
   m_ObjectHideFlags: 0
