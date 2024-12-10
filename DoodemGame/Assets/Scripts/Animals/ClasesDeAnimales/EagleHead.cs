@@ -12,7 +12,7 @@ namespace Animals.ClasesDeAnimales
         private void Start()
         {
             _entity = transform.GetComponentInParent<Entity>();
-            _entity.SubscribeAttack(TotemPiece.Type.Head, new Entity.AttackStruct(TotemStats.attackDistance, _entity.Attack));
+            _entity.SubscribeAttack(TotemPiece.Type.Head, new Entity.AttackStruct(TotemStats.attackDistance, _entity.Attack, new Dictionary<Recursos, int>()));
             // _entity.att
         }
         

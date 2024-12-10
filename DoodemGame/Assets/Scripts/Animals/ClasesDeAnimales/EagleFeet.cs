@@ -27,7 +27,8 @@ namespace Animals.ClasesDeAnimales
             {
                 if(!_isSubscribed){
                     Debug.Log("Ataque aguila suscrito");
-                    _entity.SubscribeAttack(TotemPiece.Type.Feet, new Entity.AttackStruct(TotemStats.attackDistance, AttackEagleFeet));
+                    _entity.SubscribeAttack(TotemPiece.Type.Feet, new Entity.AttackStruct(TotemStats.attackDistance, AttackEagleFeet, new Dictionary<Recursos, int>(){
+                        { resource, resourceQuantity }}));
                     _isSubscribed = true;
                 }
             }
@@ -70,7 +71,7 @@ namespace Animals.ClasesDeAnimales
             // _entity.Attack();
             // _entity.damage = entityDamage;
             EagleAttack();
-            _entity.AddOrTakeResources(resource, resourceQuantity);
+            // _entity.AddOrTakeResources(resource, -resourceQuantity);
         }
         
         public List<float> AssignValuesToResources(List<recurso> resources)

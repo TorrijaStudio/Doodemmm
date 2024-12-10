@@ -30,7 +30,8 @@ namespace Animals.ClasesDeAnimales
             {
                 if(!_isSubscribed){
                     Debug.Log("Ataque abeja suscrito");
-                    _entity.SubscribeAttack(TotemPiece.Type.Feet, new Entity.AttackStruct(TotemStats.attackDistance, _entity.PoisonAttack));
+                    _entity.SubscribeAttack(TotemPiece.Type.Feet, new Entity.AttackStruct(TotemStats.attackDistance, _entity.BleedAttack, new Dictionary<Recursos, int>(){
+                        { resource, resourceQuantity }}));
                     _isSubscribed = true;
                 }
             }

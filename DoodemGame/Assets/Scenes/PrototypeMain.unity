@@ -4739,6 +4739,10 @@ MonoBehaviour:
   gameCanvas: {fileID: 45081609}
   storeCanvas: {fileID: 1467104579}
   pauseCanvas: {fileID: 230104862}
+  cartelTimer: {fileID: 0}
+  pantallaEspera: {fileID: 0}
+  cuadroCode: {fileID: 0}
+  textoCode: {fileID: 0}
   damagePrefab: {fileID: 274938168751789976, guid: 89e32be67c7472f428d54a548d6e9175, type: 3}
 --- !u!1 &310324980
 GameObject:
@@ -21099,6 +21103,11 @@ MonoBehaviour:
   botonClient: {fileID: 0}
   botonMenu: {fileID: 0}
   objetosEscena: {fileID: 0}
+  coinsManager: {fileID: 0}
+  pantallaEspera: {fileID: 0}
+  textocode: {fileID: 0}
+  cuadroCode: {fileID: 0}
+  tutorialbutton: {fileID: 0}
 --- !u!1 &1356764713
 GameObject:
   m_ObjectHideFlags: 0

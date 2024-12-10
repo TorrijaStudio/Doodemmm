@@ -48,8 +48,9 @@ public class recurso : MonoBehaviour
         transform.position=originPosition;
         isSelected = false;
     }   
-    public void PickRecurso()
+    public void PickRecurso(Entity entity)
     {
+        entity.AddOrTakeResources(_typeRecurso, 1);
         if (GetComponent<MeshRenderer>().enabled == false) return;
         // gameObject.SetActive(false);
         //Destroy(gameObject);

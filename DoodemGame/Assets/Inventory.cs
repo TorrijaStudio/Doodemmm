@@ -260,7 +260,7 @@ public class Inventory : MonoBehaviour
             var a = totem.gameObject.AddComponent<Seleccionable>();
             a.transform.localScale *= 2f;
             a.indexPrefab = 0;
-            a.numCartas = 1;
+            a.NumCards = 1;
             a.isTotem = true;
             a.objetoACrear = totemToInstantiate.gameObject;
             a.SetInfo(totemPiece[0].scriptableObjectTienda, totemPiece[1].scriptableObjectTienda, totemPiece[2].scriptableObjectTienda);
@@ -340,7 +340,7 @@ public class Inventory : MonoBehaviour
             var biome = Instantiate(seleccionableToSpawn, pos, Quaternion.identity, seleccionableParent);
             biome.gameObject.SetActive(true);
             biome.indexPrefab = b.Key.indexBioma;
-            biome.numCartas = b.Value;
+            biome.NumCards = b.Value;
             biome.inventory = this;
             biome.objetoACrear = b.Key.biomeObject;
             biome.SetInfo(b.Key);

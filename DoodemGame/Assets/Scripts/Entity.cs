@@ -33,7 +33,11 @@ public class Entity : NetworkBehaviour ,IAtackable
     private bool isEnemy;
     private Coroutine _followCoroutine;
     public bool isFlying;
-
+    [Header("Status bools")]
+    public bool isPoisoned;
+    public bool canRevive;
+    public bool canBeAttacked;
+    // public bool isBleeding;
     // public int PlayerId
     // {
     //     get => _idPlayer.Value;
@@ -86,6 +90,8 @@ public class Entity : NetworkBehaviour ,IAtackable
         // transform.rotation = Quaternion.Euler(id == 0 ? Vector3.forward : Vector3.back);
         Debug.Log(id);
         objetive = GameManager.Instance.Bases[id];
+
+        name = layer + " " + name;
     }
     
     public void SetAnimalParts(GameObject head, GameObject body, GameObject feet)
@@ -102,7 +108,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             transform).GetComponent<IAnimalFeet>();
         SetHealthAndSpeed(_feet.TotemStats.health,_feet.TotemStats.speed);
         var a = transform.GetChild(0).GetComponentsInChildren<MeshRenderer>();
-        
+        // var possibleNames = new string[]{ "Pedro", "Francisco" };
         name = $"{body.name}_{head.name}_{feet.name}";
         //Turn off the totem mesh renderers
         foreach (var meshRenderer in a)
@@ -151,7 +157,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             timeLastHit = Time.time;
         }   
     }
-    public void PoisonAttack()
+    public void BleedAttack()
     {
         if (objetive && isEnemy && objetive.TryGetComponent<Entity>(out var enemy))
         {
@@ -198,11 +204,13 @@ public class Entity : NetworkBehaviour ,IAtackable
 
     private IEnumerator Brain()
     {
+        objetive = null;
         while (true)
         {
             // Debug.LogWarning("Thinkings");
             yield return new WaitForSeconds(1f);
-            ReevaluateSituation();
+            Debug.LogWarning($"{name} is evaluating the situation");
+            ReevaluateSituationClean();
         }
     }
 
@@ -333,7 +341,18 @@ public class Entity : NetworkBehaviour ,IAtackable
             }
         }
     }
-    
+
+    public void ApplyPoison()
+    {
+        isPoisoned = true;
+    }
+
+    private IEnumerator RemovePoison(float time)
+    {
+        yield return new WaitForSeconds(time);
+        isPoisoned = false;
+    }
+
     public void ApplyBleeding()
     {
         StartCoroutine(ChangeHealthOverTime(-10, 3));
@@ -344,16 +363,16 @@ public class Entity : NetworkBehaviour ,IAtackable
         StartCoroutine(ChangeHealthOverTime(5, 10));
     }
     
-    private IEnumerator ChangeHealthOverTime(int healthChange, int seconds)
+    private IEnumerator ChangeHealthOverTime(float healthChange, int seconds)
     {
         for (int i = 0; i < seconds; i++)
         {
             yield return new WaitForSeconds(1.0f);
-            health += healthChange;
-            if (health > maxHealth) health = maxHealth;
-            
-            if(IsHost)
-                GameManager.Instance.UpdateHealthEntityServerRpc();
+            // health += healthChange;
+            if (health + healthChange > maxHealth) healthChange = maxHealth - health;
+            Attacked(-healthChange);
+            // if(IsHost)
+            //     GameManager.Instance.UpdateHealthEntityServerRpc();
         }
     }
     
@@ -446,6 +465,105 @@ public class Entity : NetworkBehaviour ,IAtackable
         return agente.speed;
     }
     #endregion
+    private void ReevaluateSituationClean()
+    {
+        //If the agent is not on navmesh AND it's not flying, it means it hasn't been placed yet (sike)
+        if(!agente.isOnNavMesh && !isFlying)  return;
+        Debug.Log($"{name} is evaluating situation x2");
+        if (objetive)
+        {
+            if (isEnemy)
+            {
+                //If the enemy is close enough, we need to stop the animal (navmesh agent is stupid and can't stop without our help (sad))
+                if (Vector3.Distance(objetive.position, transform.position) > maxAttackDistance)
+                {
+                    if(!isFlying)
+                    {
+                        agente.isStopped = false;
+                        _followCoroutine = StartCoroutine(FollowEnemy());
+                    }
+                }
+            }else
+            if (Vector3.Distance(objetive.position, transform.position) <= 3f)
+            {
+                //Pick the resource. Since it's been picked, we need a new objective and thus don't return
+                if(objetive.TryGetComponent<recurso>(out var res))
+                    res.PickRecurso(this);
+            }
+            else
+            {
+                //If it's focused on a resource it shouldn't change objective. Resources have priority!
+                return;
+            }
+        }
+
+        if (EvaluateResources()) return;
+        if (EvaluateEnemies()) return;
+        objetive = null;
+        Debug.LogWarning("No suitable objective was found for " + name);
+    }
+
+    private bool EvaluateResources()
+    {
+        //Get a list of all the resources that haven't been chosen by an animal yet
+        var resources = FindObjectsOfType<recurso>().Where(recurso => !recurso.GetSelected() && Vector3.Distance(transform.position, recurso.transform.position) <= GameManager.Instance.MaxDistance + 5.0).ToList();
+        
+        //Convert the resources into a list of key-values. The key is the resource, and the value it's priority. Each part of the animal will have a different priority
+        var resourceValues = resources.Select(transform1 => new KeyValuePair<Transform, float>(transform1.transform, 0f)).ToList();
+        Debug.LogWarning($"{name} found {resources.Count}, {resources.Aggregate("", (current, resource) => current + (resource.name + ", "))} resources");
+        //We get the priority values each part gives to each resource
+        MergeInformation(ref resourceValues, _head.AssignValuesToResources(resources));
+        MergeInformation(ref resourceValues, _body.AssignValuesToResources(resources));
+        MergeInformation(ref resourceValues, _feet.AssignValuesToResources(resources));
+        
+        //We remove all unwanted resources from the list (those with zero priority)
+        resourceValues = resourceValues.Where(pair => pair.Value > 0).ToList();
+        Debug.LogWarning($"Out of those, {name} was interested in {resourceValues.Count}");
+        //If there are no resources, we skip to pondering the enemies!
+        if (resourceValues.Count == 0) return false;
+        
+        //Sort the resources, as we want the one with the highest priority
+        resourceValues.Sort((kp, kp1) => Mathf.CeilToInt((kp.Value - kp1.Value) * 1000));
+        
+        objetive = resourceValues.First().Key;
+        if (objetive.TryGetComponent(out recurso rec))
+        {
+            //We dont want any sneaky animal stealing OUR resources >:(
+            rec.SetSelected(true);
+        }
+        isEnemy = false;
+        Debug.Log($"{name} is going after resource {objetive.name}");
+        return true;
+    }
+    
+    private bool EvaluateEnemies()
+    {
+        //Get a list of all the resources that haven't been chosen by an animal yet
+        var enemies = FindObjectsOfType<Entity>().Where((entity, i) => entity.layer == layerEnemy).Select(entity => entity.transform).ToList();
+        
+        //Convert the enemies into a list of key-values. The key is the enemy, and the value it's priority. In general most animals do have similar priorities
+        var resourcesEnemies = enemies.Select(transform1 => new KeyValuePair<Transform, float>(transform1, 0f)).ToList();;
+        
+        //We get the priority values each part gives to each resource
+        MergeInformation(ref resourcesEnemies, _head.AssignValuesToEnemies(enemies));
+        MergeInformation(ref resourcesEnemies, _body.AssignValuesToEnemies(enemies));
+        MergeInformation(ref resourcesEnemies, _feet.AssignValuesToEnemies(enemies));
+        
+        //We remove all unwanted enemies from the list (those with zero priority)
+        resourcesEnemies = resourcesEnemies.Where(pair => pair.Value > 0).ToList();
+        //If there are no enemies, we don't assign any objectives (Is gang alive?)
+        if (resourcesEnemies.Count == 0) return false;
+        
+        //Sort the enemies, as we want the one with the highest priority
+        resourcesEnemies.Sort((kp, kp1) => Mathf.CeilToInt((kp.Value - kp1.Value) * 1000));
+        
+        objetive = resourcesEnemies.First().Key;
+        isEnemy = true;
+        
+        Debug.Log($"{name} is going after enemy {objetive.name}");
+        return true;
+    }
+    
     private void ReevaluateSituation()
     {
         if(!agente.isOnNavMesh && !isFlying)  return;
@@ -477,7 +595,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             if (Vector3.Distance(objetive.position, transform.position) <= 3f)
             {
                 if(objetive.TryGetComponent<recurso>(out var res))
-                    res.PickRecurso();
+                    res.PickRecurso(this);
                 // return; 
             }
         }
@@ -584,16 +702,18 @@ public class Entity : NetworkBehaviour ,IAtackable
 
     public struct AttackStruct
     {
-        public AttackStruct(float d, Action a)
+        public AttackStruct(float d, Action a, Dictionary<Recursos, int> nr)
         {
             AttackDistance = d;
             Attack = a;
+            necessaryResources = nr;
             // Type = type;
         }
 
         // public TotemPiece.Type Type;
         public float AttackDistance;
         public Action Attack;
+        public Dictionary<Recursos, int> necessaryResources;
     }
     private Dictionary<TotemPiece.Type, AttackStruct> _attacksMap;
     // private List<AttackStruct> aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa;

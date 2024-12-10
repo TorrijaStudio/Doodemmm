@@ -204,7 +204,13 @@ namespace HelloWorld
                 print(e);
             }
         }
-        
+
+        public static void EndClient()
+        {
+            // NetworkManager.Singleton.DisconnectClient((ulong)Seleccionable.ClientID);
+            if(!NetworkManager.Singleton.ShutdownInProgress)
+                NetworkManager.Singleton.Shutdown();
+        }
         
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HelloWorld;
 using tienda;
+using TMPro;
 using Unity.AI.Navigation;
 using Unity.Netcode;
 using Unity.VisualScripting;
@@ -20,10 +21,36 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
     public static int ClientID = -1;
     public int indexPrefab;
     public bool CanDropEnemySide;
-    public int numCartas;
+    private int _numCartas;
+    public int NumCards
+    {
+        get => _numCartas;
+        set
+        {
+            _numCartas = value;
+            Debug.Log(_cardsLeftSprite);
+            if(!_cardsLeftSprite)   return;
+            
+            switch (_numCartas)
+            {
+                case 0:
+                    SetChildrenActive(false);
+                    break;
+                case 1:
+                    _cardsLeftSprite.SetActive(false);
+                    break;
+                default:
+                    _cardsLeftSprite.SetActive(true);
+                    _cardsLeftText.SetText($"x{_numCartas}");
+                    break;
+            }
+        }
+    }
     [SerializeField] private ScriptableObjectTienda[] info;
     private List<GameObject> _objectsToDelete;
-
+    private TextMeshProUGUI _cardsLeftText;
+    private GameObject _cardsLeftSprite;
+    
 
     [SerializeField] private MeshRenderer terreno;
     private Vector2Int _grid;
@@ -36,7 +63,17 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
     private Transform biomaParent;
 
     private int _activeDestroyCoroutines;
-    
+
+    private void Awake()
+    {
+        _cardsLeftSprite = transform.Find("Mask")?.gameObject;
+        // Debug.Log($"{name}, {_cardsLeftSprite}");
+        if (_cardsLeftSprite)
+        {
+            _cardsLeftText = transform.GetComponentInChildren<TextMeshProUGUI>();
+        }
+    }
+
     void Start()
     {
         totemParent = GameObject.Find("SeleccionableTotemsParent").transform;
@@ -53,6 +90,8 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
         _grid = terreno.gameObject.GetComponent<terreno>().GetGrid();
         // ClientID = -1;
         GameManager.Instance.OnStartMatch += OnStartMatch;
+
+
     }
     
     GameObject InstanciarObjeto(Vector3 position)
@@ -68,7 +107,10 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
         }
 
         a.transform.localScale *= 2;
-        SetChildrenActive(false);
+        if (NumCards - 1 <= 0)
+        {
+            SetChildrenActive(false);
+        }
         return a;
 
     }
@@ -78,8 +120,8 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
     {
         if (Input.GetMouseButton(0) && !(isTotem && MaxTotems <= 0))
         {
-            // Debug.Log($"{_selected} + {!GameManager.Instance.startedGame} yy {numCartas}");
-            if (_selected && !GameManager.Instance.startedGame && numCartas>0)
+            // Debug.Log($"{_selected} + {!GameManager.Instance.startedGame} yy {NumCards}");
+            if (_selected && !GameManager.Instance.startedGame && NumCards>0)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
@@ -169,8 +211,7 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
             GameManager.Instance.SpawnServerRpc(playerId, indexPrefab, pos, 0, 0, 0);
             inventory.UseBiome(info[0]);
         }
-        numCartas--;
-        
+        NumCards--;
         // if(numCartas == 0)  Destroy(gameObject);
     }
 
@@ -196,6 +237,16 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
     public void SetInfo(ScriptableObjectTienda b)
     {
         info = new[] { b};
+        if (!_cardsLeftSprite)
+        {
+            _cardsLeftSprite = transform.Find("Mask")?.gameObject;
+            // Debug.Log($"{name}, {_cardsLeftSprite}");
+            if (_cardsLeftSprite)
+            {
+                _cardsLeftText = transform.GetComponentInChildren<TextMeshProUGUI>();
+            }
+        }
+        NumCards = _numCartas;
     }
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -243,7 +294,7 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
 
     public void AddNumCarta()
     {
-        numCartas++;
+        NumCards++;
     }
 
     private void OnDestroy()

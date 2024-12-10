@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
 using formulas;
+using HelloWorld;
 using TMPro;
 using Unity.AI.Navigation;
 using Unity.Netcode;
@@ -248,7 +249,8 @@ public class GameManager : NetworkBehaviour
        // }
         
     }
-
+    
+    
     private IEnumerator DelayToChangeCanvas(int moneyGained)
     {
         yield return new WaitForSeconds(2.0f);
@@ -603,6 +605,7 @@ public class GameManager : NetworkBehaviour
     {
         _networkManager.OnServerStarted -= OnServerStarted;
         _networkManager.OnClientConnectedCallback -= OnClientConnected;
+        UIManager.EndClient();
         base.OnDestroy();
     }
 
