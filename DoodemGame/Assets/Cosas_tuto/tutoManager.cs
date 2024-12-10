@@ -39,7 +39,7 @@ public class tutoManager : MonoBehaviour
 
     public void sumarIndice()
     {
-        if (index < 6)
+        if (index < 5)
         {
             index++;
             cambiarDiapositiva();
