@@ -40,7 +40,8 @@ public class playerInfoStore : MonoBehaviour
     [SerializeField] private TextMeshProUGUI experienceText;
     [SerializeField] private GameObject fondoJunglaTienda;
     public Inventory inventory;
-    public bool canOnlyChooseOne;
+    public bool canOnlyChooseTwo;
+    public int selectedItemsCount;
     private objetoTienda _selectedObject;
     private Vector3 _prevCameraPos;
     public Transform _cameraPos;
@@ -126,6 +127,8 @@ public class playerInfoStore : MonoBehaviour
     
     private void MoveCameraToShop()
     {
+        selectedItemsCount = 0;
+        _selectedItemsCost = 0;
         fondoJunglaTienda.SetActive(true);
         _reRollsThisRound = 1;
         UpdateReRollCost();
@@ -155,6 +158,7 @@ public class playerInfoStore : MonoBehaviour
         if (inventory.GetFullTotems() == 0)
         {
             boughtObjects.Add(totemItems.GetChild(0).gameObject);
+            boughtObjects.Add(totemItems.GetChild(1).gameObject);
             inventory.GetTotemsFromShop();
         }
         DeleteShopItems();
@@ -211,12 +215,13 @@ public class playerInfoStore : MonoBehaviour
         isFirstTime = true;
         _experiencePrice = new Experience(20, 1.3f, 5);
         MoveCameraToShop();
-        canOnlyChooseOne = true;
-        var index = 1;
+        canOnlyChooseTwo = true;
+        var index = 0;
         var prevTotems = new List<ScriptableObjectTienda>(totemsTienda);
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
-            var objT = Instantiate(objTiendaPrefab, positionsToSpawn[index].position, Quaternion.identity, totemItems);
+            var pos = (positionsToSpawn[index].position + positionsToSpawn[index + 1].position)/2f;
+            var objT = Instantiate(objTiendaPrefab, pos, Quaternion.identity, totemItems);
             var totemI = Random.Range(0, prevTotems.Count);
             objT.CreateObject(prevTotems[totemI], true);
             prevTotems.RemoveAt(totemI);
@@ -332,7 +337,7 @@ public class playerInfoStore : MonoBehaviour
 
         
         MoveCameraToShop();
-        canOnlyChooseOne = false;
+        canOnlyChooseTwo = false;
         GenerateShop();
     }
 

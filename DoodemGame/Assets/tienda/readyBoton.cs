@@ -21,9 +21,10 @@ public class readyBoton : MonoBehaviour
 
     public void BuySelected()
     {
-        if(tienda.canOnlyChooseOne && !tienda.SelectedObject) return;
+        if(tienda.canOnlyChooseTwo && tienda.selectedItemsCount != 2) return;
         
-        tienda.SelectedObject = null;
+        // tienda.SelectedObject = null;
+        tienda.selectedItemsCount = 0;
         tienda.SelectedItemsCost = 0;
         
         foreach (Transform obTr in storeItems)
@@ -42,7 +43,7 @@ public class readyBoton : MonoBehaviour
     
    public void OnClickPlayButton()
     {
-        if(tienda.canOnlyChooseOne && !tienda.SelectedObject) return;
+        if(tienda.canOnlyChooseTwo && tienda.selectedItemsCount != 2) return;
         
         foreach (Transform obTr in storeItems)
         {

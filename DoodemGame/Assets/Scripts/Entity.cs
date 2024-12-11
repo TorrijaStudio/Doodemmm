@@ -90,7 +90,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         });
         // transform.rotation = Quaternion.Euler(id == 0 ? Vector3.forward : Vector3.back);
         Debug.Log(id);
-        objetive = GameManager.Instance.Bases[id];
+        // objetive = GameManager.Instance.Bases[id];
 
         name = layer + " " + name;
     }

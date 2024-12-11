@@ -47,7 +47,7 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
             return;
         }
 
-        _proUGUI.color = _store.CanBuyItem(info.price) ? playerInfoStore.AvailableColor : playerInfoStore.UnavailableColor;
+        _proUGUI.color = _store.CanBuyItem(price) ? playerInfoStore.AvailableColor : playerInfoStore.UnavailableColor;
     }
     
     
@@ -104,23 +104,37 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
     {
         if(!selected && eventData.button == PointerEventData.InputButton.Left)
         {
-            if (!_store.CanBuyItem(price)) return;
-            selected = true;
-            
-            if (_store.canOnlyChooseOne)
-                _store.SelectedObject = this;
-            
-            _store.SelectedItemsCost += price;
+            SelectItem();
         }
         else if (selected && eventData.button == PointerEventData.InputButton.Right)
         {
-            selected = false;
-            _store.SelectedItemsCost -= price;
-            if (_store.canOnlyChooseOne)
-                _store.SelectedObject = null;
+            DeselectItem();
         }
     }
 
+    public void SelectItem()
+    {            
+        if (!_store.CanBuyItem(price) || (_store.canOnlyChooseTwo  && _store.selectedItemsCount >= 2)) return;
+        _store.selectedItemsCount++;
+        selected = true;
+            
+        // if (_store.canOnlyChooseTwo){
+        //     _store.SelectedObject = this;
+        // }
+            
+        _store.SelectedItemsCost += price;
+    }
+
+    public void DeselectItem()
+    {
+        if(!selected)   return;
+        _store.selectedItemsCount--;
+        selected = false;
+        _store.SelectedItemsCost -= price;
+        // if (_store.canOnlyChooseTwo)
+        //     _store.SelectedObject = null;
+    }
+    
     public void DisplayInfo()
     {
         ItemInfoManager.instance.Display(info);

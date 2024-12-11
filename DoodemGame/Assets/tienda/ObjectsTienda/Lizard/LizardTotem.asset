@@ -22,7 +22,7 @@ MonoBehaviour:
   - {fileID: 6596802920627415814, guid: b8299834a46406344801bfa894a9a772, type: 3}
   - {fileID: 6963791943007721694, guid: 9e46374014e7bec439af70d0b3d2f4fd, type: 3}
   - {fileID: 1062466098516003971, guid: 2a71441598be2bf45bb16805a955b18f, type: 3}
-  image: {fileID: 21300000, guid: 96445c6e2cf9b3343869c3b2de0ece9c, type: 3}
+  image: {fileID: 21300000, guid: ec47622350bac134a85578badcece3ab, type: 3}
   num: 3
   isBiome: 0
   biomeObject: {fileID: 0}
