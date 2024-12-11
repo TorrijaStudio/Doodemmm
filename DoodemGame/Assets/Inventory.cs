@@ -226,8 +226,8 @@ public class Inventory : MonoBehaviour
             totem.CreateTotem(aux[0], aux[1], aux[2]);
             pos += Vector3.right * separationDistance;
         }
-        Debug.Log($"Totems spawned: {totemIndex}, totems to spawn: {playerStore.currentLevel}");
-        for (;totemIndex < playerStore.currentLevel; totemIndex++)
+        Debug.Log($"Totems spawned: {totemIndex}, totems to spawn: {playerStore.currentLevel + 1}");
+        for (;totemIndex < playerStore.currentLevel + 1; totemIndex++)
         {
             var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
             // totem.transform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -267,7 +267,7 @@ public class Inventory : MonoBehaviour
             // pos += Vector3.down * separationDistance;
         }
 
-        Seleccionable.MaxTotems = playerStore.currentLevel;
+        Seleccionable.MaxTotems = playerStore.currentLevel + 1;
         SetDrag(false);
     }
     public void DeleteSeleccionableTotems()

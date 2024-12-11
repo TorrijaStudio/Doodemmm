@@ -187,6 +187,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         
         _attacksMap = new Dictionary<TotemPiece.Type, AttackStruct>();
         _speedModifier = 0;
+        maxAttackDistance = 50f;
     }
 
 
@@ -209,10 +210,11 @@ public class Entity : NetworkBehaviour ,IAtackable
     private IEnumerator Brain()
     {
         objetive = null;
+        // yield return new WaitForSeconds(0.75f);
         while (true)
         {
             // Debug.LogWarning("Thinkings");
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.25f);
             Debug.LogWarning($"{name} is evaluating the situation");
             ReevaluateSituationClean();
         }
@@ -230,6 +232,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             var distance = Vector3.Distance(transform.position, position);
             if (distance <= maxAttackDistance)
             {
+                Debug.LogWarning("El weon sa parao " + distance + "maxDist: " + maxAttackDistance);
                 agente.isStopped = true;
                 //MARIO aqui el animal se para
                 break;
@@ -495,11 +498,16 @@ public class Entity : NetworkBehaviour ,IAtackable
         }
         
 
-        if ((transform.position - objetive.position).magnitude > maxAttackDistance)
+        if (Vector3.Distance(transform.position, objetive.position) > maxAttackDistance)
         {
             Vector3 dir = objetive.position - transform.position;
             dir.Normalize();
             transform.Translate(dir* (Time.deltaTime * speed),Space.World);
+        }
+        else
+        {
+            
+            Debug.LogWarning("El weon sa parao " + Vector3.Distance(transform.position, objetive.position) + "maxDist: " + maxAttackDistance);
         }
     }
     private IEnumerator SetDestination(Transform d)
@@ -812,12 +820,12 @@ public class Entity : NetworkBehaviour ,IAtackable
     public void SubscribeAttack(TotemPiece.Type type, AttackStruct attackStruct)
     {
         _attacksMap.TryAdd(type, attackStruct);
-        maxAttackDistance = _attacksMap.Select(a => a.Value.AttackDistance).Max();
+        // maxAttackDistance = _attacksMap.Select(a => a.Value.AttackDistance).Max();
     }
     public void UnsubscribeAttack(TotemPiece.Type type)
     {
         _attacksMap.Remove(type);
-        maxAttackDistance = _attacksMap.Select(a => a.Value.AttackDistance).Max();
+        // maxAttackDistance = _attacksMap.Select(a => a.Value.AttackDistance).Max();
     }
     private bool TryAttack(float distance)
     {

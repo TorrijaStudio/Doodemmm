@@ -228,11 +228,11 @@ public class GameManager : NetworkBehaviour
             else
             {
                 _roundDisplay.UpdateRoundDisplay(RoundDisplay.RoundDisplayInfo.Tie);
-                _victoryAzulPoints++;
-                _victoryRojoPoints++;
+                // _victoryAzulPoints++;
+                // _victoryRojoPoints++;
             }
 
-            if (Math.Abs(_victoryAzulPoints - _victoryRojoPoints) == 2 || currentRound == numRondas)
+            if (_victoryRojoPoints== 3 || _victoryAzulPoints == 3 || currentRound == numRondas)
             {
                 if (_victoryAzulPoints == _victoryRojoPoints)
                 {
@@ -638,12 +638,12 @@ public class GameManager : NetworkBehaviour
         {
             var g = targetObject.gameObject;
            
-             if (targetObject.OwnerClientId != _networkManager.LocalClientId)
-             {
+             //if (targetObject.OwnerClientId != _networkManager.LocalClientId)
+             //{
                  var texto = Instantiate(damagePrefab, g.transform.position, Quaternion.identity);
                  texto.GetComponent<TextMeshPro>().text = "-"+ ((int)(damage));
                  texto.transform.forward = _cameraTransform.forward;
-             }
+             //}
             
            
         }
