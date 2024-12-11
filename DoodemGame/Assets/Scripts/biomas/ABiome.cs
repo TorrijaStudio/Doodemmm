@@ -52,7 +52,6 @@ public abstract class ABiome : NetworkBehaviour
         DisableMeshesRecursively(gameObject);
         
     }
-    
     void DisableMeshesRecursively(GameObject obj)
     {
        MeshRenderer meshRenderer = obj.GetComponent<MeshRenderer>();
@@ -91,6 +90,9 @@ public abstract class ABiome : NetworkBehaviour
         // Debug.LogError(colliders.Length);
         foreach (var c in colliders)
         {
+            var posInGridBiome = terreno.PositionToGrid(transform.position) -
+                                 terreno.PositionToGrid(c.transform.position);
+            if (Math.Abs(posInGridBiome.x) == xSize && Math.Abs(posInGridBiome.y) == zSize) continue;
             var casillaMesh = c.GetComponent<MeshRenderer>();
             var casilla = c.GetComponent<casilla>();
             var materialBiome = casilla.GetBiome().GetComponent<ABiome>().mat;
@@ -125,6 +127,11 @@ public abstract class ABiome : NetworkBehaviour
                 positions.Add(new Vector2(-i, j));
             }
         }
+
+        positions.Remove(new Vector2(xSize, zSize));
+        positions.Remove(new Vector2(-xSize, zSize));
+        positions.Remove(new Vector2(xSize, -zSize));
+        positions.Remove(new Vector2(-xSize, -zSize));
         
         pos = positions.ToList();
         transform.localScale = new Vector3(2*xSize*cellSize.x+cellSize.x,transform.localScale.y*4,2*zSize*cellSize.y+cellSize.y);
@@ -155,7 +162,10 @@ public abstract class ABiome : NetworkBehaviour
 
 
      private void OnTriggerEnter(Collider other)
-    {
+     {
+        var posInGridBiome = terreno.PositionToGrid(transform.position) -
+                             terreno.PositionToGrid(other.transform.position);
+        if (Math.Abs(posInGridBiome.x) == xSize && Math.Abs(posInGridBiome.y) == zSize) return;
         if (other.transform.parent &&
                    other.transform.parent.name == "Tiles" 
                    //&& (!other.GetComponent<casilla>().GetBiome() || gameObject!=other.GetComponent<casilla>().GetBiome())
