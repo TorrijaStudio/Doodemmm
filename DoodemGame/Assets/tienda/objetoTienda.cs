@@ -15,6 +15,7 @@ using UnityEngine.UI;
 public class objetoTienda : MonoBehaviour,IPointerClickHandler
 {
     [SerializeField] public ScriptableObjectTienda info;
+
     public int price;
     public bool selected;
     [SerializeField] private ItemInfoDisplay itemInfoDisplay;
@@ -27,6 +28,7 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
+        // var a = keyWordColor.
         // _proUGUI = GetComponentInChildren<TextMeshProUGUI>();
         // _store.OnItemSelected += SetTextColour;
     }
@@ -48,6 +50,7 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
         _proUGUI.color = _store.CanBuyItem(info.price) ? playerInfoStore.AvailableColor : playerInfoStore.UnavailableColor;
     }
     
+    
     public void CreateObject(ScriptableObjectTienda scriptableObjectTienda, bool isFullTotem = false)
     {
         info = scriptableObjectTienda;
@@ -55,9 +58,9 @@ public class objetoTienda : MonoBehaviour,IPointerClickHandler
         img.sprite = info.image;
         if (!info.isBiome)
         {
-            img.transform.localScale = Vector3.one*3.5f;
-            img.raycastPadding = Vector4.one * 35f;
-            img.GetComponent<BoxCollider2D>().size = Vector2.one * 100 / 3.5f;
+            img.transform.localScale = Vector3.one*3.2f;
+            img.raycastPadding = Vector4.one * 32f;
+            img.GetComponent<BoxCollider2D>().size = Vector2.one * 100 / 3.2f;
         }
         _store = FindObjectOfType<playerInfoStore>();
         _proUGUI = GetComponentInChildren<TextMeshProUGUI>();

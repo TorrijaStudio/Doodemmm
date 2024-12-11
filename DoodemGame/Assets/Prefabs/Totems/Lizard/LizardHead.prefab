@@ -545,10 +545,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: f130ab5f17ad50241a51c3f37eb56b13, type: 2}
-  scriptableObjectTienda: {fileID: 11400000, guid: 6dfb0941ef4888f45b4a1116fe90e35a, type: 2}
+  scriptableObjectTienda: {fileID: 11400000, guid: 3c24b3d21fa43eb4eb4b09f1d7357b9e, type: 2}
   totem: {fileID: 0}
   type: 0
-  animalName: Eagle
+  animalName: Lizard
 --- !u!1 &7726283805625284087
 GameObject:
   m_ObjectHideFlags: 0

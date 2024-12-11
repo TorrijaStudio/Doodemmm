@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using tienda;
+using Tools;
 using Totems;
 using Unity.Mathematics;
 using UnityEngine;
@@ -18,6 +19,10 @@ namespace ItemInformation
         public static ItemInfoManager instance;
         private List<GameObject> _openDisplays;
         public Dictionary<string, string> keyWords;
+        private static string[] _keyWords = new[] { "deathrattle", "poison", "bleed", "burn", "healing", "fly", "slowness", "protected"};
+        private static string[] _resourceNames = new[] { "sand", "water", "rock", "tree", "nest", "ice", "grass"};
+        private static string _keyWordColor = "#6affb8";
+        private static string _resourceColor = "#5ef5ff";
 
         private void Start()
         {
@@ -72,5 +77,27 @@ namespace ItemInformation
             _closeButtonMultiple.SetActive(false);
         }
         
+        public static string ProcessText(string text)
+        {
+            foreach (var resourceName in _resourceNames)
+            {
+                var indexes = text.AllIndexesOf(resourceName);
+                foreach (var index in indexes)
+                {
+                    text = text.Insert(index + resourceName.Length, "</color>");
+                    text = text.Insert(index, $"<color={_resourceColor}>");
+                }
+            }
+            foreach (var resourceName in _keyWords)
+            {
+                var indexes = text.AllIndexesOf(resourceName);
+                foreach (var index in indexes)
+                {
+                    text = text.Insert(index + resourceName.Length, "</color>");
+                    text = text.Insert(index, $"<color={_keyWordColor}>");
+                }
+            }
+            return text;
+        }
     }
 }

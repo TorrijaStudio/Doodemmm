@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 9
   objectsToSell:
-  - {fileID: 5863373089862150009, guid: 50326a227cc733240bf73ef5cf2b0f81, type: 3}
+  - {fileID: 5863373089862150009, guid: 2a71441598be2bf45bb16805a955b18f, type: 3}
   indexBioma: 0
   animalParts:
   - {fileID: 1062466098516003971, guid: 2a71441598be2bf45bb16805a955b18f, type: 3}
-  image: {fileID: 21300000, guid: f98f76976485b1746aaafd081f59fd10, type: 3}
-  num: 2
+  image: {fileID: 21300000, guid: a81fd48fe815ce34c8ee2a47fd645734, type: 3}
+  num: 3
   isBiome: 0
   biomeObject: {fileID: 0}
   biomeType: 0
-  itemInfoSoM: {fileID: 11400000, guid: 995f23d616056134ba72030c23c9be3d, type: 2}
+  itemInfoSoM: {fileID: 11400000, guid: b4b9d78cfd721354cba54853392b8bcb, type: 2}
   stats: {fileID: 11400000, guid: fa46ed450135a35499c59c11c6517fbe, type: 2}

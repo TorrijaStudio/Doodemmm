@@ -6351,14 +6351,17 @@ MonoBehaviour:
   - {fileID: 4743716353546243484, guid: 4f1162bc0c6684d40847dc057c0c69a1, type: 3}
   - {fileID: 6596802920627415814, guid: 1f43b662952001e4184e54afff042750, type: 3}
   - {fileID: 6596802920627415814, guid: d95237832f459f444baba0f71c1fd013, type: 3}
+  - {fileID: 6596802920627415814, guid: c58784032dea81843a693d0d2795969e, type: 3}
   _body:
   - {fileID: 7197332935426439036, guid: 6ffb3bc3932436e469986bf0131ef97b, type: 3}
   - {fileID: 6963791943007721694, guid: 530e2f8ff0c892b43bf1f3fb7d44c286, type: 3}
   - {fileID: 6963791943007721694, guid: 794e3825106c16e48b76dfb74a5714dc, type: 3}
+  - {fileID: 6963791943007721694, guid: caf870412ea806344953fc718be42f28, type: 3}
   _feet:
   - {fileID: 1470985371071878847, guid: ab3f7006e713dc841bf01bbf67a64e95, type: 3}
   - {fileID: 1062466098516003971, guid: 76f7307e5f93cca45b5bf719a48a99e8, type: 3}
   - {fileID: 1062466098516003971, guid: b576cbab974477e40aaf92853c574201, type: 3}
+  - {fileID: 1062466098516003971, guid: aa120dde28d8748419b4e9594fc25cc3, type: 3}
   gameCanvas: {fileID: 45081609}
   storeCanvas: {fileID: 1467104579}
   pauseCanvas: {fileID: 230104862}
@@ -29581,10 +29584,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f24090a509553ef4c9f85474c04f26a4, type: 2}
   - {fileID: 11400000, guid: eb16b4907e8934d43a908eb894dedcd0, type: 2}
   - {fileID: 11400000, guid: bde0a57417907144ca3f2b5bd2bb0fa0, type: 2}
+  - {fileID: 11400000, guid: 3c24b3d21fa43eb4eb4b09f1d7357b9e, type: 2}
+  - {fileID: 11400000, guid: a65008c5b39806c40905be56b6a6bfbc, type: 2}
+  - {fileID: 11400000, guid: 232bab578cf0a3646a96e6d5b73a7541, type: 2}
   totemsTienda:
   - {fileID: 11400000, guid: 076786b35a9ee264da375ae1847cfc1d, type: 2}
   - {fileID: 11400000, guid: 85ecd4303a100914f8250af8ce09dc32, type: 2}
   - {fileID: 11400000, guid: c7f9538e225277449b2b425fb7c1712f, type: 2}
+  - {fileID: 11400000, guid: fb9179432336e99498f6f3bbc6580ce6, type: 2}
   positionsToSpawn:
   - {fileID: 2021224169}
   - {fileID: 600233003}

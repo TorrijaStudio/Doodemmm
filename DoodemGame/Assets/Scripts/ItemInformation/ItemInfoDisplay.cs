@@ -39,7 +39,7 @@ namespace ItemInformation
             var itemInfoSo = item.itemInfoSoM;
             
             itemName.SetText(itemInfoSo.itemName);
-            itemDescription.SetText(itemInfoSo.itemDescription);
+            itemDescription.SetText(ItemInfoManager.ProcessText(itemInfoSo.itemDescription));
             flavourText.SetText(itemInfoSo.flavourText);
             if (!item.isBiome)
             {

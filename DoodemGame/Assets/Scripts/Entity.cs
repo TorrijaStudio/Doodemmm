@@ -43,7 +43,6 @@ public class Entity : NetworkBehaviour ,IAtackable
     //     get => _idPlayer.Value;
     //     set => _idPlayer.Value = value;
     // }
-    public List<Transform> objetives;
     private Dictionary<Recursos, int> _resources;
     
     private IAnimalHead _head;
@@ -75,6 +74,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     public float attackDistance;
     public float attackSpeed;
 
+    private Coroutine _brainCoroutine;
     private void SetLayer(int oldId, int id)
     {
         gameObject.layer = LayerMask.NameToLayer(id == 0 ? "Rojo" : "Azul");
@@ -190,6 +190,7 @@ public class Entity : NetworkBehaviour ,IAtackable
 
     void Start()
     {
+        canBeAttacked = true;
         DamageModifier = 1.0f;
         _resources = new Dictionary<Recursos, int>();
         SetLayer(0, _idPlayer.Value);
@@ -199,7 +200,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         agente.speed = speed;
         // StartCoroutine(SearchResources());
         
-        StartCoroutine(Brain());
+        _brainCoroutine = StartCoroutine(Brain());
     }
 
     private IEnumerator Brain()
@@ -298,14 +299,19 @@ public class Entity : NetworkBehaviour ,IAtackable
             GameManager.Instance.UpdateHealthEntityServerRpc();
         if (health <= 0.01)
         {
+            canBeAttacked = false;
+            // StopAllCoroutines();
+            StopCoroutine(_brainCoroutine);
             AnimationDeathClientRpc(GetComponent<NetworkObject>());
-            StopAllCoroutines();
-            
-            Destroy(gameObject,2.1f);
-            if (IsHost)
+
+            if (!canRevive)
             {
-                Debug.Log("uwulandia");
-                GameManager.Instance.checkIfRoundEnded(layer);
+                Destroy(gameObject,2.1f);
+                if (IsHost)
+                {
+                    Debug.Log("uwulandia");
+                    GameManager.Instance.checkIfRoundEnded(layer);
+                }
             }
         }
         
@@ -314,9 +320,75 @@ public class Entity : NetworkBehaviour ,IAtackable
         return health;
     }
 
+    private Vector3[] _positions;
+    private Vector3[] _startPositions;
+    private Quaternion[] _rotations;
+    private Quaternion[] _startRotations;
+    private Transform[] _transforms;
+    private IEnumerator DoAnimationRevive()
+    {
+        Debug.LogWarning("Animation " + "DoAnimation");
+
+        yield return new WaitForSeconds(0.75f);
+        StartCoroutine(AnimationRevive());
+    }
+
+    private IEnumerator AnimationRevive()
+    {
+        _startRotations = _transforms.Select(tr => tr.rotation).ToArray();
+        _startPositions = _transforms.Select(tr => tr.position).ToArray();
+        
+        // Debug.LogWarning("Animation " + "AnimationRevive");
+        var t = 0f;
+        var animationSpeed = 3.5f;
+        foreach (var variable in _transforms)
+        {
+            if (variable.TryGetComponent(out Rigidbody bRigidbody))
+            {
+                Destroy(bRigidbody);
+            }
+            if (variable.TryGetComponent(out BoxCollider boxCollider))
+            {
+                boxCollider.isTrigger = false;
+            }
+            variable.SetParent(transform);
+        }
+        do
+        {
+            // if(Time.deltaTime > 0.5f)
+            // {
+            //     Debug.LogWarning("Animation menuda frame gordaa " + Time.deltaTime);
+            //     continue;
+            // }
+            t += Time.deltaTime * animationSpeed;
+            // Debug.LogWarning("Animation time" + t);
+            for (int i = 0; i < 3; i++)
+            {
+                var pos = Vector3.Slerp(_startPositions[i], _positions[i], t);
+                var rot = Quaternion.Slerp(_startRotations[i], _rotations[i], t);
+                _transforms[i].SetPositionAndRotation(pos, rot);
+            }
+            yield return null;
+        } while (t < 1);
+
+        // Debug.LogWarning("Animation finish animation " + t);
+        canRevive = false;
+        canBeAttacked = true;
+        if(IsHost)
+        {
+            health = maxHealth * 0.25f;
+            GameManager.Instance.UpdateHealthEntityServerRpc();
+            _brainCoroutine = StartCoroutine(Brain());
+        }
+    }
+
     [ClientRpc]
     private void AnimationDeathClientRpc(NetworkObjectReference targetObject)
     {
+        _positions = new Vector3[3];
+        _rotations = new Quaternion[3];
+        _transforms = new Transform[3];
+        var index = 0;
         if (targetObject.TryGet(out NetworkObject target))
         {
             for (int i = 0; i < transform.childCount; i++)
@@ -326,6 +398,11 @@ public class Entity : NetworkBehaviour ,IAtackable
                     continue;
                 
                 Debug.LogError(t.name);
+                _positions[index] = t.position;
+                _rotations[index] = t.rotation;
+                _transforms[index] = t;
+                index++;
+                
                 t.parent = null;
                 i--;
                 if (t.TryGetComponent(out BoxCollider b))
@@ -337,7 +414,12 @@ public class Entity : NetworkBehaviour ,IAtackable
                     t.AddComponent<BoxCollider>().isTrigger = false;
                 }
                 t.AddComponent<Rigidbody>();
-                Destroy(t.gameObject,1.9f);
+                if(!canRevive)
+                    Destroy(t.gameObject,1.9f);
+            }
+            if(canRevive)
+            {
+                StartCoroutine(DoAnimationRevive());
             }
         }
     }
@@ -730,6 +812,10 @@ public class Entity : NetworkBehaviour ,IAtackable
     }
     private bool TryAttack(float distance)
     {
+        if (objetive.TryGetComponent(out Entity enemy))
+        {
+            if (!enemy.canBeAttacked) return false;
+        }
         if (health < 0.01f) return false;
         string blah = string.Join(", ", _attacksMap.Select(v => v.Value.AttackDistance.ToString(CultureInfo.InvariantCulture)).ToArray());
         Debug.LogWarning(blah);
