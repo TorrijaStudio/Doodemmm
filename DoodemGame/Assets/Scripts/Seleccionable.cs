@@ -118,7 +118,7 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && !(isTotem && MaxTotems <= 0))
+        if (Input.GetMouseButton(0))
         {
             // Debug.Log($"{_selected} + {!GameManager.Instance.startedGame} yy {NumCards}");
             if (_selected && !GameManager.Instance.startedGame && NumCards>0)
@@ -224,9 +224,10 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
                 child.gameObject.SetActive(act);
             }
         }
-        else
+
+        if (TryGetComponent(out Image img))
         {
-            GetComponent<Image>().enabled = act;
+            img.enabled = act;
         }
     }
     
@@ -300,6 +301,7 @@ public class Seleccionable : MonoBehaviour, IPointerDownHandler
     private void OnDestroy()
     {
         GameManager.Instance.OnStartMatch -= OnStartMatch;
+        // ClientID = -1;
     }
 
     private void OnStartMatch()

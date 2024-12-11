@@ -15,6 +15,7 @@ public class TotemManager : MonoBehaviour, IPointerDownHandler, IPointerMoveHand
 
     [SerializeField] private TotemPiece grabbedPiece;
     private Vector3 _grabPosition;
+    // public bool canTakeAnyParts;
     private const float GrabOffset = 0.5f;
     private bool _isDragging;
     
@@ -74,7 +75,7 @@ public class TotemManager : MonoBehaviour, IPointerDownHandler, IPointerMoveHand
                 _isDragging = false;
                 if (grabbedPiece)
                 {
-                    if(!selectedPiece || !selectedTotem || !(selectedTotem.CanTakePart(grabbedPiece.gameObject) || grabbedPiece.totem.IsPiece()))
+                    if(!selectedTotem  || (!selectedPiece && !selectedTotem.CanTakeAnyPart) || !(selectedTotem.CanTakePart(grabbedPiece.gameObject) || grabbedPiece.totem.IsPiece() || selectedTotem.CanTakeAnyPart))
                     {
                         // Debug.LogError((bool)!selectedPiece + " . " +  (bool) !selectedTotem + " . " + !(selectedTotem.CanTakePart(grabbedPiece.gameObject) || grabbedPiece.totem.IsPiece()));
                         grabbedPiece.MoveTo(_grabPosition - grabbedPiece.transform.forward * GrabOffset, 0.8f, true);
@@ -235,7 +236,8 @@ public class TotemManager : MonoBehaviour, IPointerDownHandler, IPointerMoveHand
             switch (other.tag)
             {
                 case "Totem":
-                    selectedTotem.Deactivate();
+                    if(selectedTotem)
+                        selectedTotem.Deactivate();
                     selectedTotem = null;
                     break;
                 case "Head":

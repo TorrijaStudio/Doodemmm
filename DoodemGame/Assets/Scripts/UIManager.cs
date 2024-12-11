@@ -208,6 +208,7 @@ namespace HelloWorld
         public static void EndClient()
         {
             // NetworkManager.Singleton.DisconnectClient((ulong)Seleccionable.ClientID);
+            AuthenticationService.Instance.SignOut();
             if(!NetworkManager.Singleton.ShutdownInProgress)
                 NetworkManager.Singleton.Shutdown();
         }

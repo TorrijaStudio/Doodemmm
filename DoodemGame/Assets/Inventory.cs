@@ -377,4 +377,9 @@ public class Inventory : MonoBehaviour
             Destroy(seleccionableParent.GetChild(i).gameObject);
         }
     }
+
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
 }

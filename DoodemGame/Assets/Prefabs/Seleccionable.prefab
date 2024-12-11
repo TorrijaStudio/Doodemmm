@@ -116,7 +116,6 @@ MonoBehaviour:
   objetoACrear: {fileID: 919132149155446097, guid: 2c7bf6aea2b07074980dbf373622c760, type: 3}
   indexPrefab: 0
   CanDropEnemySide: 0
-  numCartas: 1
   info: []
   terreno: {fileID: 0}
   inventory: {fileID: 0}
@@ -311,7 +310,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0f37e7db539b0ae4fa3ac509a14f7a87, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d7fa0a6128bbfac41beeb4f10f5c7235, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

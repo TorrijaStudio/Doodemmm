@@ -17,7 +17,7 @@ public class Totem : MonoBehaviour
     [SerializeField] private Transform head;
     [SerializeField] private Transform body;
     [SerializeField] private Transform feet;
-    
+    public bool CanTakeAnyPart;
 
     private bool isLocked = false;
 
@@ -56,6 +56,7 @@ public class Totem : MonoBehaviour
 
     public void CreateEmptyTotem()
     {
+        CanTakeAnyPart = true;
         _transform = transform;
         _emptyTotemImage = gameObject.AddComponent<SpriteRenderer>();
         _emptyTotemImage.sprite = emptyTotemSprite;
@@ -128,6 +129,7 @@ public class Totem : MonoBehaviour
         };
         if (result && _emptyTotemImage)
         {
+            CanTakeAnyPart = false;
             _emptyTotemImage.enabled = false;
         } 
         return result;
@@ -152,7 +154,10 @@ public class Totem : MonoBehaviour
         }
 
         if(_emptyTotemImage)
+        {
+            CanTakeAnyPart = false;
             _emptyTotemImage.enabled = false;
+        }
 
     }
     public Transform GetPiece(string pieceTag)
@@ -240,6 +245,7 @@ public class Totem : MonoBehaviour
 
     public bool CanTakePart(GameObject part)
     {
+        // if (CanTakeAnyPart) return true;
         // Debug.LogWarning(feet);
         return part.tag switch
         {

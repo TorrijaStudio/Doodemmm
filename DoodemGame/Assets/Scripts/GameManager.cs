@@ -606,6 +606,8 @@ public class GameManager : NetworkBehaviour
         _networkManager.OnServerStarted -= OnServerStarted;
         _networkManager.OnClientConnectedCallback -= OnClientConnected;
         UIManager.EndClient();
+        Seleccionable.ClientID = -1;
+        Instance = null;
         base.OnDestroy();
     }
 

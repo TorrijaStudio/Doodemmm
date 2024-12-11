@@ -46,6 +46,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     private Dictionary<Recursos, int> _resources;
     
     private IAnimalHead _head;
+    private Transform _headTransform;
     private AnimalBody _body;
     private IAnimalFeet _feet;
         
@@ -98,9 +99,11 @@ public class Entity : NetworkBehaviour ,IAtackable
     {
         _body = Instantiate(body, transform).GetComponent<AnimalBody>();
         SetHealthAndSpeed(_body.TotemStats.health,_body.TotemStats.speed);
-        
-        _head = Instantiate(head, _body.GetHeadAttachmentPoint().position, _body.GetHeadAttachmentPoint().rotation,
-            transform).GetComponent<IAnimalHead>();
+
+        _headTransform = Instantiate(head, _body.GetHeadAttachmentPoint().position,
+            _body.GetHeadAttachmentPoint().rotation,
+            transform).transform;
+        _head = _headTransform.GetComponent<IAnimalHead>();
         SetHealthAndSpeed(_head.TotemStats.health,_head.TotemStats.speed);
         damage = _head.TotemStats.damage;
         
@@ -139,7 +142,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         if (Time.time - timeLastHit >= 1f / attackSpeed)
         {
             float aux = 0;
-            if (objetive.TryGetComponent(out IAtackable m))
+            if (objetive.parent && objetive.parent.TryGetComponent(out IAtackable m))
             {
                 aux = m.Attacked(DamageModifier * damage);
             }
@@ -159,7 +162,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     }
     public void BleedAttack()
     {
-        if (objetive && isEnemy && objetive.TryGetComponent<Entity>(out var enemy))
+        if (objetive.parent && isEnemy && objetive.parent.TryGetComponent<Entity>(out var enemy))
         {
             enemy.ApplyBleeding();
         }
@@ -575,7 +578,12 @@ public class Entity : NetworkBehaviour ,IAtackable
             else
             {
                 //If it's focused on a resource it shouldn't change objective. Resources have priority!
-                return;
+                if(objetive.GetComponent<MeshRenderer>().enabled)
+                    return;
+                else
+                {
+                    objetive = null;
+                }
             }
         }
 
@@ -588,7 +596,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     private bool EvaluateResources()
     {
         //Get a list of all the resources that haven't been chosen by an animal yet
-        var resources = FindObjectsOfType<recurso>().Where(recurso => !recurso.GetSelected() && Vector3.Distance(transform.position, recurso.transform.position) <= GameManager.Instance.MaxDistance + 5.0).ToList();
+        var resources = FindObjectsOfType<recurso>().Where(recurso => !recurso.GetSelected() && Vector3.Distance(transform.position, recurso.transform.position) <= GameManager.Instance.MaxDistance + 5.0 && recurso.GetComponent<MeshRenderer>().enabled).ToList();
         
         //Convert the resources into a list of key-values. The key is the resource, and the value it's priority. Each part of the animal will have a different priority
         var resourceValues = resources.Select(transform1 => new KeyValuePair<Transform, float>(transform1.transform, 0f)).ToList();
@@ -613,6 +621,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             //We dont want any sneaky animal stealing OUR resources >:(
             rec.SetSelected(true);
         }
+        agente.SetDestination(objetive.position);
         isEnemy = false;
         Debug.Log($"{name} is going after resource {objetive.name}");
         return true;
@@ -639,7 +648,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         //Sort the enemies, as we want the one with the highest priority
         resourcesEnemies.Sort((kp, kp1) => Mathf.CeilToInt((kp.Value - kp1.Value) * 1000));
         
-        objetive = resourcesEnemies.First().Key;
+        objetive = resourcesEnemies.First().Key.GetComponent<Entity>()._headTransform;
         isEnemy = true;
         
         Debug.Log($"{name} is going after enemy {objetive.name}");
@@ -741,7 +750,7 @@ public class Entity : NetworkBehaviour ,IAtackable
 
             objetive = values.First().Key;
         }
-        isEnemy = (bool)objetive.GetComponent<Entity>();
+        isEnemy = (objetive.parent && (bool)objetive.parent.GetComponent<Entity>());
         // Debug.LogWarning($"Next objective is {objetive.name} and is {isEnemy} an enemy??");
         // agente.SetDestination(objetive.position);
         if(isEnemy)
@@ -812,7 +821,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     }
     private bool TryAttack(float distance)
     {
-        if (objetive.TryGetComponent(out Entity enemy))
+        if (objetive.parent && objetive.parent.TryGetComponent(out Entity enemy))
         {
             if (!enemy.canBeAttacked) return false;
         }
