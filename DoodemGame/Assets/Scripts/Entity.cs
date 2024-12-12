@@ -656,7 +656,8 @@ public class Entity : NetworkBehaviour ,IAtackable
             //We dont want any sneaky animal stealing OUR resources >:(
             rec.SetSelected(true);
         }
-        agente.SetDestination(objetive.position);
+        if(!isFlying)
+            agente.SetDestination(objetive.position);
         isEnemy = false;
         Debug.Log($"{name} is going after resource {objetive.name}");
         return true;
