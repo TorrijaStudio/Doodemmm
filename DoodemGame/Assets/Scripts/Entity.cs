@@ -11,6 +11,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class Entity : NetworkBehaviour ,IAtackable
@@ -48,7 +49,9 @@ public class Entity : NetworkBehaviour ,IAtackable
     private IAnimalHead _head;
     private Transform _headTransform;
     private AnimalBody _body;
+    private Transform _bodyTransform;
     private IAnimalFeet _feet;
+    private Transform _feetTransform;
         
     public Transform objetive;
     public float speed;
@@ -78,26 +81,43 @@ public class Entity : NetworkBehaviour ,IAtackable
     private Coroutine _brainCoroutine;
     private void SetLayer(int oldId, int id)
     {
+        Debug.LogWarning("Set layer");
         gameObject.layer = LayerMask.NameToLayer(id == 0 ? "Rojo" : "Azul");
         layerEnemy = id == 0 ? "Azul" : "Rojo";
         layer = id == 0 ? "Rojo" : "Azul";
-        var meshes = transform.GetComponentsInChildren<MeshRenderer>().ToList();
-        meshes.ForEach(mesh =>
-        {
-            var materials = mesh.materials.ToList();
-            materials.ForEach(mat => mat.color = id == 0 ? new Color(0.91f, 0f, 0.02f, 0.22f) : new Color(0.24f, 0.32f, 0.66f, 0.22f));
-            mesh.SetMaterials(materials);
-        });
+        // var meshes = transform.GetComponentsInChildren<MeshRenderer>().ToList();
+        // meshes.ForEach(mesh =>
+        // {
+        //     var materials = mesh.materials.ToList();
+        //     materials.ForEach(mat => mat.color = id == 0 ? new Color(1f, 0.76f, 0.75f) : new Color(0.81f, 0.83f, 1f));
+        //     mesh.SetMaterials(materials);
+        // });
         // transform.rotation = Quaternion.Euler(id == 0 ? Vector3.forward : Vector3.back);
         Debug.Log(id);
         // objetive = GameManager.Instance.Bases[id];
 
+        transform.LookAt(GameManager.Instance.Bases[id]);
         name = layer + " " + name;
+        
+        SetOutline(_headTransform, id == 0 ? new Color(0.44f, 0.09f, 0.08f) : new Color(0.07f, 0.15f, 0.43f));
+        SetOutline(_feetTransform, id == 0 ? new Color(0.44f, 0.09f, 0.08f) : new Color(0.07f, 0.15f, 0.43f));
+        SetOutline(_bodyTransform, id == 0 ? new Color(0.44f, 0.09f, 0.08f) : new Color(0.07f, 0.15f, 0.43f));
+    }
+
+    private static void SetOutline(Object tr, Color color)
+    {
+        
+        var outline = tr.AddComponent<Outline>();
+
+        outline.OutlineMode = Outline.Mode.OutlineAll;
+        outline.OutlineColor = color;
+        outline.OutlineWidth = 7f;
     }
     
     public void SetAnimalParts(GameObject head, GameObject body, GameObject feet)
     {
-        _body = Instantiate(body, transform).GetComponent<AnimalBody>();
+        _bodyTransform = Instantiate(body, transform).transform;
+        _body = _bodyTransform.GetComponent<AnimalBody>();
         SetHealthAndSpeed(_body.TotemStats.health,_body.TotemStats.speed);
 
         _headTransform = Instantiate(head, _body.GetHeadAttachmentPoint().position,
@@ -106,9 +126,10 @@ public class Entity : NetworkBehaviour ,IAtackable
         _head = _headTransform.GetComponent<IAnimalHead>();
         SetHealthAndSpeed(_head.TotemStats.health,_head.TotemStats.speed);
         damage = _head.TotemStats.damage;
-        
-        _feet = Instantiate(feet, _body.GetFeetAttachmentPoint().position, _body.GetFeetAttachmentPoint().rotation,
-            transform).GetComponent<IAnimalFeet>();
+
+        _feetTransform = Instantiate(feet, _body.GetFeetAttachmentPoint().position, _body.GetFeetAttachmentPoint().rotation,
+            transform).transform;
+        _feet = _feetTransform.GetComponent<IAnimalFeet>();
         SetHealthAndSpeed(_feet.TotemStats.health,_feet.TotemStats.speed);
         var a = transform.GetChild(0).GetComponentsInChildren<MeshRenderer>();
         // var possibleNames = new string[]{ "Pedro", "Francisco" };
@@ -148,7 +169,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             }
             if (aux < 0)
             {
-                Debug.Log(gameObject.name+"  " + objetive.position);
+                // Debug.Log(gameObject.name+"  " + objetive.position);
                 // currentObjective = objetive;
                 // if(agente.enabled)
                 //     agente.SetDestination(objetive.position);
@@ -187,7 +208,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         
         _attacksMap = new Dictionary<TotemPiece.Type, AttackStruct>();
         _speedModifier = 0;
-        maxAttackDistance = 50f;
+        // maxAttackDistance = 10f;
     }
 
 
@@ -204,7 +225,8 @@ public class Entity : NetworkBehaviour ,IAtackable
         agente.speed = speed;
         // StartCoroutine(SearchResources());
         
-        _brainCoroutine = StartCoroutine(Brain());
+        if(IsHost)
+            _brainCoroutine = StartCoroutine(Brain());
     }
 
     private IEnumerator Brain()
@@ -229,7 +251,8 @@ public class Entity : NetworkBehaviour ,IAtackable
         {
             var position = objetive.position;
             agente.SetDestination(position);
-            var distance = Vector3.Distance(transform.position, position);
+            Debug.LogWarning($"My name is {name} and my head is {_headTransform}");
+            var distance = Vector3.Distance(_headTransform.position, position);
             if (distance <= maxAttackDistance)
             {
                 Debug.LogWarning("El weon sa parao " + distance + "maxDist: " + maxAttackDistance);
@@ -246,7 +269,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         checkAreaAgent();
 
         // var d = _attacksMap.Select(a => a.Value.AttackDistance).Max();
-        if (objetive)
+        if (objetive && _headTransform)
         {
             if (isFlying)
             {
@@ -254,7 +277,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             }
             if(isEnemy)
             {
-                var distance = Vector3.Distance(transform.position, objetive.position);
+                var distance = Vector3.Distance(_headTransform.position, objetive.position);
                 // Debug.Log(maxAttackDistance + " ... " + Vector3.Distance(transform.position, objetive.position));
                 if (distance <= maxAttackDistance)
                 {
@@ -290,6 +313,10 @@ public class Entity : NetworkBehaviour ,IAtackable
             {
                 
             }
+        }
+        else if(!_headTransform)
+        {
+            Debug.LogWarning($"{name} ha perdido la cabeza badum tss");
         }
     }
     
@@ -470,8 +497,8 @@ public class Entity : NetworkBehaviour ,IAtackable
         isOnGround = true;
         // agente.speed = speed;
 
-        if(!isFlying)
-            StartCoroutine(SetDestination(objetive));
+        // if(!isFlying)
+        //     StartCoroutine(SetDestination(objetive));
     }
 
     private Vector3 lookat;
@@ -485,7 +512,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         }
 
         if (!objetive) return;
-        Debug.Log("Flying");
+        // Debug.Log("Flying");
 
         var pos = transform.position;
         var objPosition = objetive.transform.position;
@@ -498,7 +525,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         }
         
 
-        if (Vector3.Distance(transform.position, objetive.position) > maxAttackDistance)
+        if (Vector3.Distance(_headTransform.position, objetive.position) > maxAttackDistance)
         {
             Vector3 dir = objetive.position - transform.position;
             dir.Normalize();
@@ -507,7 +534,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         else
         {
             
-            Debug.LogWarning("El weon sa parao " + Vector3.Distance(transform.position, objetive.position) + "maxDist: " + maxAttackDistance);
+            // Debug.LogWarning("El weon sa parao " + Vector3.Distance(_headTransform.position, objetive.position) + "maxDist: " + maxAttackDistance);
         }
     }
     private IEnumerator SetDestination(Transform d)
@@ -568,7 +595,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             if (isEnemy)
             {
                 //If the enemy is close enough, we need to stop the animal (navmesh agent is stupid and can't stop without our help (sad))
-                if (Vector3.Distance(objetive.position, transform.position) > maxAttackDistance)
+                if (Vector3.Distance(objetive.position, _headTransform.position) > maxAttackDistance)
                 {
                     if(!isFlying)
                     {
@@ -577,7 +604,7 @@ public class Entity : NetworkBehaviour ,IAtackable
                     }
                 }
             }else
-            if (Vector3.Distance(objetive.position, transform.position) <= 3f)
+            if (Vector3.Distance(objetive.position, _headTransform.position) <= 3f)
             {
                 //Pick the resource. Since it's been picked, we need a new objective and thus don't return
                 if(objetive.TryGetComponent<recurso>(out var res))
@@ -604,7 +631,7 @@ public class Entity : NetworkBehaviour ,IAtackable
     private bool EvaluateResources()
     {
         //Get a list of all the resources that haven't been chosen by an animal yet
-        var resources = FindObjectsOfType<recurso>().Where(recurso => !recurso.GetSelected() && Vector3.Distance(transform.position, recurso.transform.position) <= GameManager.Instance.MaxDistance + 5.0 && recurso.GetComponent<MeshRenderer>().enabled).ToList();
+        var resources = FindObjectsOfType<recurso>().Where(recurso => !recurso.GetSelected() && Vector3.Distance(_headTransform.position, recurso.transform.position) <= GameManager.Instance.MaxDistance + 5.0 && recurso.GetComponent<MeshRenderer>().enabled).ToList();
         
         //Convert the resources into a list of key-values. The key is the resource, and the value it's priority. Each part of the animal will have a different priority
         var resourceValues = resources.Select(transform1 => new KeyValuePair<Transform, float>(transform1.transform, 0f)).ToList();
@@ -657,6 +684,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         resourcesEnemies.Sort((kp, kp1) => Mathf.CeilToInt((kp.Value - kp1.Value) * 1000));
         
         objetive = resourcesEnemies.First().Key.GetComponent<Entity>()._headTransform;
+        if (!objetive) return false;
         isEnemy = true;
         
         Debug.Log($"{name} is going after enemy {objetive.name}");
@@ -672,7 +700,7 @@ public class Entity : NetworkBehaviour ,IAtackable
             // agente.isStopped = true;
             if (isEnemy)
             {
-                if (Vector3.Distance(objetive.position, transform.position) > maxAttackDistance)
+                if (Vector3.Distance(objetive.position, _headTransform.position) > maxAttackDistance)
                 {
                     if(!isFlying)
                     {
@@ -691,7 +719,7 @@ public class Entity : NetworkBehaviour ,IAtackable
                 // }
                 // if(agente.isStopped)    return;
             }else
-            if (Vector3.Distance(objetive.position, transform.position) <= 3f)
+            if (Vector3.Distance(objetive.position, _headTransform.position) <= 3f)
             {
                 if(objetive.TryGetComponent<recurso>(out var res))
                     res.PickRecurso(this);
@@ -702,7 +730,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         Debug.LogWarning("Searching for new objective");
         agente.isStopped = false;
         var enemies = FindObjectsOfType<Entity>().Where((entity, i) => entity.layer == layerEnemy).Select(entity => entity.transform).ToList();
-        var resources = FindObjectsOfType<recurso>().Where(recurso => !recurso.GetSelected() && Vector3.Distance(transform.position, recurso.transform.position) <= GameManager.Instance.MaxDistance && recurso.GetComponent<MeshRenderer>().enabled).ToList();
+        var resources = FindObjectsOfType<recurso>().Where(recurso => !recurso.GetSelected() && Vector3.Distance(_headTransform.position, recurso.transform.position) <= GameManager.Instance.MaxDistance && recurso.GetComponent<MeshRenderer>().enabled).ToList();
         Debug.LogWarning("MaxDist: " + GameManager.Instance.MaxDistance);
         if(resources.Count == 0 && enemies.Count == 0)  return;
 
@@ -820,12 +848,12 @@ public class Entity : NetworkBehaviour ,IAtackable
     public void SubscribeAttack(TotemPiece.Type type, AttackStruct attackStruct)
     {
         _attacksMap.TryAdd(type, attackStruct);
-        // maxAttackDistance = _attacksMap.Select(a => a.Value.AttackDistance).Max();
+        maxAttackDistance = _attacksMap.Select(a => a.Value.AttackDistance).Max();
     }
     public void UnsubscribeAttack(TotemPiece.Type type)
     {
         _attacksMap.Remove(type);
-        // maxAttackDistance = _attacksMap.Select(a => a.Value.AttackDistance).Max();
+        maxAttackDistance = _attacksMap.Select(a => a.Value.AttackDistance).Max();
     }
     private bool TryAttack(float distance)
     {
@@ -875,7 +903,7 @@ public class Entity : NetworkBehaviour ,IAtackable
         {
             foreach (Transform r in b.GetRecursos())
             {
-                float d = Vector3.Distance(transform.position, r.position);
+                float d = Vector3.Distance(_headTransform.position, r.position);
                 if (minDistance > d && !r.GetComponent<recurso>().GetSelected())
                 {
                     minDistance = d;

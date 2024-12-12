@@ -11,7 +11,7 @@ public class Totem : MonoBehaviour
     private Transform _transform;
     [SerializeField] public float TotemOffset = 1.0f;
     [SerializeField] public float TotemPieceHover = 0.30f;
-    [SerializeField] private Sprite emptyTotemSprite;
+    [SerializeField] private SpriteRenderer emptyTotemSprite;
     private SpriteRenderer _emptyTotemImage;
     
     [SerializeField] private Transform head;
@@ -58,8 +58,10 @@ public class Totem : MonoBehaviour
     {
         CanTakeAnyPart = true;
         _transform = transform;
-        _emptyTotemImage = gameObject.AddComponent<SpriteRenderer>();
-        _emptyTotemImage.sprite = emptyTotemSprite;
+        _emptyTotemImage = Instantiate(emptyTotemSprite, _transform, false);
+        _emptyTotemImage.transform.localPosition = Vector3.zero;
+        // _emptyTotemImage.size *= 0.1f;
+        // _emptyTotemImage.sprite = emptyTotemSprite;
     }
     public void CreateTotem(ScriptableObjectTienda soh, ScriptableObjectTienda sob, ScriptableObjectTienda sof, bool keepRotation = false)
     {
