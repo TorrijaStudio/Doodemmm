@@ -7,13 +7,19 @@ public enum SoundType
     CAIDA_TOTEM,
     CLICK,
     HOJAS,
-    MAIN
+    MONEDA
 }
 public enum MusicType
 {
     MENU,
     TIENDA,
     BATLLA,
+    PAJAROS
+}
+
+public enum AmbienceType
+{
+    PAJAROS
 }
 
 
@@ -22,9 +28,11 @@ public class AudioManager : MonoBehaviour
 {
     [SerializeField] private AudioClip[] soundList;
     [SerializeField] private AudioClip[] musicList;
+    [SerializeField] private AudioClip[] ambienceList;
     private static AudioManager instance;
     public AudioSource audioSource;
     public AudioSource musicSource;
+    public AudioSource ambienceSource;
 
     private void Awake()
     {
@@ -54,6 +62,7 @@ public class AudioManager : MonoBehaviour
         Debug.Log("Hojas");
     }
 
+    #region MUSICA
     public static void PlayMusic(MusicType music, float transitionTime = 1.0f)
     {
         if (instance == null || instance.musicSource == null) return;
@@ -107,4 +116,61 @@ public class AudioManager : MonoBehaviour
             yield return null;
         }
     }
+    #endregion
+
+    #region AMBIENTE
+    public static void PlayAmbience(AmbienceType ambience, float transitionTime = 1.0f)
+    {
+        if (instance == null || instance.ambienceSource == null) return;
+
+        instance.StartCoroutine(instance.TransitionToNewAmbience(instance.ambienceList[(int)ambience], transitionTime));
+    }
+
+    public static void StopAmbience(float fadeOutTime = 1.0f)
+    {
+        if (instance == null || instance.ambienceSource == null) return;
+
+        instance.StartCoroutine(instance.FadeOutAmbience(fadeOutTime));
+    }
+
+    private IEnumerator TransitionToNewAmbience(AudioClip newAmbience, float transitionTime)
+    {
+        // Si ya hay música sonando, realiza un fade-out
+        if (ambienceSource.isPlaying)
+        {
+            yield return StartCoroutine(FadeOutAmbience(transitionTime));
+        }
+
+        // Cambiar la música y hacer fade-in
+        ambienceSource.clip = newAmbience;
+        ambienceSource.Play();
+        yield return StartCoroutine(FadeInAmbience(transitionTime));
+    }
+
+    private IEnumerator FadeOutAmbience(float duration)
+    {
+        float startVolume = ambienceSource.volume;
+
+        while (ambienceSource.volume > 0)
+        {
+            ambienceSource.volume -= startVolume * Time.deltaTime / duration;
+            yield return null;
+        }
+
+        ambienceSource.Stop();
+        ambienceSource.volume = startVolume; // Restaurar volumen original para futuras músicas
+    }
+
+    private IEnumerator FadeInAmbience(float duration)
+    {
+        float startVolume = 0.0f;
+        ambienceSource.volume = startVolume;
+
+        while (ambienceSource.volume < 0.5f) // Volumen máximo predeterminado
+        {
+            ambienceSource.volume += Time.deltaTime / duration;
+            yield return null;
+        }
+    }
+    #endregion
 }

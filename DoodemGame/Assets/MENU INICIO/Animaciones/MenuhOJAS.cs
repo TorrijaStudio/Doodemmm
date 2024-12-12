@@ -127,6 +127,7 @@ public class MenuhOJAS : MonoBehaviour
    void Start()
     {
         AudioManager.PlayMusic(MusicType.MENU);
+        AudioManager.PlayAmbience(AmbienceType.PAJAROS);
         anim1 = hojas1.GetComponent<Animator>();
         anim2 = hojas2.GetComponent<Animator>();
         anim3 = hojas3.GetComponent<Animator>();
@@ -254,7 +255,7 @@ public class MenuhOJAS : MonoBehaviour
         AudioManager.PlaySound(SoundType.CADENAS);
         yield return new WaitForSeconds(0.3f);
         ///AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaTotem, camara.transform.position);
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.3f);
         AudioManager.PlaySound(SoundType.CAIDA_TOTEM);
         //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
         AudioManager.PlaySound(SoundType.CADENAS);
@@ -288,30 +289,30 @@ public class MenuhOJAS : MonoBehaviour
 
         pantallaCarga();
         Invoke("comenzarJuego", 9f);
-        
-        
-        
-		//SceneManager.LoadScene("PrototypeMain");
-       /* Debug.Log("se ha pulsado la senal de abajo vale??");
-        //AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
         AudioManager.PlaySound(SoundType.CLICK);
 
-        StartCoroutine(ReproducirSenales());
-        animCartelDoodem.SetTrigger("pulsar");
-        animSenalAbajo.SetTrigger("Pulsado");
-        animSenalMedio.SetTrigger("Pulsado");
-        animSenalArriba.SetTrigger("Pulsado");
-        animAbajo.SetTrigger("pulsar");
-        animMedia.SetTrigger("pulsar");
-        animArriba.SetTrigger("pulsar");
-        animCartelMenus.SetTrigger("Start");
-        torrijaLogo.SetActive(false);
-        //animLogo.SetTrigger("Pulsado");
-        DesactivarBotonesSenales();
 
-        Invoke("ActivarBotonesMenuJugar", 2.0f);
-        //ActivarBotonesMenuJugar();
-*/
+        //SceneManager.LoadScene("PrototypeMain");
+        /* Debug.Log("se ha pulsado la senal de abajo vale??");
+         //AudioManager.instance.PlayOneShot(FMODEvents.instance.ClickMadera, camara.transform.position);
+         AudioManager.PlaySound(SoundType.CLICK);
+
+         StartCoroutine(ReproducirSenales());
+         animCartelDoodem.SetTrigger("pulsar");
+         animSenalAbajo.SetTrigger("Pulsado");
+         animSenalMedio.SetTrigger("Pulsado");
+         animSenalArriba.SetTrigger("Pulsado");
+         animAbajo.SetTrigger("pulsar");
+         animMedia.SetTrigger("pulsar");
+         animArriba.SetTrigger("pulsar");
+         animCartelMenus.SetTrigger("Start");
+         torrijaLogo.SetActive(false);
+         //animLogo.SetTrigger("Pulsado");
+         DesactivarBotonesSenales();
+
+         Invoke("ActivarBotonesMenuJugar", 2.0f);
+         //ActivarBotonesMenuJugar();
+ */
     }
 
     public void comenzarJuego()
@@ -425,13 +426,16 @@ public class MenuhOJAS : MonoBehaviour
 
     public void BotonHost(){
         Debug.Log("ahora estarias hosteando");
+        AudioManager.PlaySound(SoundType.CLICK);
     }
 
     public void BotonClient(){
         Debug.Log("si hubiese code valido estarias de cliente");
+        AudioManager.PlaySound(SoundType.CLICK);
     }
 
     public void ExpansionShop(){
+        AudioManager.PlaySound(SoundType.CLICK);
         shopBaseUI.SetActive(false);
         expansionesUI.SetActive(true);
         back.gameObject.SetActive(false);
@@ -441,6 +445,7 @@ public class MenuhOJAS : MonoBehaviour
     }
 
     public void SkinShop(){
+        AudioManager.PlaySound(SoundType.CLICK);
         shopBaseUI.SetActive(false);
         skins_UI.SetActive(true);
         back.gameObject.SetActive(false);
@@ -450,16 +455,19 @@ public class MenuhOJAS : MonoBehaviour
     }
 
     public void ViewAd(){
+        AudioManager.PlaySound(SoundType.CLICK);
         anuncioElegido = Random.Range(0, 3);
         Debug.Log($"Anuncio elegido {anuncioElegido}");
         anuncioUI.SetActive(true);
         anuncios[anuncioElegido].SetActive(true);
         coinManager.GetComponent<Coins>().sumarCoins(25);
         Invoke("QuitAd", 5.0f);
+
     }
 
     public void QuitAd()
     {
+        AudioManager.PlaySound(SoundType.MONEDA);
         anuncios[anuncioElegido].SetActive(false);
         anuncioUI.SetActive(false);
         
@@ -467,6 +475,7 @@ public class MenuhOJAS : MonoBehaviour
 
     public void volverTienda()
     {
+        AudioManager.PlaySound(SoundType.CLICK);
         backShop.gameObject.SetActive(false);
         back.gameObject.SetActive(true);
         expansionesUI.SetActive(false);
@@ -477,6 +486,7 @@ public class MenuhOJAS : MonoBehaviour
     }
 
     public void coinShop(){
+        AudioManager.PlaySound(SoundType.CLICK);
         shopBaseUI.SetActive(false);
         compraMonedasUI.SetActive(true);
         back.gameObject.SetActive(false);
@@ -490,11 +500,13 @@ public class MenuhOJAS : MonoBehaviour
     public void appearPayPal()
     {
         paypalImage.SetActive(true);
+        AudioManager.PlaySound(SoundType.CAIDA_TOTEM);
     }
     
     public void disappearPayPal()
     {
         paypalImage.SetActive(false);
+        AudioManager.PlaySound(SoundType.CAIDA_TOTEM);
     }
 
 }
