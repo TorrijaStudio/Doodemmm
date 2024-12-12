@@ -442,7 +442,8 @@ public class MenuhOJAS : MonoBehaviour
     }
 
     public void ViewAd(){
-        anuncioElegido = Random.Range(0, anuncios.Length);
+        anuncioElegido = Random.Range(0, 3);
+        Debug.Log($"Anuncio elegido {anuncioElegido}");
         anuncioUI.SetActive(true);
         anuncios[anuncioElegido].SetActive(true);
         coinManager.GetComponent<Coins>().sumarCoins(25);
