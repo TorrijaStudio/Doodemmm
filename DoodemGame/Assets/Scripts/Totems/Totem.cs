@@ -59,7 +59,7 @@ public class Totem : MonoBehaviour
         CanTakeAnyPart = true;
         _transform = transform;
         _emptyTotemImage = Instantiate(emptyTotemSprite, _transform, false);
-        _emptyTotemImage.transform.localPosition = Vector3.zero;
+        _emptyTotemImage.transform.localPosition = Vector3.up * 2.84f;
         // _emptyTotemImage.size *= 0.1f;
         // _emptyTotemImage.sprite = emptyTotemSprite;
     }

@@ -48,7 +48,7 @@ public class HealthEntity : NetworkBehaviour
 
     public void UpdateText(float h)
     {
-        currentHealth = h;
+        currentHealth = Mathf.Clamp(h, 0, maxHealth);
         var t = Mathf.CeilToInt(Mathf.Clamp(h, 0.0f, maxHealth));
         textMeshPro.text = t.ToString();
         float healthPercent = currentHealth / maxHealth;

@@ -643,7 +643,7 @@ public class GameManager : NetworkBehaviour
            
              //if (targetObject.OwnerClientId != _networkManager.LocalClientId)
              //{
-                 var texto = Instantiate(damagePrefab, g.transform.position, Quaternion.identity);
+                 var texto = Instantiate(damagePrefab, g.transform.position + Vector3.up*2.0f, Quaternion.identity);
                  texto.GetComponent<TextMeshPro>().text = "-"+ ((int)(damage));
                  texto.transform.forward = _cameraTransform.forward;
              //}

@@ -9,6 +9,7 @@ namespace Opciones
     public class PersistenSoundInfo : MonoBehaviour
     {
         public static float musicVolume = 1;
+        public float multiplier = 2f;
 
         public void SetVolume(float volume)
         {
@@ -39,7 +40,7 @@ namespace Opciones
 
             foreach(var s in audioSources)
             {
-                _sfxAudioSources.Add(new AudioConfig(s, s.volume*2));
+                _sfxAudioSources.Add(new AudioConfig(s, s.volume*multiplier));
             }
 
             // foreach (AudioSource m in music)
@@ -55,6 +56,14 @@ namespace Opciones
             foreach (AudioConfig source in _sfxAudioSources)
             {
                 source.source.volume = source.ogVolume * (musicVolume);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            foreach (var source in _sfxAudioSources)
+            {
+                source.source.volume = source.ogVolume / multiplier;
             }
         }
 
