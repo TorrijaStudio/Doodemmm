@@ -86,7 +86,7 @@ namespace HelloWorld
 
         void OnGUI()
         {
-                StatusLabels();
+                //StatusLabels();
         }
 //*************************************************************
 
