@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: Desert
   m_EditorClassIdentifier: 
   itemName: Desert
-  itemDescription: All animals inside it get burn. It's resosurce is sand, and it
-    spawns cacti.
+  itemDescription: 'All animals inside it get a 30% damage reduction. It''s resosurce
+    is sand, and it spawns cacti.
+
+    Cacti deal 5 damage to nearby animals.'
   flavourText: Desert animals can usually be called xerophiles. They exhibit a range
     of adaptatiosn to the extremely dry environment, such as concentrated urine,
     scales, feathers or wax to prevent evaporation, or avoiding activity during the

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Mountain
   itemDescription: It's resources are rocks, nests and water. It can spawn blood
-    lilies.
+    lilies. The mountains slow down flying animals.
   flavourText: 
   icon: {fileID: 0}
   isTotemPiece: 0

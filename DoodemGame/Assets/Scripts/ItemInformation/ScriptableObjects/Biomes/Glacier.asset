@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Glacier
   m_EditorClassIdentifier: 
   itemName: Glacier
-  itemDescription: All animals inside it get slow. It's resosurce is ice, and it
-    spawns a frozen tree.
+  itemDescription: All land animals inside it get slow. It's resosurce is ice, and
+    it spawns a frozen tree.
   flavourText: Many animals, like polar bears, have had to adapt to walk on ice.
     For example, reindeer have fur on their hooves to avoid slipping.
   icon: {fileID: 0}

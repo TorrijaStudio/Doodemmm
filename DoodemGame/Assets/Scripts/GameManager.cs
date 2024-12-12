@@ -202,7 +202,7 @@ public class GameManager : NetworkBehaviour
             _store.InitialSelection();
             //cartelTimer.SetActive(true);
             // Debug.LogWarning("Empezando timer en StartRound (if)");
-            StartTime(10);
+            StartTime(15);
             return;
         }
 
@@ -260,7 +260,7 @@ public class GameManager : NetworkBehaviour
         gameCanvas.gameObject.SetActive(false);
         storeCanvas.gameObject.SetActive(true);
         Debug.Log("Ganas: "+moneyGained);
-        StartTime(30);
+        StartTime(60);
         _store.SetUpShop(moneyGained);
         
     }
