@@ -114,11 +114,11 @@ public class playerInfoStore : MonoBehaviour
         if (CanBuyItem(experienceCost))
         {
             currentExperience++;
+            PlayerMoney -= experienceCost;
             if (currentExperience >= 3)
             {
                 currentExperience = 0;
                 currentLevel++;
-                PlayerMoney -= experienceCost;
                 experienceCost = _experiencePrice.GetExperience(currentLevel);
             }
             UpdateExperienceTexts();
