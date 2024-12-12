@@ -31975,8 +31975,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -35.314125, y: -26.24262}
-  m_SizeDelta: {x: 323.54834, y: 183.58765}
+  m_AnchoredPosition: {x: -35.58652, y: -26.24262}
+  m_SizeDelta: {x: 324.09314, y: 183.58765}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!328 &1669554477
 VideoPlayer:
