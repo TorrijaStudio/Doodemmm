@@ -1533,7 +1533,19 @@ MonoBehaviour:
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1207450556}
+        m_TargetAssemblyTypeName: Opciones.OptionsMenu, Assembly-CSharp
+        m_MethodName: ChangeSlider
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &214870503
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8389,6 +8401,8 @@ GameObject:
   - component: {fileID: 1207450552}
   - component: {fileID: 1207450551}
   - component: {fileID: 1207450555}
+  - component: {fileID: 1207450556}
+  - component: {fileID: 1207450557}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -8569,6 +8583,32 @@ MonoBehaviour:
   - {fileID: 211635198}
   - {fileID: 219054659}
   - {fileID: 273228010}
+--- !u!114 &1207450556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207450550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed61dba578624590b9aac29ddbb7d161, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundSlider: {fileID: 0}
+  soundScrollbar: {fileID: 214870502}
+--- !u!114 &1207450557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207450550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65a32e2bed7430dbc16f83078d0797f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1227333637
 GameObject:
   m_ObjectHideFlags: 0
