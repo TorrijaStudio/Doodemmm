@@ -121,6 +121,8 @@ public class MenuhOJAS : MonoBehaviour
     public GameObject[] anuncios;
 
     private int anuncioElegido;
+    
+    public GameObject abejaMenu;
     // Start is called before the first frame update
    void Start()
     {
@@ -180,9 +182,15 @@ public class MenuhOJAS : MonoBehaviour
             Invoke("caerDoodem",4.2f);
             Invoke("ActivarBotonesSenales", 5.5f); 
             
+            Invoke("abejaAparecer", 4.2f);
         }
 
        
+    }
+
+    void abejaAparecer()
+    {
+        abejaMenu.SetActive(true);
     }
 
     void caerTotem() {
