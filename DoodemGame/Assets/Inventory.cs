@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
     private int _totemPiecePage;
     private int _maxPages;
 
-        [Space(8)][Header("Biome seleccionable variables")]
+    [Space(8)][Header("Biome seleccionable variables")]
     [SerializeField] private Seleccionable seleccionableToSpawn;
 
     [SerializeField] private Transform seleccionableParent;
@@ -85,6 +85,17 @@ public class Inventory : MonoBehaviour
         
     }
 
+    public void MovePageUpDown(int direction)
+    {
+        //C#'s default math class clamp has an inclusive max, contrary to Unity's
+        var page = Math.Clamp(_totemPiecePage + direction, 0, _maxPages - 1);
+        Debug.LogWarning("Page: " + page + ", MaxPage: " + _maxPages);
+        if(page == _totemPiecePage) return;
+        _totemPiecePage = page;
+        DespawnPieces();
+        SpawnTotemPieces(page);
+    }
+    
     public bool Contains(TotemPiece piece)
     {
         foreach (var totem in _fullTotemPieces)
@@ -112,6 +123,7 @@ public class Inventory : MonoBehaviour
         GetTotemsFromShop();
         GetBiomesFromShop();
         playerStore.DestroyBoughtObjects();
+        _maxPages = Mathf.CeilToInt(_totemPieces.Count / (float)(totemPiecesDrawerSize.x * totemPiecesDrawerSize.y));
     }
 
     public void GetTotemsFromShop()
@@ -194,7 +206,7 @@ public class Inventory : MonoBehaviour
     }
     public void DespawnPieces()
     {
-        var tempTotemPieces = new List<TotemPiece>();
+        // var tempTotemPieces = new List<TotemPiece>();
         if(piecesParent.childCount > 0)
         {
             for (int i = piecesParent.childCount - 1; i >= 0; i--)
@@ -202,13 +214,13 @@ public class Inventory : MonoBehaviour
                 var child = piecesParent.GetChild(i);
                 var tempInfo = child.GetComponent<Totem>().GetTotem();
                 if (tempInfo.Count == 1)
-                    tempTotemPieces.Add(tempInfo[0].objectsToSell[0]);
+                    _totemPieces.Add(tempInfo[0].objectsToSell[0]);
                 Destroy(child.gameObject);
             }
         }
-        _totemPieces.Clear();
+        // _totemPieces.Clear();
         
-        _totemPieces = tempTotemPieces;
+        // _totemPieces = tempTotemPieces;
         foreach (var totemPiece in _totemPieces)
         {
             var txt = totemPiece.name;
@@ -319,21 +331,29 @@ public class Inventory : MonoBehaviour
         var objectsToSpawn = _totemPieces.Count / drawerSize;
         // var totemPiecesList = _fullTotemPieces.Where(a => a.Count == 1).ToList();
         // var doublePiecesList = _fullTotemPieces.Where(a => a.Count == 2);
-        if(page > (objectsToSpawn))
+        if(page >= (_maxPages))
         {
-            Debug.LogError("WRONG PAGE");
+            Debug.LogError("WRONG PAGE + " + page + " max page " + _maxPages);
             page = 0;
         }
         
         // var separationDistance = distance / objectsToSpawn;
         // var pos = topCornerToSpawnPieces.position;
+        var indexes = new List<int>();
+        bool exit = false;
         for (int y = 0; y < totemPiecesDrawerSize.y; y++)
         {
             for (int x = 0; x < totemPiecesDrawerSize.x; x++)
             {
                 var index = y * totemPiecesDrawerSize.x + x + drawerSize * page;
                 // Debug.Log("Piece index: " + index + ", totem pieces " + _totemPieces.Count);
-                if(_totemPieces.Count <= index) return;
+                if(_totemPieces.Count <= index)
+                {
+                    exit = true;
+                    break;
+                    // return;
+                }
+                indexes.Add(index);
                 var pos = topCornerToSpawnPieces.position;
                 pos.x += x * totemPiecesDrawerSeparation.x;
                 pos.y -= y * totemPiecesDrawerSeparation.y;
@@ -357,6 +377,13 @@ public class Inventory : MonoBehaviour
                 totem.TotemPieceHover = 0f;
                 totem.CreateTotem(aux[0], aux[1], aux[2]);
             }
+            if(exit)
+                break;
+        }
+
+        for (int i = indexes.Count - 1; i >= 0; i--)
+        {
+            _totemPieces.RemoveAt(indexes[i]);
         }
     }
     public void SpawnSeleccionables()

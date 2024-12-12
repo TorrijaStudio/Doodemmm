@@ -205,7 +205,7 @@ public class GameManager : NetworkBehaviour
         }
 
         StopTime();
-        startedGame = false;
+        // startedGame = false;
         currentRound++;
        // if (currentRound==numRondas)
        // {
@@ -242,7 +242,7 @@ public class GameManager : NetworkBehaviour
                 StartCoroutine(ChangeScene(IsHost == (_victoryRojoPoints > _victoryAzulPoints) ? "victory" : "defeat"));
                 return;
             }
-            startedGame = false;
+            // startedGame = false;
             startMatchAfterTimer = false;
             StartCoroutine(DelayToChangeCanvas(gains));
             Debug.LogWarning("Empezando timer en StartRound (else)");
@@ -254,6 +254,7 @@ public class GameManager : NetworkBehaviour
     private IEnumerator DelayToChangeCanvas(int moneyGained)
     {
         yield return new WaitForSeconds(2.0f);
+        startedGame = false;
         gameCanvas.gameObject.SetActive(false);
         storeCanvas.gameObject.SetActive(true);
         Debug.Log("Ganas: "+moneyGained);
