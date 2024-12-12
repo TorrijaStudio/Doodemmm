@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class anuncioAbrir : MonoBehaviour
 {
-    private string url = "https://astralcatstudio.itch.io/tankito";
+    public string url;
 
+   
+   
     public void abrirAnuncio()
     {
+
         Application.OpenURL(url);
     }
 }

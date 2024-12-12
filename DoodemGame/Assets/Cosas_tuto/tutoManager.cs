@@ -9,18 +9,7 @@ public class tutoManager : MonoBehaviour
     public int index;
     
     
-    // DIAPOS
-    public GameObject diapo1;
-    
-    public GameObject diapo2;
-    
-    public GameObject diapo3;
-    
-    public GameObject diapo4;
-    
-    public GameObject diapo5;
-    
-    public GameObject diapo6;
+    public GameObject[] diapos;
     
     // Start is called before the first frame update
     void Start()
@@ -39,7 +28,7 @@ public class tutoManager : MonoBehaviour
 
     public void sumarIndice()
     {
-        if (index < 5)
+        if (index < diapos.Length-1)
         {
             index++;
             cambiarDiapositiva();
@@ -59,60 +48,11 @@ public class tutoManager : MonoBehaviour
 
     public void cambiarDiapositiva()
     {
-        Debug.Log("Ahora estas mirando la diapositiva numero " + index);
-        if (index == 0)
+        for (int i = 0; i < diapos.Length; i++)
         {
-            diapo1.SetActive(true);
-            diapo2.SetActive(false);
-            diapo3.SetActive(false);
-            diapo4.SetActive(false);
-            diapo5.SetActive(false);
-            diapo6.SetActive(false);
+            diapos[i].SetActive(false);
         }
-        else if (index == 1)
-        {
-            diapo1.SetActive(false);
-            diapo2.SetActive(true);
-            diapo3.SetActive(false);
-            diapo4.SetActive(false);
-            diapo5.SetActive(false);
-            diapo6.SetActive(false);
-        }
-        else if (index == 2)
-        {
-            diapo1.SetActive(false);
-            diapo2.SetActive(false);
-            diapo3.SetActive(true);
-            diapo4.SetActive(false);
-            diapo5.SetActive(false);
-            diapo6.SetActive(false);
-        }
-        else if (index == 3)
-        {
-            diapo1.SetActive(false);
-            diapo2.SetActive(false);
-            diapo3.SetActive(false);
-            diapo4.SetActive(true);
-            diapo5.SetActive(false);
-            diapo6.SetActive(false);
-        }
-        else if (index == 4)
-        {
-            diapo1.SetActive(false);
-            diapo2.SetActive(false);
-            diapo3.SetActive(false);
-            diapo4.SetActive(false);
-            diapo5.SetActive(true);
-            diapo6.SetActive(false);
-        }
-        else if (index == 5)
-        {
-            diapo1.SetActive(false);
-            diapo2.SetActive(false);
-            diapo3.SetActive(false);
-            diapo4.SetActive(false);
-            diapo5.SetActive(false);
-            diapo6.SetActive(true);
-        }
+        diapos[index].SetActive(true);
+       
     }
 }

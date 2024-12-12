@@ -116,7 +116,11 @@ public class MenuhOJAS : MonoBehaviour
     public GameObject monedaTienda;
     
     public GameObject loadingScreen;
-    
+
+
+    public GameObject[] anuncios;
+
+    private int anuncioElegido;
     // Start is called before the first frame update
    void Start()
     {
@@ -142,6 +146,7 @@ public class MenuhOJAS : MonoBehaviour
 
         backShop.gameObject.SetActive(false);
         coinPurchase.gameObject.SetActive(false);
+        
         
         DesactivarBotonesSenales();
         DesactivarBotonesMenuJugar();
@@ -234,8 +239,7 @@ public class MenuhOJAS : MonoBehaviour
         torrijaLogo.SetActive(false);
         DesactivarBotonesSenales();
         
-        Invoke("ActivarBotonesOpciones", 2.0f);
-    }
+        Invoke("ActivarBotonesOpciones", 1.5f);    }
     IEnumerator ReproducirSenales()
     {
         //AudioManager.instance.PlayOneShot(FMODEvents.instance.CaidaCadenas, camara.transform.position);
@@ -438,14 +442,18 @@ public class MenuhOJAS : MonoBehaviour
     }
 
     public void ViewAd(){
+        anuncioElegido = Random.Range(0, anuncios.Length);
         anuncioUI.SetActive(true);
+        anuncios[anuncioElegido].SetActive(true);
         coinManager.GetComponent<Coins>().sumarCoins(25);
         Invoke("QuitAd", 5.0f);
     }
 
     public void QuitAd()
     {
+        anuncios[anuncioElegido].SetActive(false);
         anuncioUI.SetActive(false);
+        
     }
 
     public void volverTienda()
