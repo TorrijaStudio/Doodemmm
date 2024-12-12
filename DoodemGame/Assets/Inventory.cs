@@ -20,13 +20,16 @@ public class Inventory : MonoBehaviour
 
 
 
-    [Space(8)][Header("Totem drag variables")]
+    [Space(8)] [Header("Totem drag variables")]
+    private readonly int _absoluteMaxTotems = 5;
     [SerializeField] private Transform totemParent;
     [SerializeField] private GameObject pointer;
     [SerializeField] private GameObject wall;
     [SerializeField] private float distance;
     [FormerlySerializedAs("posToSpawn")] [SerializeField] private Transform totemsPosToSpawn;
     [SerializeField] private Totem totemToInstantiate;
+    [SerializeField] private GameObject lockSprite;
+    [SerializeField] private Transform spriteParent;
 
     [Space(5)] [Header("Totem pieces variables")]
     [SerializeField] private Transform piecesParent;
@@ -144,10 +147,20 @@ public class Inventory : MonoBehaviour
     
     public void DespawnItems()
     {
-        DespawnTotems();
+        DespawnSprites();
         DespawnPieces();
+        DespawnTotems();
     }
 
+    public void DespawnSprites()
+    {
+        for(int i = spriteParent.childCount - 1; i >= 0; i--)
+        {
+            var child = spriteParent.GetChild(i);
+            Destroy(child.gameObject);
+        }
+    }
+    
     public void DespawnTotems()
     {
         var tempTotemPieces = new List<List<TotemPiece>>();
@@ -155,8 +168,15 @@ public class Inventory : MonoBehaviour
         {
             var child = totemParent.GetChild(i);
             var tempInfo = child.GetComponent<Totem>().GetTotem();
-            if(tempInfo.Count > 0)
+            if(tempInfo.Count == 3)
                 tempTotemPieces.Add(tempInfo.Select(piece => piece.objectsToSell[0]).ToList());
+            else if (tempInfo.Count > 0)
+            {
+                foreach (var objectTienda in tempInfo)
+                {
+                    _totemPieces.Add(objectTienda.objectsToSell[0]);
+                }
+            }
             Destroy(child.gameObject);
         }
         _fullTotemPieces.Clear();
@@ -198,8 +218,8 @@ public class Inventory : MonoBehaviour
     public void SpawnTotems()
     {
         SpawnTotemPieces();
-        var objectsToSpawn = _fullTotemPieces.Count;
-        var separationDistance = distance / objectsToSpawn;
+        // var objectsToSpawn = _fullTotemPieces.Count;
+        var separationDistance = distance / _absoluteMaxTotems;
         var pos = totemsPosToSpawn.position;
         var totemIndex = 0;
         foreach (var totemPiece in _fullTotemPieces)
@@ -226,15 +246,27 @@ public class Inventory : MonoBehaviour
             totem.CreateTotem(aux[0], aux[1], aux[2]);
             pos += Vector3.right * separationDistance;
         }
-        Debug.Log($"Totems spawned: {totemIndex}, totems to spawn: {playerStore.currentLevel + 1}");
-        for (;totemIndex < playerStore.currentLevel + 1; totemIndex++)
+        // Debug.Log($"Totems spawned: {totemIndex}, totems to spawn: {playerStore.currentLevel + 1}");
+        //NON ZERO INDEXED ?????? CRIIINGE
+        for (;totemIndex <= _absoluteMaxTotems; totemIndex++)
         {
-            var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
-            // totem.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            totem.CreateEmptyTotem();
-            Debug.Log("Spawned new empty totem");
+            Debug.Log("Spawning number " + totemIndex);
+            if (totemIndex < playerStore.currentLevel + 1)
+            {
+                var totem = Instantiate(totemToInstantiate, pos, Quaternion.identity, totemParent);
+                // totem.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                Debug.Log("Spawning empty Totem");
+                totem.CreateEmptyTotem();
+                // Debug.Log("Spawned new empty totem");
+            }
+            else
+            {
+                Instantiate(lockSprite, pos, Quaternion.identity, spriteParent);
+            }
             pos += Vector3.right * separationDistance;
+            totemIndex++;
         }
+        
         SetDrag(true);
         // boton.DeleteShopItems();
     }
