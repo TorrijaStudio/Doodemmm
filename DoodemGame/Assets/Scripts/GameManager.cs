@@ -65,7 +65,9 @@ public class GameManager : NetworkBehaviour
     public GameObject cartelTimer;
     public GameObject pantallaEspera;
     public GameObject cuadroCode;
-    public TMP_Text textoCode; 
+    public TMP_Text textoCode;
+
+    public GameObject animacionLagarto;
 
     public int currentRound
     {
